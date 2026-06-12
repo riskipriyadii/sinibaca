@@ -70,7 +70,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
       }
     </style>
   </head>
-  <body>
+  <body class={Astro.url.pathname === '/' || Astro.url.pathname === '/sinibaca-v2/' || Astro.url.pathname === '/sinibaca-v2' ? 'home-page' : ''}>
     <TopBar />
     <div class="page-wrapper">
       <aside class="sidebar-left">
@@ -128,6 +128,16 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
           gap: 32px;
         }
         .sidebar-right { display: none; }
+      }
+
+      /* Home page: compact, no scroll */
+      body.home-page .page-wrapper {
+        min-height: auto;
+        height: auto;
+        padding-bottom: 24px;
+      }
+      body.home-page .main-content {
+        overflow: hidden;
       }
 
       /* Small screens: hide left sidebar, show hamburger */
