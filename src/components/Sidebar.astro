@@ -110,6 +110,19 @@ const socials = [
   .social-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.75rem; border: 1px solid var(--border, #e5e7eb); border-radius: 999px; font-size: 0.8rem; text-decoration: none; color: inherit; transition: background 0.15s; }
   .social-item:hover { background: var(--hover, #f3f4f6); }
   .social-icon { display: flex; align-items: center; }
-  .theme-toggle { width: 100%; padding: 0.5rem; border: 1px solid var(--border, #e5e7eb); border-radius: 8px; background: transparent; cursor: pointer; font-size: 0.85rem; transition: background 0.15s; }
-  .theme-toggle:hover { background: var(--hover, #f3f4f6); }
+  .theme-toggle { 
+    width: 100%; 
+    padding: 0.5rem; 
+    border: 1px solid var(--border); 
+    border-radius: 8px; 
+    background: var(--bg-secondary); 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    transition: all 0.15s; 
+    color: var(--text);
+  }
+  .theme-toggle:hover { 
+    background: var(--hover); 
+    border-color: var(--accent);
+  }
 </style>
