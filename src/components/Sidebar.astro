@@ -1,6 +1,7 @@
 ﻿---
 import { getCollection } from "astro:content";
 import avatarImg from "../assets/avatar.png";
+import Newsletter from "./Newsletter.astro";
 
 const allPosts = await getCollection("blog", ({ data }) => !data.draft);
 
@@ -70,6 +71,8 @@ const socials = [
       ))}
     </div>
   </div>
+
+  <Newsletter />
 
   <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
     Mode Gelap
