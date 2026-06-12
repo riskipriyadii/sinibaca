@@ -57,17 +57,13 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
     <TopBar />
     <div class="page-wrapper">
       <aside class="sidebar-left">
-        <div class="sidebar-inner">
-          <Sidebar />
-        </div>
+        <Sidebar />
       </aside>
       <main class="main-content">
         <slot />
       </main>
       <aside class="sidebar-right">
-        <div class="sidebar-inner">
-          <RightPanel />
-        </div>
+        <RightPanel />
       </aside>
     </div>
     <footer class="site-footer">
@@ -83,26 +79,10 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
         min-height: calc(100vh - 120px);
       }
 
-      /* Sidebar outer: overflow hidden untuk sembunyikan scrollbar */
+      /* Sidebar kiri & kanan: natural height, ikut scroll halaman */
       .sidebar-left,
       .sidebar-right {
         width: 100%;
-        position: sticky;
-        top: 80px;
-        max-height: calc(100vh - 100px);
-        overflow: hidden;
-        padding: 0;
-        margin: 0;
-      }
-
-      /* Sidebar inner: scrollable, scrollbar di-hide via overflow hidden parent */
-      .sidebar-inner {
-        height: 100%;
-        max-height: calc(100vh - 100px);
-        overflow-y: scroll;
-        width: calc(100% + 20px);
-        padding-right: 20px;
-        box-sizing: border-box;
       }
 
       /* Main content: melebar mengisi sisa ruang */
