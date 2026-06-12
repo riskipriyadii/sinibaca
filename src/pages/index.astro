@@ -9,7 +9,7 @@ const sortedPosts = posts.sort(
 
 const postsPerPage = 1;
 const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout title="sinibaca — Blog Modern" description="Kumpulan artikel teknologi, tutorial, dan catatan pengembangan web.">
@@ -21,17 +21,15 @@ const base = import.meta.env.BASE_URL;
   <div class="posts-list" id="posts-list" data-total-pages={totalPages}>
     {sortedPosts.map((post, index) => {
       const page = Math.floor(index / postsPerPage) + 1;
-      const thumb = post.data.thumbnail || (post.data.heroImage ? post.data.heroImage.src : null);
-      const imageUrl = thumb 
-        ? (thumb.startsWith('/') ? base + thumb.slice(1) : thumb.startsWith('http') ? thumb : base + thumb) 
-        : base + 'images/placeholder.jpg';
+      const thumb = post.data.thumbnail || (post.data.heroImage ? (typeof post.data.heroImage === 'string' ? post.data.heroImage : post.data.heroImage.src) : null);
+      const imageUrl = thumb ? (thumb.startsWith('/') ? `${base}${thumb}` : `${base}/${thumb}`) : `${base}/images/placeholder.jpg`;
       const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
         year: "numeric", month: "short", day: "numeric"
       });
-      const slug = post.slug || post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
+      const slug = post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
       return (
         <div class={`post-item ${page !== 1 ? 'hidden' : ''}`} data-page={page}>
-          <a href={`${base}blog/${slug}`} class="post-card">
+          <a href={`${base}/blog/${slug}`} class="post-card">
             <div class="post-thumb-wrap">
               <img src={imageUrl} alt={post.data.title} class="post-thumb" loading="lazy" onerror="this.style.display='none'" />
             </div>
@@ -196,28 +194,28 @@ const base = import.meta.env.BASE_URL;
     const nextBtn = document.getElementById('page-next');
     const numBtns = pagination.querySelectorAll('.page-num');
 
-    function showPage(page) {
+    function showPage(page: number) {
       if (page < 1 || page > totalPages) return;
       currentPage = page;
 
       items.forEach(item => {
-        const itemPage = parseInt(item.dataset.page);
+        const itemPage = parseInt((item as HTMLElement).dataset.page || '1');
         item.classList.toggle('hidden', itemPage !== currentPage);
       });
 
       numBtns.forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+        btn.classList.toggle('active', parseInt((btn as HTMLElement).dataset.page || '1') === currentPage);
       });
 
-      if (prevBtn) prevBtn.disabled = currentPage === 1;
-      if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+      if (prevBtn) (prevBtn as HTMLButtonElement).disabled = currentPage === 1;
+      if (nextBtn) (nextBtn as HTMLButtonElement).disabled = currentPage === totalPages;
 
       window.location.hash = `page-${currentPage}`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     numBtns.forEach(btn => {
-      btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+      btn.addEventListener('click', () => showPage(parseInt((btn as HTMLElement).dataset.page || '1')));
     });
 
     if (prevBtn) prevBtn.addEventListener('click', () => showPage(currentPage - 1));
