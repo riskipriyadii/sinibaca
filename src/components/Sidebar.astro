@@ -130,16 +130,20 @@ const socials = [
     bottom: -8px;
     border: 2px dashed #0969da;
     opacity: 0.35;
-    animation: blob-spin 8s ease-in-out infinite;
+    animation: ring-spin 8s linear infinite, ring-blob 4s ease-in-out infinite;
     z-index: 1;
   }
 
-  @keyframes blob-spin {
-    0%   { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; transform: rotate(0deg); }
-    25%  { border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%; transform: rotate(90deg); }
-    50%  { border-radius: 55% 45% 60% 40% / 45% 55% 50% 60%; transform: rotate(180deg); }
-    75%  { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; transform: rotate(270deg); }
-    100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; transform: rotate(360deg); }
+  @keyframes ring-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @keyframes ring-blob {
+    0%,100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+    25%     { border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%; }
+    50%     { border-radius: 55% 45% 60% 40% / 45% 55% 50% 60%; }
+    75%     { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; }
   }
 
   .name { font-size: 1rem; font-weight: 700; margin: 0 0 0.25rem; }
