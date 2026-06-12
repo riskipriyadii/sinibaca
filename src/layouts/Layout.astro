@@ -53,29 +53,18 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
       }
     </style>
     <style is:global>
-      /* Sidebar scrollbar — global, tidak di-scope Astro */
-      .sidebar-left,
-      .sidebar-right {
-        scrollbar-width: thin;
-        scrollbar-color: #94a3b8 transparent;
-      }
+      /* Sembunyikan scrollbar sidebar — semua browser */
       .sidebar-left::-webkit-scrollbar,
       .sidebar-right::-webkit-scrollbar {
-        width: 4px !important;
-        height: 4px !important;
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        background: transparent !important;
       }
-      .sidebar-left::-webkit-scrollbar-track,
-      .sidebar-right::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      .sidebar-left::-webkit-scrollbar-thumb,
-      .sidebar-right::-webkit-scrollbar-thumb {
-        background: #94a3b8;
-        border-radius: 4px;
-      }
-      .sidebar-left::-webkit-scrollbar-thumb:hover,
-      .sidebar-right::-webkit-scrollbar-thumb:hover {
-        background: #64748b;
+      .sidebar-left,
+      .sidebar-right {
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
       }
     </style>
   </head>
