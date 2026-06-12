@@ -21,14 +21,17 @@ const base = import.meta.env.BASE_URL;
   <div class="posts-list" id="posts-list" data-total-pages={totalPages}>
     {sortedPosts.map((post, index) => {
       const page = Math.floor(index / postsPerPage) + 1;
-      const thumb = post.data.thumbnail || post.data.heroImage;
-      const imageUrl = thumb ? (thumb.startsWith('/') ? base + thumb.slice(1) : base + thumb) : base + 'images/placeholder.jpg';
+      const thumb = post.data.thumbnail || (post.data.heroImage ? post.data.heroImage.src : null);
+      const imageUrl = thumb 
+        ? (thumb.startsWith('/') ? base + thumb.slice(1) : thumb.startsWith('http') ? thumb : base + thumb) 
+        : base + 'images/placeholder.jpg';
       const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
         year: "numeric", month: "short", day: "numeric"
       });
+      const slug = post.slug || post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
       return (
         <div class={`post-item ${page !== 1 ? 'hidden' : ''}`} data-page={page}>
-          <a href={`${base}blog/${post.slug}`} class="post-card">
+          <a href={`${base}blog/${slug}`} class="post-card">
             <div class="post-thumb-wrap">
               <img src={imageUrl} alt={post.data.title} class="post-thumb" loading="lazy" onerror="this.style.display='none'" />
             </div>
