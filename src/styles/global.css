@@ -427,3 +427,26 @@ img {
   background: var(--color-card-bg);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
+
+/* Sidebar scrollbar — tipis 4px, konsisten kiri & kanan */
+.sidebar-left,
+.sidebar-right {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-muted) transparent;
+}
+
+.sidebar-left::-webkit-scrollbar,
+.sidebar-right::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-left::-webkit-scrollbar-track,
+.sidebar-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-left::-webkit-scrollbar-thumb,
+.sidebar-right::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border-radius: 4px;
+}
