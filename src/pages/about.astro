@@ -1,75 +1,83 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<Layout title="Tentang — sinibaca" description="Tentang blog sinibaca">
+<Layout title="Tentang sinibaca" description="Nulis kalau semua kondisi mendukung, dan itu jarang terjadi.">
   <div class="about-page">
     <h1>Tentang sinibaca</h1>
-    <p>
-      <strong>sinibaca</strong> adalah blog modern yang dibangun dengan 
-      <a href="https://astro.build" target="_blank">Astro</a> dan 
-      <a href="https://tailwindcss.com" target="_blank">Tailwind CSS</a>.
-    </p>
-    <p>
-      Blog ini berisi kumpulan artikel tentang teknologi, tutorial, filsafat, 
-      dan catatan pengembangan web.
-    </p>
-    <h2>Teknologi</h2>
-    <ul>
-      <li>Astro v6.4.6 — Framework web modern</li>
-      <li>Tailwind CSS v4 — Utility-first CSS</li>
-      <li>Markdown + MDX — Content authoring</li>
-      <li>GitHub Pages — Hosting gratis</li>
-    </ul>
-    <h2>Kontak</h2>
-    <p>
-      <a href="https://github.com/riskipriyadi" target="_blank">GitHub</a> · 
-      <a href="https://twitter.com" target="_blank">Twitter</a>
-    </p>
+    
+    <p class="tagline">Nulis kalau semua kondisi mendukung, dan itu jarang terjadi.</p>
+    
+    <div class="about-section">
+      <h2>Sosial</h2>
+      <a href="https://instagram.com/sinibaca" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        Instagram
+      </a>
+    </div>
   </div>
 </Layout>
 
 <style>
   .about-page {
-    animation: fadeInUp 0.5s ease;
+    max-width: 600px;
   }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  
   .about-page h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 20px;
-    color: var(--text);
+    margin-bottom: 1.25rem;
+    color: var(--text, #0f172a);
   }
-  .about-page h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-top: 32px;
-    margin-bottom: 12px;
-    color: var(--text);
-  }
-  .about-page p {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-  }
-  .about-page a {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .about-page ul {
-    padding-left: 24px;
-    margin-bottom: 20px;
-  }
-  .about-page li {
+  
+  .tagline {
     font-size: 1rem;
-    line-height: 1.8;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+    color: var(--text-secondary, #475569);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+  
+  .about-section h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted, #94a3b8);
+    margin-bottom: 0.75rem;
+  }
+  
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text, #0f172a);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+  
+  .social-link:hover {
+    background: var(--bg-secondary, #f8fafc);
+    color: var(--accent, #6366f1);
+    border-color: var(--border, #e2e8f0);
+  }
+  
+  .social-link svg {
+    color: var(--text-muted, #94a3b8);
+    transition: color 0.2s ease;
+  }
+  
+  .social-link:hover svg {
+    color: var(--accent, #6366f1);
   }
 </style>
