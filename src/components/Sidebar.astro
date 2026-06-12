@@ -31,7 +31,7 @@ const socials = [
 <div class="sidebar">
   <div class="profile-card">
     <div class="avatar-wrap">
-      <div class="avatar-ring avatar-ring--spin"></div>
+      <div class="avatar-ring avatar-ring--wave"></div>
       <img src={avatarImg.src} alt="sinibaca" class="avatar" width="72" height="72" />
     </div>
     <h3 class="name">sinibaca</h3>
@@ -98,12 +98,15 @@ const socials = [
   .profile-card { background: var(--card-bg, #f9f9f9); border: 1px solid var(--border, #e5e7eb); border-radius: 12px; padding: 1.25rem; text-align: center; }
   
   /* ============================================
-     AVATAR DIAMOND RING — Base
+     AVATAR WRAPPER — base positioning
      ============================================ */
   .avatar-wrap {
     position: relative;
     width: fit-content;
     margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .avatar {
@@ -116,83 +119,115 @@ const socials = [
     border: 3px solid var(--accent, #6366f1);
   }
 
+  /* ============================================
+     BASE — Dashed Diamond Ring
+     ============================================ */
   .avatar-ring {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 86px;
-    height: 86px;
-    background: rgba(165, 216, 255, 0.45);
+    width: 88px;
+    height: 88px;
+    border: 2px dashed #a5d8ff;
+    border-radius: 14px;
     transform: translate(-50%, -50%) rotate(45deg);
     z-index: 1;
-    border-radius: 14px;
     pointer-events: none;
+    opacity: 0.75;
   }
 
   /* ============================================
-     VARIASI 1: Diamond berputar pelan (DEFAULT)
-     Ganti class: avatar-ring--spin
+     VARIASI 1: Dashed Wave (default)
+     Berputar + bergelombang (scale + border-radius morph)
      ============================================ */
-  .avatar-ring--spin {
-    animation: diamondSpin 20s linear infinite;
+  .avatar-ring--wave {
+    animation: dashedWave 10s linear infinite;
   }
 
-  @keyframes diamondSpin {
-    from {
-      transform: translate(-50%, -50%) rotate(45deg);
+  @keyframes dashedWave {
+    0% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(1);
+      border-radius: 14px;
+      opacity: 0.75;
     }
-    to {
-      transform: translate(-50%, -50%) rotate(405deg);
+    25% {
+      transform: translate(-50%, -50%) rotate(135deg) scale(1.06);
+      border-radius: 26px;
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(225deg) scale(1);
+      border-radius: 14px;
+      opacity: 0.75;
+    }
+    75% {
+      transform: translate(-50%, -50%) rotate(315deg) scale(1.06);
+      border-radius: 26px;
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(405deg) scale(1);
+      border-radius: 14px;
+      opacity: 0.75;
     }
   }
 
   /* ============================================
-     VARIASI 2: Diamond + border tipis berlawanan
-     HTML WAJIB ditambah sibling div:
+     VARIASI 2: Dual Dashed Counter
+     2 ring putus-putus berputar berlawanan arah
+     Tambahkan sibling di HTML:
        <div class="avatar-ring avatar-ring--counter"></div>
-       <div class="avatar-ring-border"></div>
+       <div class="avatar-ring-outer"></div>
      ============================================ */
   .avatar-ring--counter {
-    animation: diamondSpin 15s linear infinite;
+    animation: dashedSpin 12s linear infinite;
   }
 
-  .avatar-ring-border {
+  .avatar-ring-outer {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 96px;
-    height: 96px;
-    border: 2px solid rgba(165, 216, 255, 0.6);
+    width: 100px;
+    height: 100px;
+    border: 1.5px dashed rgba(165, 216, 255, 0.5);
+    border-radius: 18px;
     transform: translate(-50%, -50%) rotate(45deg);
     z-index: 0;
-    border-radius: 16px;
     pointer-events: none;
-    animation: diamondSpinReverse 15s linear infinite;
+    animation: dashedSpinReverse 12s linear infinite;
   }
 
-  @keyframes diamondSpinReverse {
-    from {
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-    to {
-      transform: translate(-50%, -50%) rotate(-315deg);
-    }
+  @keyframes dashedSpin {
+    from { transform: translate(-50%, -50%) rotate(45deg); }
+    to   { transform: translate(-50%, -50%) rotate(405deg); }
+  }
+
+  @keyframes dashedSpinReverse {
+    from { transform: translate(-50%, -50%) rotate(45deg); }
+    to   { transform: translate(-50%, -50%) rotate(-315deg); }
   }
 
   /* ============================================
-     VARIASI 3: Diamond "breathe" (scale halus)
+     VARIASI 3: Dashed Breathe
+     Berputar lambat + napas halus (scale + opacity)
      Ganti class: avatar-ring--breathe
      ============================================ */
   .avatar-ring--breathe {
-    animation: diamondBreathe 4s ease-in-out infinite;
+    animation: dashedBreathe 20s ease-in-out infinite;
   }
 
-  @keyframes diamondBreathe {
+  @keyframes dashedBreathe {
     0%, 100% {
       transform: translate(-50%, -50%) rotate(45deg) scale(1);
+      border-radius: 14px;
+      opacity: 0.4;
+      border-width: 2px;
     }
     50% {
-      transform: translate(-50%, -50%) rotate(45deg) scale(1.12);
+      transform: translate(-50%, -50%) rotate(225deg) scale(1.12);
+      border-radius: 22px;
+      opacity: 0.85;
+      border-width: 3px;
     }
   }
 
