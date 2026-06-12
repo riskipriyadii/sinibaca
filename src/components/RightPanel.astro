@@ -9,7 +9,7 @@ const recentlyUpdated = [...allPosts]
     const dateB = b.data.updatedDate || b.data.pubDate;
     return new Date(dateB).getTime() - new Date(dateA).getTime();
   })
-  .slice(0, 5);
+  .slice(0, 3);
 
 const tagCounts: Record<string, number> = {};
 allPosts.forEach((post) => {

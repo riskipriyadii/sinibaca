@@ -11,43 +11,31 @@ allPosts.forEach((post) => {
 });
 const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
 
-const yearCounts: Record<string, number> = {};
-allPosts.forEach((post) => {
-  const year = new Date(post.data.pubDate).getFullYear().toString();
-  yearCounts[year] = (yearCounts[year] || 0) + 1;
-});
-const years = Object.entries(yearCounts).sort((a, b) => Number(b[0]) - Number(a[0]));
-
 const navItems = [
   { label: "Beranda", href: "/" },
-  { label: "Blog", href: "/blog" },
   { label: "Tentang", href: "/about" },
 ];
+
 const socials = [
-  { label: "GitHub", href: "https://github.com/riskipriyadi" },
-  { label: "Twitter/X", href: "https://twitter.com" },
+  { 
+    label: "Instagram", 
+    href: "https://www.instagram.com/ronin.monetaro/",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`
+  },
 ];
 ---
 
 <div class="sidebar">
-  <!-- Profile -->
   <div class="profile-card">
-    <img
-      src={avatarImg.src}
-      alt="sinibaca"
-      class="avatar"
-      width="72"
-      height="72"
-    />
+    <img src={avatarImg.src} alt="sinibaca" class="avatar" width="72" height="72" />
     <h3 class="name">sinibaca</h3>
-    <p class="bio">Blog modern dengan Astro &amp; Tailwind</p>
+    <p class="bio">Blog modern dengan Astro & Tailwind</p>
     <div class="stats">
       <div class="stat"><span class="stat-val">{allPosts.length}</span><span class="stat-lbl">Artikel</span></div>
       <div class="stat"><span class="stat-val">{Object.keys(categoryCounts).length}</span><span class="stat-lbl">Kategori</span></div>
     </div>
   </div>
 
-  <!-- Navigasi -->
   <div class="section-card">
     <h4 class="section-title">Navigasi</h4>
     <nav class="nav-list">
@@ -57,7 +45,6 @@ const socials = [
     </nav>
   </div>
 
-  <!-- Kategori -->
   <div class="section-card">
     <h4 class="section-title">Kategori</h4>
     <div class="cat-list">
@@ -70,30 +57,18 @@ const socials = [
     </div>
   </div>
 
-  <!-- Arsip -->
   <div class="section-card">
-    <h4 class="section-title">Arsip</h4>
-    <div class="cat-list">
-      {years.map(([year, count]) => (
-        <a href="/blog" class="cat-item">
-          <span>{year}</span>
-          <span class="badge">{count}</span>
+    <h4 class="section-title">Sosial</h4>
+    <div class="social-list">
+      {socials.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener" class="social-item">
+          <span class="social-icon" set:html={s.icon}></span>
+          {s.label}
         </a>
       ))}
     </div>
   </div>
 
-  <!-- Sosial -->
-  <div class="section-card">
-    <h4 class="section-title">Sosial</h4>
-    <div class="social-list">
-      {socials.map((s) => (
-        <a href={s.href} target="_blank" rel="noopener" class="social-item">{s.label}</a>
-      ))}
-    </div>
-  </div>
-
-  <!-- Dark Mode -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
     Mode Gelap
   </button>
@@ -102,7 +77,6 @@ const socials = [
 <script>
   const toggle = document.getElementById("theme-toggle");
   const html = document.documentElement;
-  
   toggle?.addEventListener("click", () => {
     const isDark = html.getAttribute("data-mode") === "dark";
     const newMode = isDark ? "light" : "dark";
@@ -130,9 +104,10 @@ const socials = [
   .cat-item { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0.6rem; border-radius: 8px; font-size: 0.85rem; text-decoration: none; color: inherit; transition: background 0.15s; }
   .cat-item:hover { background: var(--hover, #f3f4f6); }
   .badge { background: var(--accent, #6366f1); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 999px; }
-  .social-list { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .social-item { padding: 0.35rem 0.75rem; border: 1px solid var(--border, #e5e7eb); border-radius: 999px; font-size: 0.8rem; text-decoration: none; color: inherit; transition: background 0.15s; }
+  .social-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .social-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.75rem; border: 1px solid var(--border, #e5e7eb); border-radius: 999px; font-size: 0.8rem; text-decoration: none; color: inherit; transition: background 0.15s; }
   .social-item:hover { background: var(--hover, #f3f4f6); }
+  .social-icon { display: flex; align-items: center; }
   .theme-toggle { width: 100%; padding: 0.5rem; border: 1px solid var(--border, #e5e7eb); border-radius: 8px; background: transparent; cursor: pointer; font-size: 0.85rem; transition: background 0.15s; }
   .theme-toggle:hover { background: var(--hover, #f3f4f6); }
 </style>
