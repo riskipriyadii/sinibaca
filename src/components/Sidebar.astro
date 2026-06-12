@@ -32,14 +32,10 @@ const socials = [
   <div class="profile-card">
     <div class="avatar-wrap">
       <div class="about-avatar-ring"></div>
-      <img src={avatarImg.src} alt="sinibaca" class="avatar" width="72" height="72" />
+      <img src={avatarImg.src} alt="sinibaca" class="avatar" width="96" height="96" />
     </div>
     <h3 class="name">sinibaca</h3>
     <p class="bio">Nulis kalau semua kondisi mendukung, dan itu jarang terjadi.</p>
-    <div class="stats">
-      <div class="stat"><span class="stat-val">{allPosts.length}</span><span class="stat-lbl">Artikel</span></div>
-      <div class="stat"><span class="stat-val">{Object.keys(categoryCounts).length}</span><span class="stat-lbl">Kategori</span></div>
-    </div>
   </div>
 
   <div class="section-card">
@@ -109,8 +105,8 @@ const socials = [
   .avatar {
     position: relative;
     z-index: 2;
-    width: 72px;
-    height: 72px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     display: block;
     border: 3px solid var(--accent, #6366f1);
@@ -118,10 +114,10 @@ const socials = [
   
   .about-avatar-ring {
     position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
     border: 2px dashed #0969da;
     opacity: 0.35;
     z-index: 1;

@@ -27,6 +27,11 @@ const postsData = posts.map(p => ({
       <div class="search-dropdown" id="search-dropdown"></div>
     </div>
 
+    <div class="post-count">
+      <span class="post-count-val">{posts.length}</span>
+      <span class="post-count-lbl">Artikel</span>
+    </div>
+
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="6" x2="21" y2="6"/>
@@ -311,6 +316,23 @@ const postsData = posts.map(p => ({
 
   .menu-toggle:hover {
     background: var(--bg-secondary, #f8fafc);
+  }
+
+  .post-count {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .post-count-val {
+    font-weight: 700;
+    color: var(--accent, #6366f1);
+  }
+  .post-count-lbl {
+    font-size: 0.8rem;
   }
 
   @media (max-width: 768px) {
