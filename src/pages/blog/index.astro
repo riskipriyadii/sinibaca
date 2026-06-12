@@ -7,6 +7,9 @@ const posts = await getCollection("blog", ({ data }) => !data.draft);
 const sortedPosts = posts.sort(
   (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
 );
+
+const postsPerPage = 5;
+const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
 ---
 
 <Layout title="Blog — sinibaca" description="Semua artikel di sinibaca">
@@ -14,18 +17,39 @@ const sortedPosts = posts.sort(
     <h1 class="page-title">Semua Artikel</h1>
     <p class="page-subtitle">{sortedPosts.length} artikel ditemukan</p>
   </div>
-  <div class="posts-grid">
-    {sortedPosts.map((post, index) => (
-      <div class="post-animate" style={`animation-delay: ${index * 80}ms`}>
-        <PostCard post={post} />
-      </div>
-    ))}
+
+  <div class="posts-list" id="posts-list" data-total-pages={totalPages}>
+    {sortedPosts.map((post, index) => {
+      const page = Math.floor(index / postsPerPage) + 1;
+      return (
+        <div class={`post-item ${page !== 1 ? 'hidden' : ''}`} data-page={page}>
+          <PostCard post={post} />
+        </div>
+      );
+    })}
   </div>
+
+  {totalPages > 1 && (
+    <div class="pagination" id="pagination">
+      <div class="page-buttons">
+        <button class="page-btn page-prev" id="page-prev" disabled>← Prev</button>
+        {Array.from({ length: totalPages }, (_, i) => {
+          const page = i + 1;
+          return (
+            <button class={`page-btn page-num ${page === 1 ? 'active' : ''}`} data-page={page}>
+              {page}
+            </button>
+          );
+        })}
+        <button class="page-btn page-next" id="page-next">Next →</button>
+      </div>
+    </div>
+  )}
 </Layout>
 
 <style>
   .home-header {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
   .page-title {
     font-size: 1.75rem;
@@ -39,17 +63,98 @@ const sortedPosts = posts.sort(
     color: var(--text-muted);
     margin: 0;
   }
-  .posts-grid {
+  .posts-list {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    /* gap dihandle oleh border-bottom di PostCard */
   }
-  .post-animate {
-    opacity: 0;
-    animation: fadeSlideUp 0.5s ease forwards;
+  .post-item.hidden {
+    display: none;
   }
-  @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 32px 0 16px;
+  }
+  .page-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .page-btn {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .page-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .page-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 </style>
+
+<script>
+  (function() {
+    const list = document.getElementById('posts-list');
+    const pagination = document.getElementById('pagination');
+    if (!list || !pagination) return;
+
+    const items = list.querySelectorAll('.post-item');
+    const totalPages = parseInt(list.dataset.totalPages || '1');
+    let currentPage = 1;
+
+    const prevBtn = document.getElementById('page-prev');
+    const nextBtn = document.getElementById('page-next');
+    const numBtns = pagination.querySelectorAll('.page-num');
+
+    function showPage(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      items.forEach(item => {
+        const itemPage = parseInt(item.dataset.page);
+        item.classList.toggle('hidden', itemPage !== currentPage);
+      });
+
+      numBtns.forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+      });
+
+      if (prevBtn) prevBtn.disabled = currentPage === 1;
+      if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+
+      window.location.hash = `page-${currentPage}`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    numBtns.forEach(btn => {
+      btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => showPage(currentPage - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => showPage(currentPage + 1));
+
+    const hash = window.location.hash;
+    if (hash.startsWith('#page-')) {
+      const p = parseInt(hash.replace('#page-', ''));
+      if (p >= 1 && p <= totalPages) showPage(p);
+    }
+  })();
+</script>

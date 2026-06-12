@@ -18,24 +18,12 @@ const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
     <p class="page-subtitle">{sortedPosts.length} artikel ditemukan</p>
   </div>
 
-  <div class="posts-grid" id="posts-grid" data-total-pages={totalPages}>
+  <div class="posts-list" id="posts-list" data-total-pages={totalPages}>
     {sortedPosts.map((post, index) => {
       const page = Math.floor(index / postsPerPage) + 1;
-      const isHidden = page !== 1;
       return (
-        <div class={`post-animate ${isHidden ? 'hidden' : ''}`} data-page={page} style={`animation-delay: ${index * 80}ms`}>
-          <PostCard post={{ 
-            slug: post.id, 
-            data: {
-              title: post.data.title,
-              description: post.data.description,
-              pubDate: post.data.pubDate,
-              category: post.data.category,
-              tags: post.data.tags,
-              thumbnail: post.data.thumbnail,
-              heroImage: post.data.heroImage?.src
-            }
-          }} />
+        <div class={`post-item ${page !== 1 ? 'hidden' : ''}`} data-page={page}>
+          <PostCard post={post} />
         </div>
       );
     })}
@@ -61,7 +49,7 @@ const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
 
 <style>
   .home-header {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
   .page-title {
     font-size: 1.75rem;
@@ -75,27 +63,18 @@ const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
     color: var(--text-muted);
     margin: 0;
   }
-  .posts-grid {
+  .posts-list {
     display: flex;
     flex-direction: column;
-    gap: 24px;
   }
-  .post-animate {
-    opacity: 0;
-    animation: fadeSlideUp 0.5s ease forwards;
-  }
-  .post-animate.hidden {
+  .post-item.hidden {
     display: none;
-  }
-  @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   .pagination {
     display: flex;
     justify-content: center;
-    padding: 40px 0 20px;
+    padding: 32px 0 16px;
   }
   .page-buttons {
     display: flex;
@@ -132,12 +111,12 @@ const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
 
 <script>
   (function() {
-    const grid = document.getElementById('posts-grid');
+    const list = document.getElementById('posts-list');
     const pagination = document.getElementById('pagination');
-    if (!grid || !pagination) return;
+    if (!list || !pagination) return;
 
-    const posts = grid.querySelectorAll('.post-animate');
-    const totalPages = parseInt(grid.dataset.totalPages || '1');
+    const items = list.querySelectorAll('.post-item');
+    const totalPages = parseInt(list.dataset.totalPages || '1');
     let currentPage = 1;
 
     const prevBtn = document.getElementById('page-prev');
@@ -148,9 +127,9 @@ const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
       if (page < 1 || page > totalPages) return;
       currentPage = page;
 
-      posts.forEach(post => {
-        const postPage = parseInt(post.dataset.page);
-        post.classList.toggle('hidden', postPage !== currentPage);
+      items.forEach(item => {
+        const itemPage = parseInt(item.dataset.page);
+        item.classList.toggle('hidden', itemPage !== currentPage);
       });
 
       numBtns.forEach(btn => {
@@ -168,12 +147,8 @@ const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
       btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
     });
 
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => showPage(currentPage - 1));
-    }
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => showPage(currentPage + 1));
-    }
+    if (prevBtn) prevBtn.addEventListener('click', () => showPage(currentPage - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => showPage(currentPage + 1));
 
     const hash = window.location.hash;
     if (hash.startsWith('#page-')) {

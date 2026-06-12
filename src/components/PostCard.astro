@@ -11,11 +11,12 @@ interface Props {
       thumbnail?: string;
       heroImage?: string;
     };
+    body?: string;
   };
 }
 
 const { post } = Astro.props;
-const { data, slug } = post;
+const { data, slug, body } = post;
 
 function getImageUrl(thumbnail?: string, heroImage?: string): string {
   const placeholder = "/images/placeholder.jpg";
@@ -29,114 +30,113 @@ function getImageUrl(thumbnail?: string, heroImage?: string): string {
 }
 
 const imageUrl = getImageUrl(data.thumbnail, data.heroImage);
+
 const dateStr = data.pubDate.toLocaleDateString("id-ID", {
-  year: "numeric", month: "long", day: "numeric",
+  day: "numeric", month: "short", year: "numeric",
 });
+
+// Estimasi waktu baca: ~200 kata per menit
+const wordCount = (body || "").split(/\s+/).length;
+const readTime = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
-<article class="post-card">
-  <a href={`/blog/${slug}`} class="card-link">
-    <div class="thumbnail-wrap">
-      <img src={imageUrl} alt={data.title} loading="lazy" class="thumbnail" onerror="this.src='/images/placeholder.jpg'" />
+<a href={`/blog/${slug}`} class="post-card">
+  <div class="thumb-wrap">
+    <img src={imageUrl} alt={data.title} loading="lazy" class="thumb-img" onerror="this.src='/images/placeholder.jpg'" />
+  </div>
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="category">{data.category || "Uncategorized"}</span>
+      <span class="dot">•</span>
+      <span class="date">{dateStr}</span>
+      <span class="dot">•</span>
+      <span class="read-time">{readTime} min baca</span>
     </div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="category">{data.category || "Uncategorized"}</span>
-        <span class="date">{dateStr}</span>
-      </div>
-      <h2 class="card-title">{data.title}</h2>
-      <p class="card-excerpt">{data.description || ""}</p>
-      <div class="card-tags">
-        {(data.tags || []).slice(0, 5).map((tag) => (
-          <span class="tag-pill">#{tag}</span>
-        ))}
-      </div>
-    </div>
-  </a>
-</article>
+    <h2 class="card-title">{data.title}</h2>
+    <p class="card-excerpt">{data.description || ""}</p>
+  </div>
+</a>
 
 <style>
   .post-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .post-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-  }
-  .card-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
-    display: block;
+    transition: background 0.15s ease;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
-  .thumbnail-wrap {
+  .post-card:hover {
+    background: var(--bg-secondary);
+  }
+
+  .thumb-wrap {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
     overflow: hidden;
-    aspect-ratio: 16/9;
+    background: var(--bg-secondary);
   }
-  .thumbnail {
+  .thumb-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    display: block;
   }
-  .post-card:hover .thumbnail {
-    transform: scale(1.03);
-  }
+
   .card-body {
-    padding: 20px 24px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
+
   .card-meta {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    font-size: 0.8rem;
+    gap: 6px;
+    font-size: 0.75rem;
     color: var(--text-light);
+    margin-bottom: 2px;
   }
   .category {
     font-weight: 600;
     color: var(--accent);
+    text-transform: capitalize;
   }
+  .dot {
+    color: var(--text-light);
+  }
+
   .card-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
-    margin: 0 0 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
     color: var(--text);
-  }
-  .card-excerpt {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--text-muted);
-    margin: 0 0 14px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-  }
-  .tag-pill {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: var(--bg-secondary);
+
+  .card-excerpt {
+    font-size: 0.875rem;
+    line-height: 1.5;
     color: var(--text-muted);
-    transition: all 0.15s ease;
-  }
-  .tag-pill:hover {
-    background: var(--accent);
-    color: white;
-    transform: scale(1.05);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 </style>
