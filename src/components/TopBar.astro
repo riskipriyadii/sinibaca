@@ -191,7 +191,7 @@ const postsData = posts.map(p => ({
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
-    right: 0;
+    width: 320px; /* <-- TETAP 320px, tidak full width */
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -212,13 +212,13 @@ const postsData = posts.map(p => ({
   /* Search Result Card */
   .search-result {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
     text-decoration: none;
     color: var(--text);
     border-bottom: 1px solid var(--border);
-    transition: all 0.2s ease;
+    transition: background 0.2s ease;
     cursor: pointer;
   }
   .search-result:last-child {
@@ -227,25 +227,23 @@ const postsData = posts.map(p => ({
   .search-result:hover {
     background: var(--bg-secondary);
   }
-  .search-result:hover .search-thumb img {
-    transform: scale(1.05);
-  }
 
-  /* Thumbnail */
+  /* Thumbnail - FIXED SIZE */
   .search-thumb {
-    width: 60px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
     border-radius: 6px;
     overflow: hidden;
-    flex-shrink: 0;
     background: var(--bg-secondary);
+    flex-shrink: 0;
   }
   .search-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.2s ease;
   }
 
   /* Info */
@@ -254,18 +252,17 @@ const postsData = posts.map(p => ({
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
+    overflow: hidden;
   }
   .search-title {
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.3;
     color: var(--text);
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
   }
   .search-title mark {
     background: rgba(99, 102, 241, 0.2);
@@ -280,18 +277,19 @@ const postsData = posts.map(p => ({
     gap: 6px;
   }
   .search-cat {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--accent);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     background: rgba(99, 102, 241, 0.1);
-    padding: 2px 8px;
+    padding: 2px 6px;
     border-radius: 999px;
+    white-space: nowrap;
   }
 
   .search-empty {
-    padding: 20px 16px;
+    padding: 16px 12px;
     color: var(--text-muted);
     font-size: 0.875rem;
     text-align: center;
