@@ -79,12 +79,27 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
         min-height: calc(100vh - 120px);
       }
 
-      /* Left sidebar: isi penuh cell grid */
+      /* Left sidebar: isi penuh cell grid, scrollable independen */
       .sidebar-left {
         width: 100%;
         position: sticky;
         top: 80px;
-        height: fit-content;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--text-light) transparent;
+      }
+
+      /* Scrollbar tipis (Webkit) untuk left sidebar */
+      .sidebar-left::-webkit-scrollbar {
+        width: 4px;
+      }
+      .sidebar-left::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .sidebar-left::-webkit-scrollbar-thumb {
+        background: var(--text-light);
+        border-radius: 4px;
       }
 
       /* Main content: melebar mengisi sisa ruang */
@@ -93,12 +108,27 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
         min-width: 0;
       }
 
-      /* Right sidebar: isi penuh cell grid */
+      /* Right sidebar: isi penuh cell grid, scrollable independen */
       .sidebar-right {
         width: 100%;
         position: sticky;
         top: 80px;
-        height: fit-content;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--text-light) transparent;
+      }
+
+      /* Scrollbar tipis (Webkit) untuk right sidebar */
+      .sidebar-right::-webkit-scrollbar {
+        width: 4px;
+      }
+      .sidebar-right::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .sidebar-right::-webkit-scrollbar-thumb {
+        background: var(--text-light);
+        border-radius: 4px;
       }
 
       .site-footer {
