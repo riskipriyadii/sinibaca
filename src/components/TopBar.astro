@@ -28,8 +28,8 @@ const postsData = posts.map(p => ({
     </div>
 
     <div class="post-count">
-      <span class="post-count-val">{posts.length}</span>
-      <span class="post-count-lbl">Artikel</span>
+      <span class="post-count-badge">{posts.length}</span>
+      <span class="post-count-pill">Tulisan</span>
     </div>
 
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
@@ -320,19 +320,28 @@ const postsData = posts.map(p => ({
 
   .post-count {
     display: inline-flex;
-    align-items: baseline;
-    gap: 4px;
-    font-size: 0.875rem;
-    color: var(--text-muted, #64748b);
-    font-weight: 500;
-    white-space: nowrap;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
   }
-  .post-count-val {
+  .post-count-badge {
+    background: var(--accent, #6366f1); /* kotak ungu */
+    color: #fff;
     font-weight: 700;
-    color: var(--accent, #6366f1);
-  }
-  .post-count-lbl {
     font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  .post-count-pill {
+    background: #dc2626; /* rumah merah — crimson */
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 5px 14px;
+    border-radius: 6px;
+    line-height: 1;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
 
   @media (max-width: 768px) {
