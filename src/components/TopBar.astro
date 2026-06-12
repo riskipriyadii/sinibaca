@@ -46,22 +46,70 @@ const postsData = posts.map(p => ({
     sidebar?.classList.toggle("mobile-open");
   });
 
-  // Real-time search
+  // Real-time search with debounce
   const searchBar = document.querySelector('.search-bar');
-  const searchInput = document.getElementById('search-input');
-  const searchDropdown = document.getElementById('search-dropdown');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const searchDropdown = document.getElementById('search-dropdown') as HTMLElement | null;
   
   if (searchBar && searchInput && searchDropdown) {
     const posts = JSON.parse((searchBar as HTMLElement).dataset.posts || '[]');
     const base = window.location.pathname.startsWith('/sinibaca-v2') ? '/sinibaca-v2' : '';
     
+    function escapeRegex(str: string) {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+    
     function highlightText(text: string, query: string) {
       if (!query) return text;
-      const regex = new RegExp(`(${query})`, 'gi');
+      const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     }
     
-    searchInput.addEventListener('input', (e) => {
+    function renderResults(results: any[], query: string) {
+      if (!searchDropdown) return;
+      
+      if (results.length === 0) {
+        searchDropdown.innerHTML = `
+          <div class="search-empty">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:6px;opacity:0.4;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <div>Tidak ada hasil untuk "<strong style="color:var(--text,#0f172a);font-weight:600;">${query}</strong>"</div>
+          </div>
+        `;
+        return;
+      }
+      
+      searchDropdown.innerHTML = results.map(post => {
+        const thumb = post.thumbnail ? `${base}${post.thumbnail}` : `${base}/favicons/favicon-32x32.png`;
+        const hasDesc = post.description && post.description.trim().length > 0;
+        return `
+          <a href="${base}/blog/${post.slug}" class="search-result-item">
+            <img src="${thumb}" alt="" class="search-thumb" loading="lazy" onerror="this.src='${base}/favicons/favicon-32x32.png'" />
+            <div class="search-result-content">
+              <span class="search-category">${post.category}</span>
+              <div class="search-title">${highlightText(post.title, query)}</div>
+              ${hasDesc ? `<div class="search-desc">${highlightText(post.description, query)}</div>` : ''}
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+    
+    function debounce(func: Function, wait: number) {
+      let timeout: ReturnType<typeof setTimeout>;
+      return function executedFunction(...args: any[]) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+    
+    const handleSearch = debounce((e: Event) => {
       const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
       
       if (!query) {
@@ -72,38 +120,35 @@ const postsData = posts.map(p => ({
       
       const results = posts.filter((post: any) => 
         post.title.toLowerCase().includes(query) || 
-        (post.description && post.description.toLowerCase().includes(query)) ||
-        (post.category && post.category.toLowerCase().includes(query))
-      ).slice(0, 3);
+        post.description.toLowerCase().includes(query) ||
+        post.category.toLowerCase().includes(query)
+      ).slice(0, 8);
       
-      if (results.length === 0) {
-        searchDropdown.innerHTML = '<div class="search-empty">Tidak ada artikel</div>';
-      } else {
-        searchDropdown.innerHTML = results.map((post: any) => {
-          const thumbUrl = post.thumbnail ? (post.thumbnail.startsWith('/') ? `${base}${post.thumbnail}` : `${base}/${post.thumbnail}`) : `${base}/images/placeholder.jpg`;
-          const highlightedTitle = highlightText(post.title, query);
-          return `
-            <a href="${base}/blog/${post.slug}" class="search-result">
-              <div class="search-thumb">
-                <img src="${thumbUrl}" alt="" loading="lazy" onerror="this.style.display='none'" />
-              </div>
-              <div class="search-info">
-                <div class="search-title">${highlightedTitle}</div>
-                <div class="search-meta">
-                  <span class="search-cat">${post.category}</span>
-                </div>
-              </div>
-            </a>
-          `;
-        }).join('');
-      }
-      
+      renderResults(results, query);
       searchDropdown.classList.add('active');
+    }, 250);
+    
+    searchInput.addEventListener('input', handleSearch);
+    
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchBar.contains(e.target as Node)) {
+        searchDropdown.classList.remove('active');
+      }
     });
     
-    document.addEventListener('click', (e) => {
-      if (!(e.target as HTMLElement)?.closest('.search-bar')) {
+    // Close on Escape
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
         searchDropdown.classList.remove('active');
+        searchInput.blur();
+      }
+    });
+    
+    // Re-open on focus if has value
+    searchInput.addEventListener('focus', () => {
+      if (searchInput.value.trim().length > 0 && searchDropdown.innerHTML.trim().length > 0) {
+        searchDropdown.classList.add('active');
       }
     });
   }
@@ -115,203 +160,245 @@ const postsData = posts.map(p => ({
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    height: 60px;
+    background: var(--bg, #ffffff);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid var(--border);
-    height: 60px;
-    transition: background 0.3s ease;
+    border-bottom: 1px solid var(--border, #e2e8f0);
+    z-index: 100;
   }
-  html[data-mode="dark"] .topbar {
-    background: rgba(10, 10, 10, 0.8);
-  }
+  
   .topbar-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 24px;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    gap: 16px;
   }
+  
   .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     text-decoration: none;
-    color: var(--text);
+    color: var(--text, #0f172a);
+    font-weight: 700;
+    font-size: 1.125rem;
     flex-shrink: 0;
   }
+  
   .logo-img {
     border-radius: 6px;
-    display: block;
   }
-  .logo-text {
-    font-size: 1.25rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
+  
   .search-bar {
+    position: relative;
     flex: 1;
     max-width: 400px;
-    position: relative;
-    display: flex;
-    align-items: center;
+    min-width: 200px;
   }
+  
   .search-icon {
     position: absolute;
     left: 12px;
-    color: var(--text-light);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted, #94a3b8);
     pointer-events: none;
     z-index: 2;
   }
+  
   .search-input {
     width: 100%;
-    padding: 8px 12px 8px 36px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg-secondary);
-    color: var(--text);
+    height: 40px;
+    padding: 0 12px 0 40px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: var(--bg-secondary, #f8fafc);
+    color: var(--text, #0f172a);
     font-size: 0.875rem;
-    outline: none;
-    transition: all 0.2s;
+    font-family: inherit;
+    transition: all 0.2s ease;
   }
-  .search-input:focus {
-    border-color: var(--accent);
-    background: var(--bg);
-  }
+  
   .search-input::placeholder {
-    color: var(--text-light);
+    color: var(--text-muted, #94a3b8);
   }
-
-  /* Dropdown - Polished */
+  
+  .search-input:focus {
+    outline: none;
+    background: var(--bg, #ffffff);
+    border-color: var(--accent, #6366f1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+  
   .search-dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 6px);
     left: 0;
-    width: 320px; /* <-- TETAP 320px, tidak full width */
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    display: none;
-    overflow: hidden;
-    z-index: 100;
-    animation: dropdownFade 0.2s ease;
-  }
-  @keyframes dropdownFade {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .search-dropdown.active {
-    display: block;
-  }
-
-  /* Search Result Card */
-  .search-result {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
-    text-decoration: none;
-    color: var(--text);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.2s ease;
-    cursor: pointer;
-  }
-  .search-result:last-child {
-    border-bottom: none;
-  }
-  .search-result:hover {
-    background: var(--bg-secondary);
-  }
-
-  /* Thumbnail - FIXED SIZE */
-  .search-thumb {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    border-radius: 6px;
-    overflow: hidden;
-    background: var(--bg-secondary);
-    flex-shrink: 0;
-  }
-  .search-thumb img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    min-width: 300px;
+    background: var(--bg, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: all 0.2s ease;
+    z-index: 200;
   }
-
-  /* Info */
-  .search-info {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    overflow: hidden;
+  
+  .search-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
   }
-  .search-title {
-    font-weight: 600;
-    font-size: 0.8rem;
-    line-height: 1.3;
-    color: var(--text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .search-title mark {
-    background: rgba(99, 102, 241, 0.2);
-    color: var(--accent);
-    font-weight: 700;
-    border-radius: 2px;
-    padding: 0 2px;
-  }
-  .search-meta {
+  
+  .search-result-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    padding: 10px 12px;
+    text-decoration: none !important;
+    color: inherit;
+    border-bottom: 1px solid var(--border, #e2e8f0);
+    transition: background-color 0.15s ease;
+    cursor: pointer;
   }
-  .search-cat {
+  
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .search-result-item:hover {
+    background-color: var(--bg-secondary, #f8fafc);
+  }
+  
+  .search-result-item:hover .search-title {
+    color: var(--accent, #6366f1);
+  }
+  
+  .search-thumb {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: var(--bg-secondary, #f8fafc);
+    display: block;
+  }
+  
+  .search-result-content {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  
+  .search-category {
+    display: inline-block;
     font-size: 0.65rem;
-    color: var(--accent);
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    color: var(--accent, #6366f1);
     background: rgba(99, 102, 241, 0.1);
-    padding: 2px 6px;
-    border-radius: 999px;
-    white-space: nowrap;
+    padding: 1px 6px;
+    border-radius: 4px;
+    line-height: 1.4;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
-
+  
+  .search-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text, #0f172a);
+    line-height: 1.3;
+    text-decoration: none !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .search-title mark {
+    background: rgba(99, 102, 241, 0.2);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  
+  .search-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted, #94a3b8);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+  }
+  
+  .search-desc mark {
+    background: rgba(99, 102, 241, 0.15);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  
   .search-empty {
-    padding: 16px 12px;
-    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 16px;
+    color: var(--text-muted, #94a3b8);
     font-size: 0.875rem;
     text-align: center;
   }
-
+  
   .menu-toggle {
     display: none;
-    background: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     border: none;
-    color: var(--text);
+    background: transparent;
+    color: var(--text, #0f172a);
     cursor: pointer;
-    padding: 8px;
     border-radius: 8px;
+    transition: background 0.2s ease;
   }
+  
   .menu-toggle:hover {
-    background: var(--bg-secondary);
+    background: var(--bg-secondary, #f8fafc);
   }
-  @media (max-width: 900px) {
-    .menu-toggle { display: block; }
-    .search-bar { display: none; }
-  }
-  @media (max-width: 1200px) {
-    .search-bar { max-width: 300px; }
+  
+  @media (max-width: 768px) {
+    .topbar-inner {
+      padding: 0 16px;
+    }
+    
+    .search-bar {
+      max-width: none;
+    }
+    
+    .search-dropdown {
+      position: fixed;
+      top: 64px;
+      left: 16px;
+      right: 16px;
+      width: auto;
+      min-width: auto;
+    }
+    
+    .menu-toggle {
+      display: flex;
+    }
   }
 </style>
