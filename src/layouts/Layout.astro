@@ -18,7 +18,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -55,7 +55,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
   </head>
   <body>
     <TopBar />
-    <div class="page-container">
+    <div class="page-wrapper">
       <aside class="sidebar-left">
         <Sidebar />
       </aside>
@@ -70,33 +70,41 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
       <p>&copy; 2026 sinibaca. Built with Astro & Tailwind.</p>
     </footer>
     <style>
-      .page-container {
-        display: flex;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 80px 24px 40px;
-        gap: 32px;
+      /* Layout: sidebars pushed to edges, content centered */
+      .page-wrapper {
+        display: grid;
+        grid-template-columns: 1fr minmax(0, 800px) 1fr;
+        gap: 48px;
+        padding: 80px 32px 40px;
         min-height: calc(100vh - 120px);
       }
+
+      /* Left sidebar: stick to LEFT edge of its column */
       .sidebar-left {
         width: 260px;
-        flex-shrink: 0;
+        justify-self: start;
         position: sticky;
         top: 80px;
         height: fit-content;
+        padding-left: 8px;
       }
+
+      /* Main content: stays centered */
       .main-content {
-        flex: 1;
-        max-width: 800px;
+        width: 100%;
         min-width: 0;
       }
+
+      /* Right sidebar: stick to RIGHT edge of its column */
       .sidebar-right {
         width: 280px;
-        flex-shrink: 0;
+        justify-self: end;
         position: sticky;
         top: 80px;
         height: fit-content;
+        padding-right: 8px;
       }
+
       .site-footer {
         width: 100%;
         background: var(--bg-secondary);
@@ -106,18 +114,47 @@ const { title = "sinibaca", description = "Blog modern dengan Astro" } = Astro.p
         color: var(--text-light);
         font-size: 0.875rem;
       }
+
+      /* Medium screens: hide right sidebar */
       @media (max-width: 1200px) {
-        .sidebar-right { display: none; }
-      }
-      @media (max-width: 900px) {
-        .page-container { flex-direction: column; padding-top: 60px; }
-        .sidebar-left { 
-          width: 100%; 
-          position: static; 
-          display: none;
+        .page-wrapper {
+          grid-template-columns: 260px 1fr;
+          gap: 32px;
         }
-        .sidebar-left.mobile-open { display: block; }
-        .main-content { max-width: 100%; }
+        .sidebar-right { display: none; }
+        .sidebar-left {
+          justify-self: start;
+          padding-left: 0;
+        }
+      }
+
+      /* Small screens: hide left sidebar, show hamburger */
+      @media (max-width: 900px) {
+        .page-wrapper {
+          grid-template-columns: 1fr;
+          padding: 60px 16px 40px;
+          gap: 0;
+        }
+        .sidebar-left {
+          display: none;
+          position: fixed;
+          top: 60px;
+          left: 0;
+          bottom: 0;
+          width: 280px;
+          z-index: 90;
+          background: var(--bg);
+          border-right: 1px solid var(--border);
+          padding: 20px;
+          overflow-y: auto;
+          justify-self: start;
+        }
+        .sidebar-left.mobile-open {
+          display: block;
+        }
+        .main-content {
+          max-width: 100%;
+        }
       }
     </style>
   </body>
