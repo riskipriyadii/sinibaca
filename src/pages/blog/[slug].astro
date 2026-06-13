@@ -128,6 +128,10 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
     line-height: 1.8;
     color: var(--text);
   }
+  /* 🔧 FIX: sembunyikan h1 duplikat dari body markdown */
+  .post-content :global(h1:first-of-type) {
+    display: none;
+  }
   .post-content :global(h2) {
     font-size: 1.5rem;
     font-weight: 700;
