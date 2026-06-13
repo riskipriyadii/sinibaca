@@ -7,6 +7,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 
 const navItems = [
   { label: "Beranda", href: `${base}` },
+  { label: "Arsip", href: `${base}arsip` },
   { label: "Tentang", href: `${base}about` },
 ];
 
@@ -127,7 +128,6 @@ const socials = [
     75%     { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; }
   }
 
-  /* 🔧 FIX: name turun lebih ke bawah, bio rapat di bawahnya */
   .name { font-size: 1.05rem; font-weight: 800; margin: 20px 0 0; letter-spacing: -0.01em; }
   .bio { font-size: 0.75rem; color: var(--muted, #6b7280); margin: 4px 0 0; line-height: 1.5; }
 
