@@ -1,0 +1,110 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const sortedPosts = posts.sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Group by year
+const postsByYear: Record<string, typeof posts> = {};
+sortedPosts.forEach((post) => {
+  const year = new Date(post.data.pubDate).getFullYear().toString();
+  if (!postsByYear[year]) postsByYear[year] = [];
+  postsByYear[year].push(post);
+});
+
+const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a));
+---
+
+<Layout title="Arsip — sinibaca" description="Arsip semua tulisan di sinibaca.">
+  <div class="archive-page">
+    <h1 class="page-title">Arsip</h1>
+    
+    {years.map((year) => (
+      <div class="year-group">
+        <h2 class="year-heading">{year}</h2>
+        <div class="year-posts">
+          {postsByYear[year].map((post) => {
+            const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
+              day: "numeric", month: "short",
+            });
+            const slug = post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
+            return (
+              <a href={`${base}/blog/${slug}`} class="archive-item">
+                <span class="archive-date">{dateStr}</span>
+                <span class="archive-title">{post.data.title}</span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .archive-page {
+    animation: fadeInUp 0.5s ease;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 32px;
+    color: var(--text);
+    word-break: break-word;
+  }
+  .year-group {
+    margin-bottom: 32px;
+  }
+  .year-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+  .year-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .archive-item {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.15s ease;
+  }
+  .archive-item:hover {
+    padding-left: 8px;
+  }
+  .archive-item:hover .archive-title {
+    color: var(--accent);
+  }
+  .archive-date {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 48px;
+  }
+  .archive-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.5;
+    transition: color 0.15s ease;
+  }
+</style>
