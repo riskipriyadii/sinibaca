@@ -40,7 +40,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
                 </div>
                 <h2 class="post-title">{post.data.title}</h2>
                 <p class="post-desc">{post.data.description || ""}</p>
-                {refCount !== undefined && (
+                {typeof refCount === "number" && (
                   <span class="ref-count">📚 {refCount} referensi</span>
                 )}
               </div>
@@ -210,10 +210,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-top: 2px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 4px;
+    background: rgba(99,102,241,0.06);
+    padding: 2px 10px;
+    border-radius: 6px;
+    width: fit-content;
   }
 
   .pagination-wrap {
@@ -259,7 +263,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     .post-meta { gap: 8px; }
     .post-cat { font-size: 0.7rem; padding: 0.1rem 0.5rem; }
     .post-date { font-size: 0.75rem; }
-    .ref-count { font-size: 0.78rem; }
+    .ref-count { font-size: 0.78rem; margin-top: 2px; }
     .pagination-wrap { padding-top: 10px; padding-right: 4px; margin-top: 4px; }
     .next-link { padding: 6px 12px; font-size: 0.85rem; margin-right: 4px; }
     .posts-list { gap: 14px; padding-top: 4px; padding-bottom: 4px; }
