@@ -1,13 +1,13 @@
 ---
 title: "Tikus Tidak Masuk Rumah Karena Kotor, Ia Masuk Karena Arsitektur Rumahmu Mengundangnya"
-description: "Sebuah studi di Singapura mengukur faktor risiko infestasi tikus di ratusan kamar pembuangan sampah pada kawasan hunian publik. Hasilnya mengejutkan bukan karena berkaitan dengan volume sampah, melainkan karena berkaitan dengan besi: perangkap lantai yang rusak meningkatkan kemungkinan infestasi tikus hingga 36,7 kali lipat."
+description: "Sebuah studi di Singapura mengukur faktor risiko serangan tikus di ratusan tempat pembuangan sampah pada kawasan hunian publik. Hasilnya mengejutkan bukan karena berkaitan dengan volume sampah, melainkan karena berkaitan dengan besi: penutup saluran yang rusak meningkatkan risikonya hingga 36,7 kali lipat."
 pubDate: 2026-06-14
 thumbnail: "/images/tikus-arsitektur-rumah.png"
 category: "Arsitektur"
 ---
 # Tikus Tidak Masuk Rumah Karena Kotor, Ia Masuk Karena Arsitektur Rumahmu Mengundangnya
 
-Sebuah studi di Singapura mengukur faktor risiko infestasi tikus di ratusan kamar pembuangan sampah pada kawasan hunian publik. Hasilnya mengejutkan bukan karena berkaitan dengan volume sampah, melainkan karena berkaitan dengan besi: perangkap lantai yang rusak meningkatkan kemungkinan infestasi tikus hingga 36,7 kali lipat. Bukan karena kamar itu lebih kotor; karena satu komponen struktural gagal bekerja, dan tikus langsung menemukannya.
+Sebuah studi di Singapura mengukur faktor risiko serangan tikus di ratusan tempat pembuangan sampah pada kawasan hunian publik. Hasilnya mengejutkan bukan karena berkaitan dengan volume sampah, melainkan karena berkaitan dengan besi: penutup saluran yang rusak meningkatkan risikonya hingga 36,7 kali lipat. Bukan karena kamar itu lebih kotor; karena satu komponen struktural gagal bekerja, dan tikus langsung menemukannya.
 
 Narasi populer menyalahkan kebersihan. Tapi data konsisten menunjukkan sesuatu yang berbeda: tikus adalah oportunis struktural. Mereka tidak memilih rumah yang kotor; mereka memilih rumah yang menyediakan akses, perlindungan, dan rute pelarian. Artikel ini menyelidiki kondisi fisik apa yang paling sering menjadi titik masuk tikus, dan bagaimana mengenalinya sebelum tikus sudah di dalam.
 
