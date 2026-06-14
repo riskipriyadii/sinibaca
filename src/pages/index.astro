@@ -26,7 +26,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           year: "numeric", month: "short", day: "numeric"
         });
         const slug = post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
-        const refCount = post.data.refCount;
+        const rc = post.data.refCount;
+        const hasRef = typeof rc === "number";
         return (
           <div class="post-item">
             <a href={`${base}/blog/${slug}`} class="post-card">
@@ -40,8 +41,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
                 </div>
                 <h2 class="post-title">{post.data.title}</h2>
                 <p class="post-desc">{post.data.description || ""}</p>
-                {refCount !== undefined && refCount !== null && (
-                  <span class="ref-count">📚 {refCount} referensi</span>
+                {hasRef && (
+                  <span class="ref-count">📚 {rc} referensi</span>
                 )}
               </div>
             </a>
