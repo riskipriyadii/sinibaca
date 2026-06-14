@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);
 const postsData = posts.map(p => ({
@@ -13,7 +13,7 @@ const postsData = posts.map(p => ({
 }));
 ---
 
-<header class="topbar">
+<<header class="topbar">
   <div class="topbar-inner">
     <a href={`${base}/`} class="logo">
       <img src={`${base}/favicons/favicon-32x32.png`} alt="sinibaca" class="logo-img" width="28" height="28" />
@@ -63,47 +63,47 @@ const postsData = posts.map(p => ({
     sidebar?.classList.toggle("mobile-open");
   });
 
-  const searchBar = document.querySelector('.search-bar');
-  const searchInput = document.getElementById('search-input');
-  const searchDropdown = document.getElementById('search-dropdown');
-  const searchList = document.getElementById('search-list');
-  const searchEmpty = document.getElementById('search-empty');
-  const searchBtn = document.getElementById('search-btn');
+  const searchBar = document.querySelector(".search-bar");
+  const searchInput = document.getElementById("search-input");
+  const searchDropdown = document.getElementById("search-dropdown");
+  const searchList = document.getElementById("search-list");
+  const searchEmpty = document.getElementById("search-empty");
+  const searchBtn = document.getElementById("search-btn");
 
   if (searchBar && searchInput && searchDropdown && searchList && searchEmpty) {
-    const posts = JSON.parse(searchBar.dataset.posts || '[]');
-    const base = window.location.pathname.startsWith('/sinibaca-v2') ? '/sinibaca-v2' : '';
+    const posts = JSON.parse(searchBar.dataset.posts || "[]");
+    const base = window.location.pathname.startsWith("/sinibaca-v2") ? "/sinibaca-v2" : "";
 
     function formatDate(dateStr) {
-      if (!dateStr) return '';
+      if (!dateStr) return "";
       const d = new Date(dateStr);
-      return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+      return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
     }
 
     function escapeHtml(text) {
-      const div = document.createElement('div');
+      const div = document.createElement("div");
       div.textContent = text;
       return div.innerHTML;
     }
 
     function renderResults(results) {
-      searchList.innerHTML = '';
+      searchList.innerHTML = "";
 
       if (results.length === 0) {
-        searchEmpty.style.display = 'flex';
+        searchEmpty.style.display = "flex";
         return;
       }
 
-      searchEmpty.style.display = 'none';
+      searchEmpty.style.display = "none";
 
       results.slice(0, 8).forEach(post => {
-        const li = document.createElement('li');
-        li.className = 'search-item';
+        const li = document.createElement("li");
+        li.className = "search-item";
         li.innerHTML = `
           <a href="${base}/blog/${post.slug}" class="search-result-item">
             <div class="search-meta">
               <span class="search-title">${escapeHtml(post.title)}</span>
-              ${post.description ? `<span class="search-desc">${escapeHtml(post.description)}</span>` : ''}
+              ${post.description ? `<span class="search-desc">${escapeHtml(post.description)}</span>` : ""}
             </div>
             <time class="search-time">${formatDate(post.pubDate)}</time>
           </a>
@@ -122,45 +122,40 @@ const postsData = posts.map(p => ({
       ).slice(0, 8);
     }
 
-    // SAAT FOCUS: langsung tampilkan semua artikel (8 terbaru)
-    searchInput.addEventListener('focus', () => {
+    searchInput.addEventListener("focus", () => {
       const filtered = filterPosts(searchInput.value);
       renderResults(filtered);
-      searchDropdown.classList.add('active');
+      searchDropdown.classList.add("active");
     });
 
-    // SAAT MENGETIK: filter real-time
-    searchInput.addEventListener('input', () => {
+    searchInput.addEventListener("input", () => {
       const filtered = filterPosts(searchInput.value);
       renderResults(filtered);
-      searchDropdown.classList.add('active');
+      searchDropdown.classList.add("active");
     });
 
-    // TOMBOL CARI: buka hasil pertama
-    searchBtn?.addEventListener('click', () => {
-      const firstLink = searchList.querySelector('a');
+    searchBtn?.addEventListener("click", () => {
+      const firstLink = searchList.querySelector("a");
       if (firstLink) firstLink.click();
     });
 
-    // ENTER: buka hasil pertama
-    searchInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const firstLink = searchList.querySelector('a');
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const firstLink = searchList.querySelector("a");
         if (firstLink) {
           e.preventDefault();
           firstLink.click();
         }
       }
-      if (e.key === 'Escape') {
-        searchDropdown.classList.remove('active');
+      if (e.key === "Escape") {
+        searchDropdown.classList.remove("active");
         searchInput.blur();
       }
     });
 
-    // KLIK DI LUAR: tutup dropdown
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       if (!searchBar.contains(e.target)) {
-        searchDropdown.classList.remove('active');
+        searchDropdown.classList.remove("active");
       }
     });
   }
@@ -181,6 +176,7 @@ const postsData = posts.map(p => ({
     transition: background 0.3s ease;
     width: 100%;
     max-width: 100vw;
+    box-sizing: border-box;
   }
   html[data-mode="dark"] .topbar {
     background: rgba(10,10,10,0.85);
@@ -198,6 +194,7 @@ const postsData = posts.map(p => ({
     gap: 16px;
     width: 100%;
     min-width: 0;
+    box-sizing: border-box;
   }
 
   .logo {
@@ -221,13 +218,13 @@ const postsData = posts.map(p => ({
     text-overflow: ellipsis;
   }
 
-  /* ========== SEARCH BAR BARU ========== */
   .search-bar {
     position: relative;
     flex: 1;
     max-width: 480px;
     min-width: 180px;
     z-index: 200;
+    box-sizing: border-box;
   }
 
   .search-box {
@@ -240,6 +237,7 @@ const postsData = posts.map(p => ({
     transition: all 0.2s ease;
     height: 40px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    box-sizing: border-box;
   }
   .search-box:focus-within {
     border-color: var(--accent, #6366f1);
@@ -289,7 +287,6 @@ const postsData = posts.map(p => ({
     background: #374151;
   }
 
-  /* ========== DROPDOWN ========== */
   .search-dropdown {
     position: absolute;
     top: calc(100% + 10px);
@@ -309,6 +306,7 @@ const postsData = posts.map(p => ({
     transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 9999;
     padding: 6px 0;
+    box-sizing: border-box;
   }
   .search-dropdown.active {
     opacity: 1;
@@ -404,7 +402,6 @@ const postsData = posts.map(p => ({
     gap: 8px;
   }
 
-  /* ========== POST COUNT ========== */
   .post-count {
     display: inline-flex;
     align-items: center;
@@ -440,7 +437,6 @@ const postsData = posts.map(p => ({
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
 
-  /* ========== MENU TOGGLE ========== */
   .menu-toggle {
     display: none;
     align-items: center;
@@ -459,7 +455,6 @@ const postsData = posts.map(p => ({
     background: var(--bg-secondary, #f8fafc);
   }
 
-  /* ========== TABLET ========== */
   @media (max-width: 768px) {
     .topbar-inner {
       padding: 0 12px;
@@ -483,6 +478,7 @@ const postsData = posts.map(p => ({
       right: 12px;
       width: auto;
       min-width: auto;
+      max-width: calc(100vw - 24px);
     }
     .menu-toggle {
       display: flex;
@@ -496,7 +492,6 @@ const postsData = posts.map(p => ({
     }
   }
 
-  /* ========== MOBILE KECIL ========== */
   @media (max-width: 480px) {
     .topbar {
       height: 56px;
@@ -538,6 +533,12 @@ const postsData = posts.map(p => ({
     .menu-toggle svg {
       width: 20px;
       height: 20px;
+    }
+    .search-dropdown {
+      top: 62px;
+      left: 10px;
+      right: 10px;
+      max-width: calc(100vw - 20px);
     }
   }
 

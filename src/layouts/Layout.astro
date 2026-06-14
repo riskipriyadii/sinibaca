@@ -234,6 +234,20 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
           font-size: 0.8rem;
           min-height: auto;
         }
+        body.no-scroll {
+          height: auto;
+          overflow: visible;
+        }
+        body.no-scroll .page-wrapper {
+          min-height: 0;
+          flex: 1;
+          overflow: visible;
+          padding-top: 60px;
+          padding-bottom: 12px;
+        }
+        body.no-scroll .main-content {
+          overflow: visible;
+        }
       }
     </style>
   </body>
