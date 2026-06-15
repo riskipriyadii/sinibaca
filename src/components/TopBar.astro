@@ -41,9 +41,19 @@ const postsData = posts.map(p => ({
       </div>
     </div>
 
-    <div class="post-count">
-      <span class="post-count-badge">{posts.length}</span>
-      <span class="post-count-pill">Tulisan</span>
+    <div class="topbar-nav">
+      <a href={`${base}/galeri`} class="nav-item nav-gallery">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>Galeri</span>
+      </a>
+      <div class="post-count">
+        <span class="post-count-badge">{posts.length}</span>
+        <span class="post-count-pill">Tulisan</span>
+      </div>
     </div>
 
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
@@ -402,6 +412,36 @@ const postsData = posts.map(p => ({
     gap: 8px;
   }
 
+  .topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text, #0f172a);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    border: 1.5px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: var(--bg-secondary, #f8fafc);
+    border-color: var(--border, #e2e8f0);
+  }
+
+  .nav-gallery svg {
+    flex-shrink: 0;
+  }
+
   .post-count {
     display: inline-flex;
     align-items: center;
@@ -458,7 +498,18 @@ const postsData = posts.map(p => ({
   @media (max-width: 768px) {
     .topbar-inner {
       padding: 0 12px;
-      gap: 10px;
+      gap: 8px;
+    }
+    .topbar-nav {
+      gap: 8px;
+    }
+    .nav-item span {
+      display: none;
+    }
+    .nav-item {
+      padding: 8px;
+      min-width: 36px;
+      justify-content: center;
     }
     .search-bar {
       max-width: none;
@@ -530,8 +581,15 @@ const postsData = posts.map(p => ({
       padding: 0 8px;
       font-size: 11px;
     }
+    .topbar-nav {
+      gap: 6px;
+    }
     .post-count {
       display: none;
+    }
+    .nav-item {
+      padding: 6px;
+      min-width: 32px;
     }
     .menu-toggle {
       width: 36px;
