@@ -193,11 +193,12 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
       @media (max-width: 900px) {
         .page-wrapper {
           grid-template-columns: 1fr;
-          padding: 64px 14px 32px;
+          padding: 64px 16px 32px;
           gap: 0;
           width: 100%;
           max-width: 100vw;
           box-sizing: border-box;
+          overflow-x: hidden;
         }
         body.no-scroll .page-wrapper {
           padding-top: 64px;
@@ -225,15 +226,17 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
           max-width: 100%;
           width: 100%;
           box-sizing: border-box;
+          overflow-x: hidden;
         }
       }
 
       @media (max-width: 480px) {
         .page-wrapper {
-          padding: 60px 10px 24px;
+          padding: 60px 12px 24px;
           width: 100%;
           max-width: 100vw;
           box-sizing: border-box;
+          overflow-x: hidden;
         }
         body.no-scroll .page-wrapper {
           padding-top: 60px;
@@ -270,7 +273,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
 
       @media (max-width: 360px) {
         .page-wrapper {
-          padding: 56px 8px 20px;
+          padding: 56px 12px 20px;
         }
         body.no-scroll .page-wrapper {
           padding-top: 56px;

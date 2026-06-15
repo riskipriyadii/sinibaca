@@ -264,17 +264,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       min-height: 0;
       width: 100%;
       max-width: 100%;
+      box-sizing: border-box;
     }
     .posts-list {
       overflow: visible;
       flex: none;
       gap: 14px;
-      padding-top: 4px;
-      padding-bottom: 4px;
+      padding: 4px 0;
       width: 100%;
-      margin: 0 -14px;
-      padding-left: 0;
-      padding-right: 0;
+      margin: 0;
+      box-sizing: border-box;
     }
     .page-title { 
       font-size: 1.3rem;
@@ -288,13 +287,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       margin-bottom: 8px;
       padding-bottom: 6px;
       width: 100%;
-      padding-left: 14px;
-      padding-right: 14px;
+      padding-left: 0;
+      padding-right: 0;
+      box-sizing: border-box;
     }
     .post-item {
       width: 100%;
-      padding-left: 14px;
-      padding-right: 14px;
+      padding: 0;
+      margin: 0;
       box-sizing: border-box;
     }
     .post-card {
@@ -314,6 +314,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     }
     .post-body {
       width: 100%;
+      box-sizing: border-box;
     }
     .post-title { 
       font-size: 1rem;
@@ -353,17 +354,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   }
 
   @media (max-width: 480px) {
-    .posts-list {
-      margin: 0 -10px;
-    }
-    .home-header {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-    .post-item {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
     .post-thumb-wrap { height: 160px; }
     .post-title { font-size: 0.95rem; }
     .post-desc { font-size: 0.82rem; }
@@ -371,17 +361,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   }
 
   @media (max-width: 360px) {
-    .posts-list {
-      margin: 0 -8px;
-    }
-    .home-header {
-      padding-left: 8px;
-      padding-right: 8px;
-    }
-    .post-item {
-      padding-left: 8px;
-      padding-right: 8px;
-    }
     .post-thumb-wrap { height: 140px; }
     .post-title { font-size: 0.9rem; }
     .post-desc { font-size: 0.8rem; }
