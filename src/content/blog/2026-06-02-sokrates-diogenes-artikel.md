@@ -5,6 +5,7 @@ pubDate: 2026-06-02
 thumbnail: /images/thumbnail-sudah-tahu.png
 category: Filsafat
 tags: [sokrates, diogenes, stoisisme]
+refCount: 27
 ---
 # Orang-orang yang Hidupnya Tidak Bisa Dikontrol karena Mereka Sudah Tahu Apa yang Benar-benar Penting
 
