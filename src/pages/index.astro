@@ -45,7 +45,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
                 <h2 class="post-title">{post.data.title}</h2>
                 <p class="post-desc">{post.data.description || ""}</p>
                 {hasRef && (
-                  <span class="ref-count">📚 {rc} referensi</span>
+                  <div class="ref-count">📚 {rc} referensi</div>
                 )}
               </div>
             </a>
