@@ -1,5 +1,6 @@
 ---
 import { countReferences } from "../utils/countReferences";
+import { getLastModified, formatDateIndonesian } from "../utils/getLastModified";
 
 interface Props {
   post: {
@@ -25,6 +26,13 @@ const slug = post.slug || (post.id ? post.id.split("/").pop()?.replace(/\.mdx?$/
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const refCount = countReferences(body || "");
+
+// Get git-based last modified date, falling back to pubDate
+const filePath = post.id ? `src/content/blog/${post.id}` : "";
+const lastModified = getLastModified(filePath, data.pubDate);
+const showUpdated = lastModified.getTime() !== data.pubDate.getTime();
+const rilisDate = formatDateIndonesian(data.pubDate);
+const updateDate = showUpdated ? formatDateIndonesian(lastModified) : "";
 
 function getImageUrl(thumbnail?: string, heroImage?: string | { src: string }): string {
   const placeholder = `${base}/images/placeholder.jpg`;
@@ -53,6 +61,7 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
   <div class="card-body">
     <div class="card-meta">
       <span class="category">{data.category || "Uncategorized"}</span>
+      {showUpdated && <span class="diperbarui-label">Diperbarui {updateDate}</span>}
       <span class="dot">•</span>
       <span class="date">{dateStr}</span>
       <span class="dot">•</span>
@@ -65,6 +74,7 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
         📚 {refCount} referensi
       </div>
     )}
+    <div class="rilis-label">Rilis {rilisDate}</div>
   </div>
 </a>
 
@@ -165,6 +175,19 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
     display: flex;
     align-items: center;
     gap: 4px;
+  }
+
+  .rilis-label {
+    font-size: 0.7rem;
+    color: var(--text-light, #94a3b8);
+    margin-top: 4px;
+  }
+
+  .diperbarui-label {
+    font-size: 0.7rem;
+    color: var(--accent, #6366f1);
+    font-weight: 500;
+    flex-shrink: 0;
   }
 
   @media (max-width: 640px) {
