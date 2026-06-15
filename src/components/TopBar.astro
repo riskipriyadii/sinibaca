@@ -45,16 +45,11 @@ const postsData = posts.map(p => ({
           <img src={`${base}/gallery-icon.png`} alt="Galeri" width="31" height="31" />
           <span>Galeri</span>
         </a>
-        <div class="post-count">
-          <span class="post-count-badge">{posts.length}</span>
-          <span class="post-count-pill">Tulisan</span>
-        </div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <img src={`${base}/menu-icon.png`} alt="Menu" width="31" height="31" />
+        </button>
       </div>
     </div>
-
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-      <img src={`${base}/menu-icon.png`} alt="Menu" width="31" height="31" />
-    </button>
   </div>
 </header>
 
@@ -520,48 +515,6 @@ const postsData = posts.map(p => ({
     flex-shrink: 0;
   }
 
-  .header-actions-group .post-count {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-    font-family: inherit;
-    flex-shrink: 0;
-    height: 100%;
-  }
-  .post-count-badge {
-    background: var(--accent, #6366f1);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.8rem;
-    padding: 0 0.75rem;
-    border-radius: 0;
-    border-right: 1px solid var(--border, #e2e8f0);
-    line-height: 1;
-    box-shadow: none;
-    transition: background 0.2s ease;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-  .post-count-badge:hover {
-    background: #5558e3;
-  }
-  .post-count-pill {
-    background: #dc2626;
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.8rem;
-    padding: 0 1rem;
-    border-radius: 0;
-    line-height: 1;
-    box-shadow: none;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-  .post-count-pill:hover {
-    background: #b91c1c;
-  }
 
   .menu-toggle {
     display: none;
@@ -570,15 +523,15 @@ const postsData = posts.map(p => ({
     width: 40px;
     height: 40px;
     border: none;
-    background: transparent;
+    background-color: #eff6ff;
     color: var(--text, #0f172a);
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 6px;
     transition: background 0.2s ease;
     flex-shrink: 0;
   }
   .menu-toggle:hover {
-    background: var(--bg-secondary, #f8fafc);
+    background-color: #dbeafe;
   }
 
   @media (max-width: 768px) {
@@ -638,13 +591,6 @@ const postsData = posts.map(p => ({
     }
     .header-actions-group {
       height: 34px;
-    }
-    .header-actions-group .post-count-pill {
-      display: none;
-    }
-    .post-count-badge {
-      padding: 0 0.5rem;
-      font-size: 0.7rem;
     }
   }
 
@@ -713,9 +659,6 @@ const postsData = posts.map(p => ({
     .header-actions-group .theme-toggle-header img {
       width: 20px;
       height: 20px;
-    }
-    .header-actions-group .post-count {
-      display: none;
     }
     .header-actions-group .nav-item {
       padding: 0 0.5rem;

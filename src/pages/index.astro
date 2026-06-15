@@ -17,7 +17,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 <Layout title="sinibaca — Blog Modern" description="Kumpulan artikel teknologi, tutorial, dan catatan pengembangan web." noScroll={true}>
   <div class="home-wrapper">
     <div class="home-header">
-      <h1 class="page-title">Tulisan</h1>
+      <div class="page-title-card">
+        <span class="title-badge">{posts.length}</span>
+        <span class="title-label">Tulisan</span>
+      </div>
       <p class="page-subtitle">Setiap tulisan disertai referensi yang bisa ditelusuri.</p>
     </div>
 
@@ -72,17 +75,42 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
   .home-header {
     margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
   }
-  .page-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0 0 4px;
-    color: var(--text);
-    word-break: break-word;
+  .page-title-card {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    gap: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    height: 27px;
+    box-sizing: border-box;
+  }
+  .title-badge {
+    background-color: #6366f1;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .title-label {
+    background-color: #dc2626;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
   .page-subtitle {
     font-size: 0.85rem;
@@ -282,17 +310,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       margin: 0;
       box-sizing: border-box;
     }
-    .page-title { 
-      font-size: 1.3rem;
-      word-break: break-word;
-    }
     .page-subtitle { 
       font-size: 0.8rem;
       word-break: break-word;
     }
     .home-header { 
       margin-bottom: 8px;
-      padding-bottom: 6px;
       width: 100%;
       padding-left: 0;
       padding-right: 0;
@@ -380,6 +403,5 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     .post-title { font-size: 0.9rem; }
     .post-desc { font-size: 0.8rem; }
     .post-card { padding: 8px; gap: 10px; }
-    .page-title { font-size: 1.2rem; }
   }
 </style>
