@@ -58,7 +58,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
                 <p class="post-desc">{post.data.description || ""}</p>
                 <div class="card-footer-row">
                   {hasRef && (
-                    <div class="ref-count">📚 {refCount} referensi</div>
+                    <div class="ref-count">
+                      <img src={`${base}/icons/ref-icon.png`} alt="ref" width="16" height="16" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;display:inline-block;" />
+                      {refCount} referensi
+                    </div>
                   )}
                   <span class="rilis-pill">
                     <span class="rilis-badge">Rilis</span>
