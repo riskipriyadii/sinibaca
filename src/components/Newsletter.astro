@@ -6,22 +6,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
   <h4 class="newsletter-title">Ikut Membaca</h4>
   <p class="newsletter-subtitle">Rilis kalau sudah matang.</p>
   
-  <form 
-    class="newsletter-form" 
-    action="https://formspree.io/f/maqzdqeq" 
-    method="POST"
-    target="_blank"
-  >
-    <input 
-      type="email" 
-      name="email" 
-      placeholder="email kamu" 
-      required 
-      class="newsletter-input"
-      aria-label="Email kamu"
-    />
-    <button type="submit" class="newsletter-btn">Kabari Aku</button>
-  </form>
+  <p class="newsletter-text">Tulisan baru akan diumumkan lewat Instagram.</p>
   
   <a href={`${base}blog`} class="newsletter-link">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
