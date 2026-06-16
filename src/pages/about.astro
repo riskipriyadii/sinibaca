@@ -8,7 +8,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <div class="about-page">
     <h1>Tentang sinibaca</h1>
     
-    <p class="tagline">Nulis kalau semua kondisi mendukung, dan itu jarang terjadi. Tidak asal tulis, ada referensi di balik setiap kalimat.</p>
+    <div class="content">
+      <p>Nulis kalau semua kondisi mendukung, dan itu jarang terjadi.</p>
+      
+      <p>Tidak ada jadwal di sini, tidak ada target posting bulanan, tidak ada konten kalender yang tertempel di dinding. Ini bukan proyek berbayar, artinya aku harus menjalani kehidupan nyata yang memang harus menghasilkan uang, dan itu tentu bukan dari sini. Jadi kalau tulisan terakhir terbit tiga bulan lalu, itu karena ruang untuk ini memang tidak selalu tersedia.</p>
+      
+      <p>Yang menggerakkan aku adalah rasa ingin tahu. Bukan topik yang mengganggu pikiran, tapi ketika aku ingin tahu sesuatu, kebiasaan aku adalah menguliknya secara dalam, dari berbagai sudut pandang. Aku tidak puas dengan satu atau dua sumber. Aku ingin mendapat nilai yang utuh, menghindari blindspot yang biasanya muncul kalau hanya membaca dari sudut tertentu. Karena menurutku, mendapat informasi dari semua sudut pandang yang bisa didapatkan adalah kemewahan pertama untuk benar-benar memahami sesuatu, sebelum memutuskan melakukan sesuatu.</p>
+      
+      <p>Prosesnya biasanya panjang. Aku mulai dari satu pertanyaan, lalu cari semua yang bisa ditemukan: jurnal, studi lapangan, dokumen akademik, laporan teknis. Bukan sekadar baca ringkasan atau artikel blog, tapi sampai ke sumbernya yang bisa diverifikasi. Aku catat, susun, dan coba pahami bagaimana satu referensi melengkapi yang lain. Baru setelah itu aku tulis.</p>
+      
+      <p>Hasilnya bukan rangkuman. Yang aku inginkan adalah sintesis, kamu mendapat gambaran yang lebih utuh dari yang bisa kamu dapat kalau hanya membaca satu sumber. Semua referensi aku cantumkan dan terbuka untuk ditelusuri lebih dalam kalau kamu ingin verifikasi sendiri.</p>
+      
+      <p>Ini project pribadi. Tidak ada sponsor, tidak ada target trafik, tidak ada tekanan dari siapapun. Aku bagikan ke publik karena mungkin ada orang lain yang sedang bergulat dengan pertanyaan yang sama, dan kalau temuan aku bisa menghemat waktu mereka, kenapa tidak.</p>
+    </div>
     
     <div class="about-section">
       <h2>Sosial</h2>
@@ -32,11 +44,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     color: var(--text, #0f172a);
   }
   
-  .tagline {
+  .content {
+    margin-bottom: 2.5rem;
+  }
+  
+  .content p {
     font-size: 1rem;
     color: var(--text-secondary, #475569);
-    line-height: 1.6;
-    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  
+  .content p:first-child {
+    font-weight: 500;
+    color: var(--text, #0f172a);
+  }
+  
+  .content p:last-child {
+    margin-bottom: 0;
   }
   
   .about-section h2 {
