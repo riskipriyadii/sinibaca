@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import Giscus from "../../components/Giscus.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -66,6 +67,7 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
       <Content />
     </div>
   </article>
+  <Giscus />
 </Layout>
 
 <style>
