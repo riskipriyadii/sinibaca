@@ -59,7 +59,7 @@ const postsData = posts.map(p => ({
   const themeIcon = document.getElementById("theme-icon");
   const themeText = document.getElementById("theme-text");
   const html = document.documentElement;
-  const base = window.location.pathname.startsWith("/sinibaca-v2") ? "/sinibaca-v2" : "";
+  const base = window.location.pathname.startsWith("/sinibaca") ? "/sinibaca" : "";
 
   function updateThemeButton(mode: string) {
     if (mode === "dark") {
@@ -113,7 +113,7 @@ const postsData = posts.map(p => ({
 
   if (searchBar && searchInput && searchDropdown && searchList && searchEmpty) {
     const posts = JSON.parse(searchBar.dataset.posts || "[]");
-    const base = window.location.pathname.startsWith("/sinibaca-v2") ? "/sinibaca-v2" : "";
+    const base = window.location.pathname.startsWith("/sinibaca") ? "/sinibaca" : "";
 
     function formatDate(dateStr) {
       if (!dateStr) return "";

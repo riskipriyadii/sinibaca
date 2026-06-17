@@ -9,7 +9,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  site: 'https://riskipriyadi.github.io',
+  site: 'https://riskipriyadii.github.io',
   base: '/sinibaca/',
   output: 'static',
 });
