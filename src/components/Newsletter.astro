@@ -3,105 +3,124 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 ---
 
 <div class="newsletter-card">
-  <h4 class="newsletter-title">Ikut Membaca</h4>
-  <p class="newsletter-subtitle">Rilis kalau sudah matang.</p>
+  <div class="header">
+    <div class="icon">
+      <img src={`${base}bookmark-icon.png`} alt="Bookmark" width="32" height="32" />
+    </div>
+    <div>
+      <h4 class="newsletter-title">Ikut Membaca</h4>
+      <p class="newsletter-subtitle">Rilis kalau sudah matang.</p>
+    </div>
+  </div>
   
-  <p class="newsletter-text">Tulisan baru akan diumumkan lewat Instagram.</p>
+  <p class="newsletter-text">Kalau ada tulisan baru, kabarnya di Instagram.</p>
   
-  <a href={`${base}blog`} class="newsletter-link">
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-    Dikirim kalau memang layak.
+  <a href="https://www.instagram.com/ronin.monetaro/" target="_blank" rel="noopener noreferrer" class="instagram-button">
+    <img src={`${base}instagram-icon.png`} alt="Instagram" class="instagram-icon" width="24" height="24" />
+    <span>@ronin.monetaro</span>
   </a>
 </div>
 
 <style>
   .newsletter-card {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: linear-gradient(135deg, #e9e4f7 0%, #f5f3ff 100%);
+    border: 1px solid #d8d0f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    color: #1e1b4b;
+  }
+  
+  .header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .icon {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
-    padding: 1.25rem;
-    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
   
   .newsletter-title {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0 0 0.25rem;
-    color: #fff;
+    color: #1e1b4b;
   }
   
   .newsletter-subtitle {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    margin: 0 0 0.75rem;
-  }
-  
-  .newsletter-form {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .newsletter-input {
-    flex: 1;
-    min-width: 0;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
-    background: rgba(255,255,255,0.05);
-    color: #fff;
     font-size: 0.8rem;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s;
+    color: #6b7280;
+    margin: 0;
   }
   
-  .newsletter-input::placeholder {
-    color: #64748b;
+  .newsletter-text {
+    font-size: 0.875rem;
+    color: #4c1d95;
+    margin: 0 0 1rem;
+    line-height: 1.5;
   }
   
-  .newsletter-input:focus {
-    border-color: var(--accent, #6366f1);
-  }
-  
-  .newsletter-btn {
-    padding: 0.5rem 0.75rem;
-    background: var(--accent, #6366f1);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  
-  .newsletter-btn:hover {
-    background: #4f46e5;
-    transform: translateY(-1px);
-  }
-  
-  .newsletter-btn:active {
-    transform: translateY(0);
-  }
-  
-  .newsletter-link {
-    display: inline-flex;
+  .instagram-button {
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    color: #94a3b8;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #d8d0f0;
+    border-radius: 10px;
     text-decoration: none;
-    transition: color 0.2s;
+    color: #1e1b4b;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
   }
   
-  .newsletter-link:hover {
-    color: #fff;
+  .instagram-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    border-color: #8b5cf6;
   }
   
-  .newsletter-link svg {
+  .instagram-icon {
     flex-shrink: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .newsletter-card {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border-color: rgba(139, 92, 246, 0.3);
+      color: #e9e4f7;
+    }
+    
+    .newsletter-title {
+      color: #e9e4f7;
+    }
+    
+    .newsletter-text {
+      color: #c4b5fd;
+    }
+    
+    .instagram-button {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: rgba(139, 92, 246, 0.3);
+      color: #e9e4f7;
+    }
+    
+    .instagram-button:hover {
+      background: rgba(139, 92, 246, 0.25);
+      border-color: #8b5cf6;
+    }
   }
 </style>
