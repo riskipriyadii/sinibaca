@@ -52,12 +52,68 @@ const socials = [
           {item.label}
         </a>
       ))}
+      
+      <!-- Kabar Rilis Tulisan -->
+      <a href="https://www.instagram.com/ronin.monetaro/" target="_blank" rel="noopener noreferrer" class="nav-item">
+        <span class="nav-icon">
+          <img src={`${base}bookmark-icon.png`} alt="Kabar Rilis" width="25.5" height="25.5" style="display:block;" />
+        </span>
+        Bisa ikuti di Instagram @ronin.monetaro
+      </a>
+      
+      <!-- Study Mode -->
+      <label class="nav-item nav-item-toggle">
+        <span class="nav-icon">✨</span>
+        <span class="nav-label-text">Mode Stabilo</span>
+        <input type="checkbox" id="study-mode-toggle" style="display: none;">
+        <span class="study-toggle-slider"></span>
+      </label>
+      
+      <!-- Print PDF -->
+      <button id="print-btn" class="nav-item nav-item-button">
+        <span class="nav-icon">
+          <svg width="25.5" height="25.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+          </svg>
+        </span>
+        Print PDF
+      </button>
     </nav>
+
+    <!-- Hidden UI for Study Mode -->
+    <div id="color-section" class="study-color-section" style="display: none;">
+      <div class="color-label">Pilih Warna:</div>
+      <div class="color-buttons">
+        <button class="color-btn yellow active" data-color="yellow" title="Yellow"></button>
+        <button class="color-btn blue" data-color="blue" title="Blue"></button>
+        <button class="color-btn pink" data-color="pink" title="Pink"></button>
+      </div>
+    </div>
+
+    <div id="study-info" class="study-info-text" style="display: none;">
+      💡 Klik kata pertama untuk mulai highlight
+    </div>
   </div>
 
-  <Newsletter />
-  
-  <StudyTools />
+  <!-- Toast Notification (below Navigasi card) -->
+  <div id="toast-notification" class="toast-notification" style="display: none;"></div>
+
+  <!-- Study Tools Hidden Elements -->
+  <div id="instruction-banner" class="instruction-banner" style="display: none;">
+    Click another word to finish highlighting, or press <kbd>Esc</kbd> to cancel
+  </div>
+
+  <div id="annotation-popup" class="annotation-popup" style="display: none;">
+    <div class="popup-header">
+      <strong>Catatan</strong>
+      <button id="popup-close" class="popup-close">×</button>
+    </div>
+    <textarea id="note-textarea" placeholder="Add a note..."></textarea>
+    <div class="popup-actions">
+      <button id="delete-btn" class="popup-btn delete-btn">Delete</button>
+      <button id="save-btn" class="popup-btn save-btn">Save</button>
+    </div>
+  </div>
 </div>
 
 <style is:global>
@@ -187,6 +243,56 @@ const socials = [
     flex-shrink: 0;
   }
 
+  /* Nav Item Toggle (for Study Mode) */
+  .nav-item-toggle {
+    cursor: pointer;
+    justify-content: space-between;
+  }
+
+  .nav-label-text {
+    flex: 1;
+  }
+
+  .nav-item-toggle .study-toggle-slider {
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.3s;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .nav-item-toggle .study-toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+  }
+
+  .nav-item-toggle input:checked ~ .study-toggle-slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .nav-item-toggle input:checked ~ .study-toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  /* Nav Item Button (for Print PDF) */
+  .nav-item-button {
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .nav-item-button:hover {
+    background: var(--hover, #f1f5f9);
+  }
+
   .social-list { display: flex; flex-direction: column; gap: 0.5rem; align-items: stretch; }
   .social-item {
     display: flex;
@@ -210,4 +316,952 @@ const socials = [
     transform: translateY(-1px);
   }
   .social-icon { display: flex; align-items: center; }
+
+  /* Unified Card Styles */
+  .unified-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease;
+  }
+  .unified-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .unified-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted, #94a3b8);
+    margin: 0 0 0.75rem;
+  }
+
+  .unified-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .item-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .item-icon-wrapper.study-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .item-icon-wrapper .icon-emoji {
+    font-size: 1.4rem;
+  }
+
+  .item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    color: var(--text, #1e1b4b);
+  }
+
+  .item-subtitle {
+    font-size: 0.75rem;
+    color: var(--muted, #6b7280);
+    margin: 0 0 0.5rem;
+  }
+
+  .instagram-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 0.875rem;
+    background: var(--hover, #f8f9fa);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text, #1e1b4b);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .instagram-link:hover {
+    background: var(--accent, #6366f1);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    border-color: var(--accent, #6366f1);
+  }
+
+  .instagram-link img {
+    flex-shrink: 0;
+  }
+
+  .instagram-link span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .unified-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border, #e2e8f0), transparent);
+    margin: 1rem 0;
+  }
+
+  /* Study Tools Styles */
+  .study-toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text, #333);
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+  }
+
+  .study-toggle-label input[type="checkbox"] {
+    display: none;
+  }
+
+  .study-toggle-slider {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+
+  .study-toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+  }
+
+  .study-toggle-label input:checked + .study-toggle-slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .study-toggle-label input:checked + .study-toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  .study-color-section {
+    padding: 0.75rem;
+    background: var(--hover, #f8f9fa);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+  }
+
+  .color-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted, #666);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .color-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .color-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .color-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .color-btn.active {
+    border-color: var(--accent, #667eea);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  .color-btn.yellow { background: #fef08a; }
+  .color-btn.blue { background: #bfdbfe; }
+  .color-btn.pink { background: #fbcfe8; }
+
+  .print-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.7rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.75rem;
+  }
+
+  .print-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  .study-info-text {
+    padding: 0.65rem;
+    background: linear-gradient(135deg, #f0f4ff, #e8f0ff);
+    border-radius: 8px;
+    font-size: 0.7rem;
+    color: var(--accent, #667eea);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* Study Tools - Banner and Popup */
+  .instruction-banner {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 10000;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+
+  .instruction-banner kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  .post-content.study-active {
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  mark[data-highlight-id] {
+    cursor: pointer;
+    transition: filter 0.2s;
+    padding: 2px 0;
+    border-radius: 2px;
+  }
+
+  mark[data-highlight-id]:hover {
+    filter: brightness(0.95);
+  }
+
+  mark[data-note]::after {
+    content: '📝';
+    margin-left: 2px;
+    font-size: 11px;
+  }
+
+  .annotation-popup {
+    position: fixed;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    z-index: 10001;
+    border: 1px solid #e5e7eb;
+  }
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .popup-header strong {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .popup-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .popup-close:hover {
+    color: #333;
+  }
+
+  #note-textarea {
+    width: 100%;
+    min-height: 70px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+
+  .popup-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .popup-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .delete-btn {
+    background: #ef4444;
+    color: white;
+  }
+
+  .delete-btn:hover {
+    background: #dc2626;
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .save-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Toast Notification - positioned below navigation card in sidebar */
+  .toast-notification {
+    width: 100%;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    z-index: 100;
+    line-height: 1.5;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .toast-notification.show {
+    animation: toastSlideDown 0.3s ease forwards;
+  }
+
+  .toast-notification.hide {
+    animation: toastFadeOut 0.3s ease forwards;
+  }
+
+  @keyframes toastSlideDown {
+    from { 
+      transform: translateY(-10px);
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    to { 
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 100px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0;
+    }
+  }
+
+  @keyframes toastFadeOut {
+    from { 
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 100px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    to { 
+      transform: translateY(-10px);
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  @media print {
+    .instruction-banner,
+    .annotation-popup,
+    .toast-notification {
+      display: none !important;
+    }
+
+    mark[data-highlight-id] {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    mark[data-note]::after {
+      content: '';
+    }
+  }
 </style>
+
+<script is:inline>
+(function() {
+  console.log('[StudyTools] Script loaded');
+
+  let isStudyMode = false;
+  let selectedColor = 'yellow';
+  let isSelecting = false;
+  let firstClickRange = null;
+  let currentPopupMark = null;
+  let postContent = null;
+  let hoverMark = null;
+  let toastTimeout = null;
+
+  const colorMap = {
+    yellow: '#fef08a',
+    blue: '#bfdbfe',
+    pink: '#fbcfe8'
+  };
+
+  let handleMouseMove, handleMouseLeave, handleWordClick, handleKeydown;
+
+  // Check if current page is an article page
+  function isArticlePage() {
+    const path = window.location.pathname;
+    console.log('[Toast] Checking path:', path);
+    // Check if path contains /blog/ followed by a slug
+    const isArticle = path.includes('/blog/') && !path.endsWith('/blog') && !path.endsWith('/blog/');
+    console.log('[Toast] Is article page:', isArticle);
+    return isArticle;
+  }
+
+  // Show toast notification
+  function showToast(message) {
+    console.log('[Toast] Showing toast:', message);
+    const toast = document.getElementById('toast-notification');
+    if (!toast) {
+      console.error('[Toast] Toast element not found!');
+      return;
+    }
+
+    console.log('[Toast] Toast element found, displaying...');
+
+    // Clear any existing timeout
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
+    }
+
+    // Remove hide class if present
+    toast.classList.remove('hide');
+    
+    // Set message and display
+    toast.textContent = message;
+    toast.style.display = 'block';
+    
+    // Add show class for animation
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 10);
+
+    // Hide after 3 seconds
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      
+      // Remove from DOM after animation
+      setTimeout(() => {
+        toast.style.display = 'none';
+        toast.classList.remove('hide');
+      }, 300);
+    }, 3000);
+  }
+
+  // Setup toast protection for non-article pages
+  function setupToastProtection() {
+    console.log('[Toast] Setting up toast protection...');
+    
+    const toggle = document.getElementById('study-mode-toggle');
+    const printBtn = document.getElementById('print-btn');
+
+    if (toggle) {
+      console.log('[Toast] Toggle found, attaching listener');
+      // Use click event on the label instead of change event on checkbox
+      const toggleLabel = toggle.closest('.nav-item-toggle');
+      if (toggleLabel) {
+        toggleLabel.addEventListener('click', function(e) {
+          console.log('[Toast] Toggle clicked');
+          if (!isArticlePage()) {
+            console.log('[Toast] Not article page, preventing toggle');
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Force toggle to stay unchecked
+            toggle.checked = false;
+            showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+            return false;
+          }
+        }, true); // Use capture phase
+      }
+    } else {
+      console.error('[Toast] Toggle not found!');
+    }
+
+    if (printBtn) {
+      console.log('[Toast] Print button found, attaching listener');
+      printBtn.addEventListener('click', function(e) {
+        console.log('[Toast] Print button clicked');
+        if (!isArticlePage()) {
+          console.log('[Toast] Not article page, preventing print');
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+          return false;
+        }
+        console.log('[Toast] Article page, allowing print');
+      }, true); // Use capture phase
+    } else {
+      console.error('[Toast] Print button not found!');
+    }
+
+    console.log('[Toast] Toast protection setup complete');
+  }
+
+  function init() {
+    postContent = document.querySelector('.post-content');
+    
+    if (!postContent) {
+      console.log('[StudyTools] .post-content not found on this page');
+      // Still setup toast protection even if no post content
+      setupToastProtection();
+      return;
+    }
+
+    console.log('[StudyTools] .post-content found!');
+
+    setupToolbar();
+    setupAnnotation();
+    loadSession();
+
+    console.log('[StudyTools] Ready!');
+  }
+
+  function getWordRangeAtPoint(x, y) {
+    let range;
+
+    if (document.caretPositionFromPoint) {
+      const caret = document.caretPositionFromPoint(x, y);
+      if (!caret) return null;
+      range = document.createRange();
+      range.setStart(caret.offsetNode, caret.offset);
+      range.setEnd(caret.offsetNode, caret.offset);
+    } else if (document.caretRangeFromPoint) {
+      range = document.caretRangeFromPoint(x, y);
+      if (!range) return null;
+    } else {
+      return null;
+    }
+
+    if (range.startContainer.nodeType !== Node.TEXT_NODE) return null;
+
+    const textNode = range.startContainer;
+    const text = textNode.textContent;
+    let start = range.startOffset;
+    let end = range.startOffset;
+
+    while (start > 0 && !/\s/.test(text[start - 1])) start--;
+    while (end < text.length && !/\s/.test(text[end])) end++;
+
+    if (start === end) return null;
+
+    const wordRange = document.createRange();
+    wordRange.setStart(textNode, start);
+    wordRange.setEnd(textNode, end);
+    return wordRange;
+  }
+
+  function showWordHover(range) {
+    removeWordHover();
+    if (!range) return;
+
+    const rect = range.getBoundingClientRect();
+    if (rect.width === 0) return;
+
+    hoverMark = document.createElement('div');
+    hoverMark.style.cssText = `
+      position: fixed;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      background: rgba(0, 0, 0, 0.07);
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 9998;
+    `;
+    document.body.appendChild(hoverMark);
+  }
+
+  function removeWordHover() {
+    if (hoverMark) {
+      hoverMark.remove();
+      hoverMark = null;
+    }
+  }
+
+  function createHighlight(range) {
+    const mark = document.createElement('mark');
+    mark.style.backgroundColor = colorMap[selectedColor];
+    mark.style.borderRadius = '2px';
+    mark.style.cursor = 'pointer';
+    mark.style.padding = '2px 0';
+
+    const id = 'hl-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+    mark.dataset.highlightId = id;
+    mark.dataset.color = selectedColor;
+
+    try {
+      range.surroundContents(mark);
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+      console.log('[StudyTools] Highlight created:', id);
+      saveSession();
+    } catch (err) {
+      console.log('[StudyTools] Using fallback method');
+      const fragment = range.extractContents();
+      mark.appendChild(fragment);
+      range.insertNode(mark);
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+      console.log('[StudyTools] Highlight created (fallback):', id);
+      saveSession();
+    }
+  }
+
+  function setupToolbar() {
+    const toggle = document.getElementById('study-mode-toggle');
+    const colorSection = document.getElementById('color-section');
+    const studyInfo = document.getElementById('study-info');
+    const printBtn = document.getElementById('print-btn');
+
+    handleMouseMove = function(e) {
+      if (!isStudyMode) return;
+      const range = getWordRangeAtPoint(e.clientX, e.clientY);
+      showWordHover(range);
+    };
+
+    handleMouseLeave = function() {
+      removeWordHover();
+    };
+
+    handleWordClick = function(e) {
+      if (!isStudyMode) return;
+      
+      if (e.target.closest('mark[data-highlight-id]')) {
+        return;
+      }
+
+      e.preventDefault();
+
+      const range = getWordRangeAtPoint(e.clientX, e.clientY);
+      if (!range) return;
+
+      if (!isSelecting) {
+        isSelecting = true;
+        firstClickRange = range.cloneRange();
+        showBanner();
+        console.log('[StudyTools] First word selected');
+      } else {
+        isSelecting = false;
+        hideBanner();
+
+        const combinedRange = document.createRange();
+        const cmp = firstClickRange.compareBoundaryPoints(Range.START_TO_START, range);
+
+        if (cmp <= 0) {
+          combinedRange.setStart(firstClickRange.startContainer, firstClickRange.startOffset);
+          combinedRange.setEnd(range.endContainer, range.endOffset);
+        } else {
+          combinedRange.setStart(range.startContainer, range.startOffset);
+          combinedRange.setEnd(firstClickRange.endContainer, firstClickRange.endOffset);
+        }
+
+        createHighlight(combinedRange);
+        firstClickRange = null;
+      }
+    };
+
+    handleKeydown = function(e) {
+      if (e.key === 'Escape' && isSelecting) {
+        console.log('[StudyTools] Selection cancelled');
+        isSelecting = false;
+        firstClickRange = null;
+        hideBanner();
+      }
+    };
+
+    if (toggle) {
+      toggle.addEventListener('change', function(e) {
+        // Check if we're on an article page
+        if (!isArticlePage()) {
+          // Prevent toggle from changing
+          e.preventDefault();
+          this.checked = false;
+          showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+          console.log('[StudyTools] Study Mode blocked - not on article page');
+          return;
+        }
+
+        isStudyMode = this.checked;
+        console.log('[StudyTools] Study Mode:', isStudyMode);
+
+        if (colorSection) colorSection.style.display = isStudyMode ? 'block' : 'none';
+        if (studyInfo) studyInfo.style.display = isStudyMode ? 'block' : 'none';
+
+        if (isStudyMode) {
+          postContent.classList.add('study-active');
+          postContent.addEventListener('mousemove', handleMouseMove);
+          postContent.addEventListener('mouseleave', handleMouseLeave);
+          postContent.addEventListener('click', handleWordClick);
+          document.addEventListener('keydown', handleKeydown);
+        } else {
+          postContent.classList.remove('study-active');
+          postContent.removeEventListener('mousemove', handleMouseMove);
+          postContent.removeEventListener('mouseleave', handleMouseLeave);
+          postContent.removeEventListener('click', handleWordClick);
+          document.removeEventListener('keydown', handleKeydown);
+          removeWordHover();
+          isSelecting = false;
+          firstClickRange = null;
+          hideBanner();
+        }
+      });
+    }
+
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedColor = this.dataset.color;
+        console.log('[StudyTools] Color selected:', selectedColor);
+      });
+    });
+
+    if (printBtn) {
+      printBtn.addEventListener('click', (e) => {
+        // Check if we're on an article page
+        if (!isArticlePage()) {
+          e.preventDefault();
+          showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+          console.log('[StudyTools] Print blocked - not on article page');
+          return;
+        }
+
+        console.log('[StudyTools] Printing...');
+        window.print();
+      });
+    }
+  }
+
+  function setupAnnotation() {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    const closeBtn = document.getElementById('popup-close');
+    const saveBtn = document.getElementById('save-btn');
+    const deleteBtn = document.getElementById('delete-btn');
+
+    if (!popup) return;
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+        currentPopupMark = null;
+      });
+    }
+
+    if (saveBtn && textarea) {
+      saveBtn.addEventListener('click', () => {
+        if (!currentPopupMark) return;
+
+        const note = textarea.value.trim();
+        if (note) {
+          currentPopupMark.dataset.note = note;
+        } else {
+          delete currentPopupMark.dataset.note;
+        }
+
+        saveSession();
+        popup.style.display = 'none';
+        currentPopupMark = null;
+
+        console.log('[StudyTools] Note saved');
+      });
+    }
+
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', () => {
+        if (!currentPopupMark) return;
+
+        const parent = currentPopupMark.parentNode;
+        while (currentPopupMark.firstChild) {
+          parent.insertBefore(currentPopupMark.firstChild, currentPopupMark);
+        }
+        parent.removeChild(currentPopupMark);
+
+        saveSession();
+        popup.style.display = 'none';
+        currentPopupMark = null;
+
+        console.log('[StudyTools] Highlight deleted');
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (popup.style.display === 'block' && 
+          !popup.contains(e.target) && 
+          !e.target.closest('mark[data-highlight-id]')) {
+        popup.style.display = 'none';
+        currentPopupMark = null;
+      }
+    });
+  }
+
+  function showAnnotationPopup(mark) {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    
+    if (!popup) return;
+
+    currentPopupMark = mark;
+    
+    if (textarea) {
+      textarea.value = mark.dataset.note || '';
+    }
+
+    const rect = mark.getBoundingClientRect();
+    popup.style.display = 'block';
+    popup.style.left = rect.left + 'px';
+    popup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+
+    console.log('[StudyTools] Popup shown for:', mark.dataset.highlightId);
+  }
+
+  function showBanner() {
+    const banner = document.getElementById('instruction-banner');
+    if (banner) banner.style.display = 'block';
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById('instruction-banner');
+    if (banner) banner.style.display = 'none';
+  }
+
+  function saveSession() {
+    if (!postContent) return;
+
+    const path = window.location.pathname;
+    
+    const data = JSON.parse(sessionStorage.getItem('sinibaca-study-session') || '{}');
+    data[path] = postContent.innerHTML;
+    sessionStorage.setItem('sinibaca-study-session', JSON.stringify(data));
+
+    const highlightCount = postContent.querySelectorAll('mark[data-highlight-id]').length;
+    console.log('[StudyTools] Saved', highlightCount, 'highlights to session');
+  }
+
+  function loadSession() {
+    if (!postContent) return;
+
+    const path = window.location.pathname;
+    const data = JSON.parse(sessionStorage.getItem('sinibaca-study-session') || '{}');
+    const savedContent = data[path];
+
+    if (!savedContent) {
+      console.log('[StudyTools] No saved session');
+      return;
+    }
+
+    console.log('[StudyTools] Restoring session...');
+    postContent.innerHTML = savedContent;
+
+    postContent.querySelectorAll('mark[data-highlight-id]').forEach(mark => {
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+    });
+
+    const highlightCount = postContent.querySelectorAll('mark[data-highlight-id]').length;
+    console.log('[StudyTools] Restored', highlightCount, 'highlights');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
