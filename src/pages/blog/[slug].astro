@@ -45,7 +45,7 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
 });
 ---
 
-<Layout title={post.data.title} description={post.data.description || ""}>
+<Layout title={post.data.title} description={post.data.description || ""} noScroll={true}>
   <article class="blog-post">
     <header class="post-header">
       <div class="post-meta" style="padding-left: 4px; overflow: visible;">
