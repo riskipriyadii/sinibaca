@@ -31,175 +31,357 @@ allPosts.forEach((post) => {
 const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
 
 const base = import.meta.env.BASE_URL;
+
+// Category color palette - consistent colors for both sections
+const categoryColorPalette = [
+  { bg: '#6B8FD4', text: '#FFFFFF', dark: '#6B8FD4' }, // Filsafat - Blue
+  { bg: '#52B788', text: '#FFFFFF', dark: '#52B788' }, // Arsitektur - Green
+  { bg: '#fecaca', text: '#991b1b', dark: '#fca5a5' }, // Red
+  { bg: '#a7f3d0', text: '#065f46', dark: '#6ee7b7' }, // Green
+  { bg: '#bfdbfe', text: '#1e40af', dark: '#93c5fd' }, // Blue
+  { bg: '#fbcfe8', text: '#9f1239', dark: '#f9a8d4' }, // Pink
+  { bg: '#fed7aa', text: '#9a3412', dark: '#fdba74' }, // Orange
+  { bg: '#d1fae5', text: '#065f46', dark: '#a7f3d0' }, // Mint
+];
+
+// Generate consistent color mapping for categories
+const categoryColorMap: Record<string, typeof categoryColorPalette[0]> = {};
+categories.forEach(([cat], index) => {
+  categoryColorMap[cat] = categoryColorPalette[index % categoryColorPalette.length];
+});
 ---
 
 <div class="right-panel">
-  <section class="panel-section">
-    <h3 class="panel-heading">Baru Diperbarui</h3>
-    <div class="post-list">
-      {recentlyUpdated.map((post) => {
-        const slug = post.slug || post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
-        return (
-          <a href={`${base}blog/${slug}`} class="post-item">
-            <span class="post-title">{post.data.title}</span>
-            <span class="post-date">
-              {(post.data.updatedDate || post.data.pubDate).toLocaleDateString("id-ID", {
-                month: "short", day: "numeric",
-              })}
-            </span>
+  <div class="unified-card">
+    <!-- Section 1: Baru Diperbarui -->
+    <section class="unified-section">
+      <h3 class="unified-heading">BARU DIPERBARUI</h3>
+      <div class="updated-list">
+        {recentlyUpdated.map((post) => {
+          const slug = post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
+          const category = post.data.category || "Uncategorized";
+          const colorScheme = categoryColorMap[category];
+          return (
+            <a href={`${base}blog/${slug}`} class="updated-item">
+              <div 
+                class="category-tab" 
+                style={`background: var(--tab-bg-${category.toLowerCase().replace(/\s+/g, '-')}, ${colorScheme.bg})`}
+                data-category={category}
+              >
+                <span class="category-name">{category}</span>
+              </div>
+              <div class="item-content">
+                <span class="item-title">{post.data.title}</span>
+                <span class="item-date">
+                  {(post.data.updatedDate || post.data.pubDate).toLocaleDateString("id-ID", {
+                    month: "short", day: "numeric",
+                  })}
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Section 2: Kategori -->
+    <section class="unified-section">
+      <h3 class="unified-heading">KATEGORI</h3>
+      <div class="category-grid">
+        {categories.map(([cat, count]) => {
+          const colorScheme = categoryColorMap[cat];
+          return (
+            <a 
+              href={`${base}categories/${cat}`} 
+              class="category-card"
+              style={`background: var(--cat-bg-${cat.toLowerCase().replace(/\s+/g, '-')}, ${colorScheme.bg}); color: ${colorScheme.text};`}
+              data-category={cat}
+            >
+              <span class="category-label">{cat}</span>
+              <span class="category-count">{count}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Section 3: Tag Populer (unchanged) -->
+    <section class="unified-section">
+      <h3 class="unified-heading">TAG POPULER</h3>
+      <div class="tag-cloud">
+        {popularTags.map(({ tag, count }) => (
+          <a href={`${base}tags/${tag}`} class="tag-link">
+            {tag}
+            <span class="tag-count">{count}</span>
           </a>
-        );
-      })}
-    </div>
-  </section>
-
-  <section class="panel-section">
-    <h3 class="panel-heading">Kategori</h3>
-    <div class="cat-list">
-      {categories.map(([cat, count]) => (
-        <a href={`${base}categories/${cat}`} class="cat-item">
-          <span>{cat}</span>
-          <span class="cat-badge">{count}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="panel-section">
-    <h3 class="panel-heading">Tag Populer</h3>
-    <div class="tag-cloud">
-      {popularTags.map(({ tag, count }) => (
-        <a href={`${base}tags/${tag}`} class="tag-link">
-          {tag}
-          <span class="tag-count">{count}</span>
-        </a>
-      ))}
-    </div>
-  </section>
+        ))}
+      </div>
+    </section>
+  </div>
 </div>
 
 <style>
   .right-panel {
     display: flex;
     flex-direction: column;
-    gap: 28px;
   }
-  .panel-section {
-    background: var(--bg);
-    border: 1px solid var(--border);
+
+  /* Unified Card Container */
+  .unified-card {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
-    padding: 20px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease;
   }
-  .panel-heading {
-    font-size: 0.875rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
+
+  .unified-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  :global(.dark) .unified-card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15);
+  }
+
+  :global(.dark) .unified-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  /* Section Styling */
+  .unified-section {
+    margin: 0;
+  }
+
+  .unified-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
-    color: var(--text);
-    margin: 0 0 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin: 0 0 0.875rem;
   }
-  .post-list {
+
+  /* Section Divider */
+  .section-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 1.25rem 0;
+  }
+
+  /* Section 1: Baru Diperbarui with vertical category tabs */
+  .updated-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.75rem;
   }
-  .post-item {
+
+  .updated-item {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
+    align-items: stretch;
     text-decoration: none;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    transition: all 0.15s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+    background: var(--color-bg);
   }
-  .post-item:last-child {
-    border-bottom: none;
+
+  .updated-item:hover {
+    transform: translateX(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
-  .post-item:hover .post-title {
-    color: var(--accent);
+
+  .category-tab {
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+    padding: 0.5rem 0;
+    overflow: hidden;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.18), inset -1px 0 0 rgba(255, 255, 255, 0.12);
   }
-  .post-title {
+
+  .category-tab::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .category-name {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #FFFFFF;
+  }
+
+  .item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.625rem 0.75rem;
+    min-width: 0;
+  }
+
+  .item-title {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text);
+    color: var(--color-text);
     line-height: 1.4;
-    flex: 1;
+    transition: color 0.2s ease;
   }
-  .post-date {
+
+  .updated-item:hover .item-title {
+    color: var(--color-primary);
+  }
+
+  .item-date {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Section 2: Kategori Grid (3 columns) */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .category-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.625rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    min-height: 36px;
+  }
+
+  .category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-border);
+  }
+
+  .category-label {
     font-size: 0.75rem;
-    color: var(--text-light);
+    font-weight: 600;
+    line-height: 1.2;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .cat-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .cat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.4rem 0.75rem;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    text-decoration: none;
-    color: var(--text);
-    transition: all 0.15s ease;
-    font-weight: 500;
-  }
-  .cat-item:hover {
-    background: var(--bg-secondary);
-    color: var(--accent);
-  }
-  .cat-badge {
-    background: rgba(99,102,241,0.12);
-    color: var(--accent);
+  .category-count {
     font-size: 0.7rem;
     font-weight: 700;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    transition: all 0.2s ease;
-  }
-  .cat-item:hover .cat-badge {
-    background: var(--accent);
-    color: #fff;
+    margin-left: 0.25rem;
+    flex-shrink: 0;
   }
 
+  /* Section 3: Tag Populer (unchanged style) */
   .tag-cloud {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 0.5rem;
   }
+
   .tag-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
     border-radius: 999px;
-    background: var(--bg-secondary);
-    color: var(--text-muted);
-    font-size: 0.8rem;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
     text-decoration: none;
     transition: all 0.15s ease;
+    font-weight: 500;
   }
-  .tag-link:hover {
-    background: var(--accent);
-    color: white;
+
+  .unified-card .tag-link:hover {
+    background: #6366f1 !important;
+    color: #ffffff !important;
     transform: scale(1.05);
   }
+
   .tag-count {
-    font-size: 0.7rem;
-    padding: 2px 6px;
+    font-size: 0.65rem;
+    padding: 0.125rem 0.375rem;
     border-radius: 999px;
-    background: var(--border);
-    color: var(--text-light);
+    background: var(--color-border);
+    color: var(--color-text-muted);
+    font-weight: 600;
   }
-  .tag-link:hover .tag-count {
-    background: rgba(255,255,255,0.2);
-    color: white;
+
+  .unified-card .tag-link:hover .tag-count {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+  }
+
+  /* Dark mode for tags */
+  :global(.dark) .unified-card .tag-link:hover {
+    background: #818cf8 !important;
+  }
+
+  /* Dark mode adjustments */
+  :global(.dark) .category-tab {
+    filter: brightness(0.85);
+  }
+
+  :global(.dark) .category-card {
+    filter: brightness(0.85);
+  }
+
+  :global(.dark) .category-card .category-label,
+  :global(.dark) .category-card .category-count {
+    filter: brightness(1.3);
+  }
+
+  :global(.dark) .updated-item {
+    background: var(--color-bg-secondary);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .category-tab {
+      width: 28px;
+    }
+
+    .category-name {
+      font-size: 0.6rem;
+    }
   }
 </style>
