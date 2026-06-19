@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Giscus from "../../components/Giscus.astro";
+import TableOfContentsOverlay from "../../components/TableOfContentsOverlay.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -46,6 +47,7 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
 ---
 
 <Layout title={post.data.title} description={post.data.description || ""} noScroll={true}>
+  <TableOfContentsOverlay />
   <article class="blog-post">
     <header class="post-header">
       <div class="post-meta" style="padding-left: 4px; overflow: visible;">

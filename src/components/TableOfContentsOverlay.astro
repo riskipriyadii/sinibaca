@@ -1,0 +1,346 @@
+---
+// TableOfContentsOverlay - Floating ToC that appears on scroll
+---
+
+<div id="toc-overlay">
+  <div class="toc-inner">
+    <div class="toc-header">
+      <svg class="toc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="16" y2="12"/>
+        <line x1="3" y1="18" x2="12" y2="18"/>
+      </svg>
+      <span class="toc-label">Daftar Isi</span>
+    </div>
+    <nav>
+      <ul id="toc-list"></ul>
+    </nav>
+  </div>
+</div>
+
+<style>
+  /* ── Overlay container ─────────────────── */
+  #toc-overlay {
+    position: fixed;
+    z-index: 200;
+
+    /* Entrance animation initial state */
+    opacity: 0;
+    transform: translateX(12px);
+    pointer-events: none;
+    transition:
+      opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #toc-overlay.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* ── Card shell ────────────────────────── */
+  .toc-inner {
+    height: 100%;
+    background: var(--color-card-bg, #ffffff);
+    border-radius: 16px;
+    border: 1px solid var(--color-border-light, rgba(0, 0, 0, 0.07));
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 4px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ────────────────────────────── */
+  .toc-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+  }
+
+  .toc-icon {
+    color: var(--color-primary, #6366f1);
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .toc-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #94a3b8);
+  }
+
+  /* ── Scrollable nav ────────────────────── */
+  nav {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    padding: 8px 0 16px;
+  }
+
+  nav::-webkit-scrollbar {
+    width: 3px;
+  }
+  nav::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 99px;
+  }
+
+  /* ── List ──────────────────────────────── */
+  #toc-list {
+    list-style: none;
+    padding: 0 12px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  /* ── Items (JS creates <li><button class="toc-item toc-h2/toc-h3"> ──── */
+  :global(.toc-item) {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-left: 2px solid transparent;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    padding: 6px 8px 6px 12px;
+    font-size: 0.81rem;
+    font-family: inherit;
+    line-height: 1.5;
+    color: var(--color-text, #0f172a);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease,
+      border-left-color 0.15s ease;
+  }
+
+  :global(.toc-item.toc-h3) {
+    font-size: 0.76rem;
+    padding-left: 20px;
+    color: var(--color-text-muted, #94a3b8);
+  }
+
+  :global(.toc-item:hover) {
+    background: rgba(0, 0, 0, 0.035);
+    color: var(--color-text, #0f172a);
+  }
+
+  :global(.toc-item.toc-h3:hover) {
+    color: var(--color-text-secondary, #475569);
+  }
+
+  :global(.toc-item.is-active) {
+    color: var(--color-primary, #6366f1);
+    background: rgba(99, 102, 241, 0.09);
+    border-left-color: var(--color-primary, #6366f1);
+    font-weight: 500;
+  }
+
+  :global(.toc-item.toc-h3.is-active) {
+    font-weight: 400;
+  }
+
+  /* ── Responsive: hide on narrow screens ── */
+  @media (max-width: 1100px) {
+    #toc-overlay {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('[TOC] init, overlay element:', document.getElementById('toc-overlay'));
+    
+    const tocOverlay = document.getElementById('toc-overlay');
+    const tocList = document.getElementById('toc-list');
+    
+    if (!tocOverlay || !tocList) return;
+
+    // Position overlay to match right sidebar panel
+    const overlay = tocOverlay;
+    
+    const TOC_STORAGE_KEY = 'sinibaca-toc-enabled';
+    // Default to true (enabled) unless user explicitly disabled it
+    let tocEnabled = localStorage.getItem(TOC_STORAGE_KEY) !== 'false';
+    
+    // Listen for toggle changes from sidebar
+    document.addEventListener('toc-visibility-changed', (e) => {
+      tocEnabled = (e as CustomEvent).detail.enabled;
+      handleScroll(); // immediately apply the new state
+    });
+    
+    function positionOverlay() {
+      const sidebar = document.querySelector('aside.sidebar-right');
+      if (!sidebar || !overlay) return;
+
+      const rect = sidebar.getBoundingClientRect();
+
+      overlay.style.left      = rect.left + 'px';
+      overlay.style.top       = rect.top + 'px';
+      overlay.style.width     = rect.width + 'px';
+      overlay.style.height    = rect.height + 'px';
+      overlay.style.right     = 'auto';
+      overlay.style.maxHeight = rect.height + 'px';
+    }
+
+    positionOverlay();
+    window.addEventListener('resize', positionOverlay);
+
+    // Find all h2 and h3 elements in the article content
+    const articleContent = document.querySelector('.post-content');
+    if (!articleContent) return;
+
+    const headings = articleContent.querySelectorAll('h2, h3');
+    
+    // If fewer than 2 headings, don't show the ToC
+    if (headings.length < 2) return;
+
+    // Generate IDs for headings that don't have one
+    headings.forEach((heading) => {
+      if (!heading.id) {
+        const text = heading.textContent || '';
+        const id = text
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^a-z0-9-]/g, '');
+        heading.id = id;
+      }
+    });
+
+    // Build the ToC list
+    headings.forEach((heading) => {
+      const btn = document.createElement('button');
+      btn.className = `toc-item ${heading.tagName === 'H3' ? 'toc-h3' : 'toc-h2'}`;
+      btn.setAttribute('data-target', heading.id);
+      
+      const text = heading.textContent?.trim() || '';
+      btn.title = text;
+      btn.textContent = text.length > 52 ? text.slice(0, 52) + '…' : text;
+      
+      btn.addEventListener('click', () => {
+        document.getElementById(btn.dataset.target || '')?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      });
+      
+      const li = document.createElement('li');
+      li.appendChild(btn);
+      tocList.appendChild(li);
+    });
+
+  // Find the actual scrollable container
+  function getScrollContainer(): Element | Window {
+    // Check common custom scroll containers in priority order
+    const candidates = [
+      document.querySelector('.main-content'),
+      document.getElementById('main-content'),
+      document.querySelector('main'),
+      document.querySelector('.page-wrapper'),
+      document.querySelector('.content-wrapper'),
+      document.documentElement,
+      document.body
+    ];
+
+    for (const el of candidates) {
+      if (!el) continue;
+      const style = window.getComputedStyle(el);
+      const overflow = style.overflow + style.overflowY;
+      if (overflow.includes('scroll') || overflow.includes('auto')) {
+        // Verify it actually scrolls
+        if (el.scrollHeight > el.clientHeight) {
+          console.log('[TOC] scroll container found:', el.tagName, el.id || el.className);
+          return el;
+        }
+      }
+    }
+
+    console.log('[TOC] falling back to window scroll');
+    return window;
+  }
+
+  const scrollContainer = getScrollContainer();
+
+  const getScrollTop = (): number => {
+    if (scrollContainer === window) {
+      return window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    }
+    return (scrollContainer as Element).scrollTop;
+  };
+
+  const handleScroll = () => {
+    const scrollTop = getScrollTop();
+    console.log('[TOC] scrollY:', scrollTop);
+    
+    if (tocEnabled && scrollTop > 200) {
+      tocOverlay.classList.add('is-visible');
+    } else {
+      tocOverlay.classList.remove('is-visible');
+    }
+  };
+
+  scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+
+  // Also attach to window as fallback (won't duplicate if same target)
+  if (scrollContainer !== window) {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  }
+
+  // Fallback: poll scroll position every 150ms if events don't fire
+  let lastKnownScrollTop = getScrollTop();
+  setInterval(() => {
+    const currentScrollTop = getScrollTop();
+    if (currentScrollTop !== lastKnownScrollTop) {
+      lastKnownScrollTop = currentScrollTop;
+      handleScroll();
+    }
+  }, 150);
+
+  // Active heading tracking with IntersectionObserver
+  const observerOptions: IntersectionObserverInit = {
+    root: scrollContainer === window ? null : (scrollContainer as Element),
+    rootMargin: '-8% 0px -75% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        
+        // Remove active from all items
+        document.querySelectorAll('.toc-item').forEach(el => el.classList.remove('is-active'));
+        
+        // Add active to current item
+        const activeBtn = document.querySelector(`.toc-item[data-target="${id}"]`);
+        if (activeBtn) activeBtn.classList.add('is-active');
+      }
+    });
+  }, observerOptions);
+
+  // Observe all headings
+  headings.forEach((heading) => observer.observe(heading));
+
+  // Run once on load in case page is already scrolled
+  handleScroll();
+  });
+</script>

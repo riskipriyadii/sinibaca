@@ -69,6 +69,20 @@ const socials = [
         <span class="study-toggle-slider"></span>
       </label>
       
+      <!-- Daftar Isi Toggle -->
+      <label class="nav-item nav-item-toggle">
+        <span class="nav-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="16" y2="12"/>
+            <line x1="3" y1="18" x2="12" y2="18"/>
+          </svg>
+        </span>
+        <span class="nav-label-text">Daftar Isi</span>
+        <input type="checkbox" id="toc-toggle" checked style="display: none;">
+        <span class="study-toggle-slider"></span>
+      </label>
+      
       <!-- Print PDF -->
       <button id="print-btn" class="nav-item nav-item-button">
         <span class="nav-icon">
@@ -840,6 +854,7 @@ const socials = [
     console.log('[Toast] Setting up toast protection...');
     
     const toggle = document.getElementById('study-mode-toggle');
+    const tocToggle = document.getElementById('toc-toggle');
     const printBtn = document.getElementById('print-btn');
 
     if (toggle) {
@@ -863,6 +878,29 @@ const socials = [
       }
     } else {
       console.error('[Toast] Toggle not found!');
+    }
+
+    if (tocToggle) {
+      console.log('[Toast] TOC Toggle found, attaching listener');
+      // Use click event on the label instead of change event on checkbox
+      const tocToggleLabel = tocToggle.closest('.nav-item-toggle');
+      if (tocToggleLabel) {
+        tocToggleLabel.addEventListener('click', function(e) {
+          console.log('[Toast] TOC Toggle clicked');
+          if (!isArticlePage()) {
+            console.log('[Toast] Not article page, preventing TOC toggle');
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Force toggle to stay checked (default state)
+            tocToggle.checked = true;
+            showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+            return false;
+          }
+        }, true); // Use capture phase
+      }
+    } else {
+      console.error('[Toast] TOC Toggle not found!');
     }
 
     if (printBtn) {
@@ -1262,6 +1300,72 @@ const socials = [
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
+  }
+})();
+
+// Daftar Isi toggle persistence
+(function() {
+  const TOC_STORAGE_KEY = 'sinibaca-toc-enabled';
+
+  // Check if current page is an article page
+  function isArticlePage() {
+    const path = window.location.pathname;
+    return path.includes('/blog/') && !path.endsWith('/blog') && !path.endsWith('/blog/');
+  }
+
+  // Show toast notification
+  function showToast(message) {
+    const toast = document.getElementById('toast-notification');
+    if (!toast) return;
+
+    toast.classList.remove('hide');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      
+      setTimeout(() => {
+        toast.style.display = 'none';
+        toast.classList.remove('hide');
+      }, 300);
+    }, 3000);
+  }
+
+  const tocInput = document.getElementById('toc-toggle');
+
+  if (tocInput) {
+    // Load saved state; default is true (enabled)
+    const saved = localStorage.getItem(TOC_STORAGE_KEY);
+    if (saved !== null) {
+      tocInput.checked = saved === 'true';
+    } else {
+      tocInput.checked = true; // default ON
+    }
+
+    // On change: save and notify the ToC overlay
+    tocInput.addEventListener('change', function(e) {
+      // Check if we're on an article page
+      if (!isArticlePage()) {
+        // Prevent toggle from changing
+        e.preventDefault();
+        this.checked = true;
+        showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+        console.log('[TOC] Toggle blocked - not on article page');
+        return;
+      }
+
+      const enabled = this.checked;
+      localStorage.setItem(TOC_STORAGE_KEY, String(enabled));
+      document.dispatchEvent(
+        new CustomEvent('toc-visibility-changed', { detail: { enabled } })
+      );
+    });
   }
 })();
 </script>
