@@ -2,6 +2,7 @@
 import Sidebar from "../components/Sidebar.astro";
 import RightPanel from "../components/RightPanel.astro";
 import TopBar from "../components/TopBar.astro";
+import Footer from "../components/Footer.astro";
 
 interface Props {
   title?: string;
@@ -99,9 +100,6 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         height: 100%;
         overflow-y: auto;
       }
-      body.no-scroll .site-footer {
-        display: none;
-      }
       *, *::before, *::after {
         box-sizing: border-box;
       }
@@ -142,9 +140,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         <RightPanel />
       </aside>
     </div>
-    <footer class="site-footer">
-      <p>&copy; 2026 sinibaca. Berbasis referensi.</p>
-    </footer>
+    <Footer />
     <style>
       .page-wrapper {
         display: flex;
@@ -154,8 +150,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         min-height: 0;
         width: 100%;
         max-width: 100%;
-        overflow: hidden;
-        height: calc(100vh - 60px);
+        overflow-x: hidden;
       }
 
       .sidebar-left,
@@ -204,26 +199,6 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         background-color: var(--text-muted, #9ca3af);
       }
 
-      .site-footer {
-        width: 100%;
-        background: var(--bg-secondary);
-        border-top: 1px solid var(--border);
-        text-align: center;
-        padding: 16px 24px;
-        color: var(--text-light);
-        font-size: 0.875rem;
-        min-height: 61px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        overflow-x: hidden;
-      }
-      .site-footer p {
-        margin: 0;
-        word-break: break-word;
-      }
-
       @media (max-width: 1200px) {
         .sidebar-right { 
           display: none; 
@@ -240,8 +215,6 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
           max-width: 100vw;
           box-sizing: border-box;
           overflow-x: hidden;
-          height: auto;
-          overflow: visible;
         }
         body.no-scroll .page-wrapper {
           padding-top: 64px;
@@ -294,14 +267,6 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
           max-width: 85vw;
           padding: 16px;
         }
-        .site-footer {
-          padding: 10px 12px;
-          font-size: 0.75rem;
-          min-height: auto;
-        }
-        .site-footer p {
-          font-size: 0.75rem;
-        }
         body.no-scroll {
           height: auto;
           overflow: visible;
@@ -329,9 +294,6 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         .sidebar-left {
           width: 240px;
           padding: 12px;
-        }
-        .site-footer {
-          padding: 8px 10px;
         }
       }
     </style>
