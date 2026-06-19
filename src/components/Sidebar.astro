@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import avatarImg from "../assets/avatar.png";
 import Newsletter from "./Newsletter.astro";
+import StudyTools from "./StudyTools.astro";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 
@@ -55,6 +56,8 @@ const socials = [
   </div>
 
   <Newsletter />
+  
+  <StudyTools />
 </div>
 
 <style is:global>

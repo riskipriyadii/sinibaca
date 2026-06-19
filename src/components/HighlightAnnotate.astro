@@ -1,0 +1,790 @@
+---
+// Component for text highlighting and annotation functionality
+---
+
+<div id="floating-toolbar" class="floating-toolbar">
+  <div class="toolbar-header">
+    <span class="toolbar-title">✨ Highlight Tools</span>
+    <button id="toggle-toolbar" class="toggle-btn" title="Minimize/Maximize">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 3l4 5H4l4-5z"/>
+      </svg>
+    </button>
+  </div>
+  
+  <div id="toolbar-content" class="toolbar-content">
+    <div class="toolbar-section">
+      <div class="section-label">Highlight Mode</div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="highlight-mode-toggle">
+        <span class="toggle-slider"></span>
+      </label>
+      <span id="mode-status" class="mode-status">OFF</span>
+    </div>
+
+    <div id="color-picker" class="color-picker" style="display: none;">
+      <div class="color-label">Pilih Warna:</div>
+      <div class="color-options">
+        <button class="color-option yellow active" data-color="yellow" title="Yellow"></button>
+        <button class="color-option blue" data-color="blue" title="Blue"></button>
+        <button class="color-option pink" data-color="pink" title="Pink"></button>
+      </div>
+    </div>
+
+    <div class="toolbar-divider"></div>
+
+    <button id="print-pdf-btn" class="toolbar-btn print-btn" title="Print / Save as PDF">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+      </svg>
+      <span>Print PDF</span>
+    </button>
+
+    <div class="toolbar-info">
+      <div id="mode-off-info">💡 Aktifkan Highlight Mode untuk mulai</div>
+      <div id="mode-on-info" style="display: none;">🖱️ Klik & drag teks untuk highlight</div>
+    </div>
+  </div>
+</div>
+
+<!-- Annotation Popup -->
+<div id="annotation-popup" class="annotation-popup" style="display: none;">
+  <div class="popup-header">
+    <strong>Catatan</strong>
+    <button id="close-popup" class="close-btn">×</button>
+  </div>
+  <textarea id="note-textarea" placeholder="Tambah catatan (opsional)..."></textarea>
+  <div class="popup-buttons">
+    <button id="delete-highlight" class="btn-delete">Hapus Highlight</button>
+    <button id="save-note" class="btn-save">Simpan</button>
+  </div>
+</div>
+
+<style>
+  .floating-toolbar {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .floating-toolbar:hover {
+    box-shadow: 0 12px 48px rgba(102, 126, 234, 0.2);
+  }
+
+  .toolbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px 16px 0 0;
+    color: white;
+  }
+
+  .toolbar-title {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+  }
+
+  .toggle-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .toggle-btn.collapsed svg {
+    transform: rotate(180deg);
+  }
+
+  .toolbar-content {
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+  }
+
+  .toolbar-content.hidden {
+    max-height: 0;
+    padding: 0 16px;
+    overflow: hidden;
+  }
+
+  .toolbar-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .section-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 26px;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+
+  .toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+  }
+
+  .mode-status {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+    min-width: 32px;
+  }
+
+  .mode-status.active {
+    color: #667eea;
+  }
+
+  .color-picker {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+
+  .color-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .color-options {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .color-option:hover {
+    transform: scale(1.1);
+  }
+
+  .color-option.active {
+    border-color: #667eea;
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  .color-option.yellow { background: #fef08a; }
+  .color-option.blue { background: #bfdbfe; }
+  .color-option.pink { background: #fbcfe8; }
+
+  .toolbar-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+    margin: 16px 0;
+  }
+
+  .toolbar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+
+  .toolbar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .toolbar-btn:active {
+    transform: translateY(0);
+  }
+
+  .toolbar-info {
+    margin-top: 16px;
+    padding: 12px;
+    background: linear-gradient(135deg, #f0f4ff, #e8f0ff);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #667eea;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* Crosshair cursor when mode is ON */
+  body.highlight-active .prose {
+    cursor: crosshair !important;
+  }
+
+  body.highlight-active .prose * {
+    cursor: crosshair !important;
+  }
+
+  /* Highlight styles */
+  .highlight-yellow,
+  .highlight-blue,
+  .highlight-pink {
+    position: relative;
+    cursor: pointer !important;
+    transition: background-color 0.2s;
+    padding: 2px 0;
+    border-radius: 2px;
+  }
+
+  .highlight-yellow { 
+    background-color: rgba(254, 240, 138, 0.6);
+  }
+  .highlight-blue { 
+    background-color: rgba(191, 219, 254, 0.6);
+  }
+  .highlight-pink { 
+    background-color: rgba(251, 207, 232, 0.6);
+  }
+
+  .highlight-yellow:hover { 
+    background-color: rgba(254, 240, 138, 0.8);
+  }
+  .highlight-blue:hover { 
+    background-color: rgba(191, 219, 254, 0.8);
+  }
+  .highlight-pink:hover { 
+    background-color: rgba(251, 207, 232, 0.8);
+  }
+
+  [data-has-note="true"]::after {
+    content: '📝';
+    position: absolute;
+    right: -18px;
+    top: -2px;
+    font-size: 12px;
+  }
+
+  /* Annotation Popup */
+  .annotation-popup {
+    position: fixed;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 10000;
+    border: 1px solid #e0e0e0;
+  }
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .popup-header strong {
+    color: #333;
+    font-size: 15px;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+  }
+
+  .close-btn:hover {
+    color: #333;
+  }
+
+  #note-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    margin-bottom: 12px;
+  }
+
+  .popup-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .btn-delete {
+    padding: 8px 14px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-delete:hover {
+    background: #dc2626;
+  }
+
+  .btn-save {
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-save:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  @media print {
+    .floating-toolbar,
+    .annotation-popup {
+      display: none !important;
+    }
+
+    .highlight-yellow,
+    .highlight-blue,
+    .highlight-pink {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .highlight-yellow { background-color: #fef08a !important; }
+    .highlight-blue { background-color: #bfdbfe !important; }
+    .highlight-pink { background-color: #fbcfe8 !important; }
+
+    [data-has-note="true"]::after {
+      content: '';
+    }
+  }
+
+  @media (max-width: 768px) {
+    .annotation-popup {
+      width: calc(100% - 32px);
+      left: 16px !important;
+      right: 16px !important;
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  console.log('[Highlight] Script loading...');
+  
+  // State variables
+  let highlightMode = false;
+  let selectedColor = 'yellow';
+  let currentHighlightElement = null;
+  
+  // Generate unique ID
+  function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+  }
+  
+  // Wait for DOM and .prose element
+  function init() {
+    const prose = document.querySelector('.prose');
+    
+    if (!prose) {
+      console.log('[Highlight] .prose not found, retrying...');
+      setTimeout(init, 100);
+      return;
+    }
+    
+    console.log('[Highlight] .prose found, initializing...');
+    
+    setupToggle();
+    setupColorPicker();
+    setupHighlighting(prose);
+    setupPrintButton();
+    setupAnnotationPopup();
+    setupCollapse();
+    
+    // Load highlights after DOM is ready
+    setTimeout(() => loadHighlights(prose), 500);
+    
+    console.log('[Highlight] Initialization complete!');
+  }
+  
+  // Setup toggle switch
+  function setupToggle() {
+    const toggle = document.getElementById('highlight-mode-toggle');
+    const modeStatus = document.getElementById('mode-status');
+    const colorPicker = document.getElementById('color-picker');
+    const modeOffInfo = document.getElementById('mode-off-info');
+    const modeOnInfo = document.getElementById('mode-on-info');
+    
+    if (!toggle) return;
+    
+    toggle.addEventListener('change', function() {
+      highlightMode = this.checked;
+      console.log('[Highlight] Mode:', highlightMode);
+      
+      // Update UI
+      if (modeStatus) {
+        modeStatus.textContent = highlightMode ? 'ON' : 'OFF';
+        modeStatus.classList.toggle('active', highlightMode);
+      }
+      
+      if (colorPicker) {
+        colorPicker.style.display = highlightMode ? 'block' : 'none';
+      }
+      
+      if (modeOffInfo && modeOnInfo) {
+        modeOffInfo.style.display = highlightMode ? 'none' : 'block';
+        modeOnInfo.style.display = highlightMode ? 'block' : 'none';
+      }
+      
+      // Add/remove body class for cursor
+      document.body.classList.toggle('highlight-active', highlightMode);
+    });
+  }
+  
+  // Setup color picker
+  function setupColorPicker() {
+    const colorOptions = document.querySelectorAll('.color-option');
+    
+    colorOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        colorOptions.forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+        selectedColor = this.dataset.color;
+        console.log('[Highlight] Color selected:', selectedColor);
+      });
+    });
+  }
+  
+  // Setup highlighting on text selection
+  function setupHighlighting(prose) {
+    prose.addEventListener('mouseup', function(e) {
+      if (!highlightMode) return;
+      
+      setTimeout(() => {
+        const selection = window.getSelection();
+        
+        if (!selection || !selection.rangeCount || selection.isCollapsed) {
+          console.log('[Highlight] No valid selection');
+          return;
+        }
+        
+        const selectedText = selection.toString().trim();
+        console.log('[Highlight] Selection:', selectedText);
+        
+        if (!selectedText) return;
+        
+        const range = selection.getRangeAt(0);
+        
+        // Check if selection is within prose
+        if (!prose.contains(range.commonAncestorContainer)) {
+          console.log('[Highlight] Selection outside prose');
+          return;
+        }
+        
+        try {
+          // Create highlight span
+          const span = document.createElement('span');
+          span.className = `highlight-${selectedColor}`;
+          span.dataset.highlightId = generateId();
+          span.dataset.color = selectedColor;
+          span.dataset.text = selectedText;
+          
+          // Wrap selection
+          range.surroundContents(span);
+          console.log('[Highlight] Applied highlight');
+          
+          // Clear selection
+          selection.removeAllRanges();
+          
+          // Save to localStorage
+          saveHighlights();
+          
+        } catch (error) {
+          console.error('[Highlight] Error applying highlight:', error);
+        }
+      }, 10);
+    });
+    
+    // Click handler for highlights
+    prose.addEventListener('click', function(e) {
+      const highlight = e.target.closest('[class^="highlight-"]');
+      if (highlight) {
+        showAnnotationPopup(highlight);
+      }
+    });
+  }
+  
+  // Save highlights to localStorage
+  function saveHighlights() {
+    const path = window.location.pathname;
+    const highlights = [];
+    
+    document.querySelectorAll('[class^="highlight-"]').forEach(span => {
+      highlights.push({
+        id: span.dataset.highlightId,
+        text: span.dataset.text || span.textContent,
+        color: span.dataset.color,
+        note: span.dataset.note || '',
+        hasNote: span.dataset.hasNote === 'true'
+      });
+    });
+    
+    const data = JSON.parse(localStorage.getItem('sinibaca-highlights') || '{}');
+    data[path] = highlights;
+    localStorage.setItem('sinibaca-highlights', JSON.stringify(data));
+    
+    console.log('[Highlight] Saved:', highlights.length, 'highlights');
+  }
+  
+  // Load highlights from localStorage
+  function loadHighlights(prose) {
+    const path = window.location.pathname;
+    const data = JSON.parse(localStorage.getItem('sinibaca-highlights') || '{}');
+    const highlights = data[path] || [];
+    
+    console.log('[Highlight] Loading', highlights.length, 'highlights');
+    
+    if (highlights.length === 0) return;
+    
+    // Simple text matching approach
+    highlights.forEach(hl => {
+      const text = hl.text;
+      const walker = document.createTreeWalker(
+        prose,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+      );
+      
+      let node;
+      while (node = walker.nextNode()) {
+        const content = node.textContent;
+        const index = content.indexOf(text);
+        
+        if (index !== -1 && !node.parentElement.classList.contains('highlight-' + hl.color)) {
+          try {
+            const range = document.createRange();
+            range.setStart(node, index);
+            range.setEnd(node, index + text.length);
+            
+            const span = document.createElement('span');
+            span.className = `highlight-${hl.color}`;
+            span.dataset.highlightId = hl.id;
+            span.dataset.color = hl.color;
+            span.dataset.text = text;
+            
+            if (hl.note) {
+              span.dataset.note = hl.note;
+              span.dataset.hasNote = 'true';
+            }
+            
+            range.surroundContents(span);
+            console.log('[Highlight] Restored:', text.substring(0, 30) + '...');
+            break;
+          } catch (e) {
+            console.error('[Highlight] Error restoring:', e);
+          }
+        }
+      }
+    });
+  }
+  
+  // Show annotation popup
+  function showAnnotationPopup(element) {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    
+    if (!popup || !textarea) return;
+    
+    currentHighlightElement = element;
+    textarea.value = element.dataset.note || '';
+    
+    // Position popup
+    const rect = element.getBoundingClientRect();
+    popup.style.display = 'block';
+    popup.style.left = rect.left + 'px';
+    popup.style.top = (rect.bottom + window.scrollY + 10) + 'px';
+    
+    console.log('[Highlight] Popup shown');
+  }
+  
+  // Setup annotation popup handlers
+  function setupAnnotationPopup() {
+    const popup = document.getElementById('annotation-popup');
+    const closeBtn = document.getElementById('close-popup');
+    const saveBtn = document.getElementById('save-note');
+    const deleteBtn = document.getElementById('delete-highlight');
+    const textarea = document.getElementById('note-textarea');
+    
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+        currentHighlightElement = null;
+      });
+    }
+    
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        if (!currentHighlightElement) return;
+        
+        const note = textarea.value.trim();
+        currentHighlightElement.dataset.note = note;
+        currentHighlightElement.dataset.hasNote = note ? 'true' : 'false';
+        
+        saveHighlights();
+        popup.style.display = 'none';
+        currentHighlightElement = null;
+        
+        console.log('[Highlight] Note saved');
+      });
+    }
+    
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', () => {
+        if (!currentHighlightElement) return;
+        
+        // Unwrap highlight
+        const parent = currentHighlightElement.parentNode;
+        while (currentHighlightElement.firstChild) {
+          parent.insertBefore(currentHighlightElement.firstChild, currentHighlightElement);
+        }
+        parent.removeChild(currentHighlightElement);
+        
+        saveHighlights();
+        popup.style.display = 'none';
+        currentHighlightElement = null;
+        
+        console.log('[Highlight] Highlight deleted');
+      });
+    }
+    
+    // Close popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if (popup.style.display === 'block' && 
+          !popup.contains(e.target) && 
+          !e.target.closest('[class^="highlight-"]')) {
+        popup.style.display = 'none';
+        currentHighlightElement = null;
+      }
+    });
+  }
+  
+  // Setup print button
+  function setupPrintButton() {
+    const printBtn = document.getElementById('print-pdf-btn');
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        console.log('[Highlight] Printing...');
+        window.print();
+      });
+    }
+  }
+  
+  // Setup toolbar collapse
+  function setupCollapse() {
+    const toggleBtn = document.getElementById('toggle-toolbar');
+    const content = document.getElementById('toolbar-content');
+    
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener('click', () => {
+        content.classList.toggle('hidden');
+        toggleBtn.classList.toggle('collapsed');
+      });
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

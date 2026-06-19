@@ -1,0 +1,840 @@
+---
+// Study Tools - Highlight & Annotate menggunakan caretRangeFromPoint API
+---
+
+<div id="study-toolbar" class="study-toolbar">
+  <div class="toolbar-header">
+    <span class="toolbar-title">✨ Study Tools</span>
+    <button id="collapse-btn" class="collapse-btn" title="Minimize">−</button>
+  </div>
+  
+  <div id="toolbar-body" class="toolbar-body">
+    <div class="control-section">
+      <label class="toggle-label">
+        <span>Study Mode</span>
+        <input type="checkbox" id="study-mode-toggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div id="color-section" class="color-section" style="display: none;">
+      <div class="color-label">Pilih Warna:</div>
+      <div class="color-buttons">
+        <button class="color-btn yellow active" data-color="yellow" title="Yellow"></button>
+        <button class="color-btn blue" data-color="blue" title="Blue"></button>
+        <button class="color-btn pink" data-color="pink" title="Pink"></button>
+      </div>
+    </div>
+
+    <div class="toolbar-divider"></div>
+
+    <button id="print-btn" class="action-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+      </svg>
+      Print PDF
+    </button>
+
+    <div id="study-info" class="study-info" style="display: none;">
+      💡 Klik kata pertama untuk mulai highlight
+    </div>
+  </div>
+</div>
+
+<!-- Instruction Banner -->
+<div id="instruction-banner" class="instruction-banner" style="display: none;">
+  Click another word to finish highlighting, or press <kbd>Esc</kbd> to cancel
+</div>
+
+<!-- Annotation Popup -->
+<div id="annotation-popup" class="annotation-popup" style="display: none;">
+  <div class="popup-header">
+    <strong>Catatan</strong>
+    <button id="popup-close" class="popup-close">×</button>
+  </div>
+  <textarea id="note-textarea" placeholder="Add a note..."></textarea>
+  <div class="popup-actions">
+    <button id="delete-btn" class="popup-btn delete-btn">Delete</button>
+    <button id="save-btn" class="popup-btn save-btn">Save</button>
+  </div>
+</div>
+
+<style>
+  /* Toolbar */
+  .study-toolbar {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .toolbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .toolbar-title {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .collapse-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.2s;
+  }
+
+  .collapse-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .toolbar-body {
+    padding: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .toolbar-body.hidden {
+    max-height: 0;
+    padding: 0 16px;
+    overflow: hidden;
+  }
+
+  .control-section {
+    margin-bottom: 16px;
+  }
+
+  .toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .toggle-label input[type="checkbox"] {
+    display: none;
+  }
+
+  .toggle-slider {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.3s;
+  }
+
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+  }
+
+  .toggle-label input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .toggle-label input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  .color-section {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+
+  .color-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .color-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .color-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .color-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .color-btn.active {
+    border-color: #667eea;
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  .color-btn.yellow { background: #fef08a; }
+  .color-btn.blue { background: #bfdbfe; }
+  .color-btn.pink { background: #fbcfe8; }
+
+  .toolbar-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+    margin: 16px 0;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  .study-info {
+    margin-top: 12px;
+    padding: 10px;
+    background: linear-gradient(135deg, #f0f4ff, #e8f0ff);
+    border-radius: 6px;
+    font-size: 11px;
+    color: #667eea;
+    text-align: center;
+  }
+
+  /* Instruction Banner */
+  .instruction-banner {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 10000;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+
+  .instruction-banner kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  /* Study Mode Active */
+  .post-content.study-active {
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Highlights */
+  mark[data-highlight-id] {
+    cursor: pointer;
+    transition: filter 0.2s;
+    padding: 2px 0;
+    border-radius: 2px;
+  }
+
+  mark[data-highlight-id]:hover {
+    filter: brightness(0.95);
+  }
+
+  mark[data-note]::after {
+    content: '📝';
+    margin-left: 2px;
+    font-size: 11px;
+  }
+
+  /* Annotation Popup */
+  .annotation-popup {
+    position: fixed;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    z-index: 10001;
+    border: 1px solid #e5e7eb;
+  }
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .popup-header strong {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .popup-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .popup-close:hover {
+    color: #333;
+  }
+
+  #note-textarea {
+    width: 100%;
+    min-height: 70px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+
+  .popup-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .popup-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .delete-btn {
+    background: #ef4444;
+    color: white;
+  }
+
+  .delete-btn:hover {
+    background: #dc2626;
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .save-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Print Styles */
+  @media print {
+    .study-toolbar,
+    .instruction-banner,
+    .annotation-popup {
+      display: none !important;
+    }
+
+    mark[data-highlight-id] {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    mark[data-note]::after {
+      content: '';
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  console.log('[StudyTools] Initializing with caretRangeFromPoint API...');
+
+  // State
+  let isStudyMode = false;
+  let selectedColor = 'yellow';
+  let isSelecting = false;
+  let firstClickRange = null;
+  let currentPopupMark = null;
+  let postContent = null;
+  let hoverMark = null;
+
+  // Color map
+  const colorMap = {
+    yellow: '#fef08a',
+    blue: '#bfdbfe',
+    pink: '#fbcfe8'
+  };
+
+  // Event handler references (for cleanup)
+  let handleMouseMove, handleMouseLeave, handleWordClick, handleKeydown;
+
+  // Initialize
+  function init() {
+    postContent = document.querySelector('.post-content');
+    
+    if (!postContent) {
+      console.log('[StudyTools] .post-content not found, retrying...');
+      setTimeout(init, 100);
+      return;
+    }
+
+    console.log('[StudyTools] .post-content found!');
+
+    setupToolbar();
+    setupAnnotation();
+    loadSession();
+
+    console.log('[StudyTools] Ready!');
+  }
+
+  // Get word range at mouse position
+  function getWordRangeAtPoint(x, y) {
+    let range;
+
+    // Get caret position from coordinates
+    if (document.caretPositionFromPoint) {
+      const caret = document.caretPositionFromPoint(x, y);
+      if (!caret) return null;
+      range = document.createRange();
+      range.setStart(caret.offsetNode, caret.offset);
+      range.setEnd(caret.offsetNode, caret.offset);
+    } else if (document.caretRangeFromPoint) {
+      range = document.caretRangeFromPoint(x, y);
+      if (!range) return null;
+    } else {
+      return null;
+    }
+
+    // Must be text node
+    if (range.startContainer.nodeType !== Node.TEXT_NODE) return null;
+
+    // Expand to word boundary
+    const textNode = range.startContainer;
+    const text = textNode.textContent;
+    let start = range.startOffset;
+    let end = range.startOffset;
+
+    // Find start of word (move back to space/start)
+    while (start > 0 && !/\s/.test(text[start - 1])) start--;
+    // Find end of word (move forward to space/end)
+    while (end < text.length && !/\s/.test(text[end])) end++;
+
+    // Not a valid word (only whitespace)
+    if (start === end) return null;
+
+    const wordRange = document.createRange();
+    wordRange.setStart(textNode, start);
+    wordRange.setEnd(textNode, end);
+    return wordRange;
+  }
+
+  // Show word hover
+  function showWordHover(range) {
+    removeWordHover();
+    if (!range) return;
+
+    const rect = range.getBoundingClientRect();
+    if (rect.width === 0) return;
+
+    hoverMark = document.createElement('div');
+    hoverMark.style.cssText = `
+      position: fixed;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      background: rgba(0, 0, 0, 0.07);
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 9998;
+    `;
+    document.body.appendChild(hoverMark);
+  }
+
+  // Remove word hover
+  function removeWordHover() {
+    if (hoverMark) {
+      hoverMark.remove();
+      hoverMark = null;
+    }
+  }
+
+  // Create highlight
+  function createHighlight(range) {
+    const mark = document.createElement('mark');
+    mark.style.backgroundColor = colorMap[selectedColor];
+    mark.style.borderRadius = '2px';
+    mark.style.cursor = 'pointer';
+    mark.style.padding = '2px 0';
+
+    const id = 'hl-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+    mark.dataset.highlightId = id;
+    mark.dataset.color = selectedColor;
+
+    // Surround range content with mark element
+    try {
+      range.surroundContents(mark);
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+      console.log('[StudyTools] Highlight created:', id);
+      saveSession();
+    } catch (err) {
+      // surroundContents fails if range crosses element boundaries
+      // Fallback: extractContents and insertNode
+      console.log('[StudyTools] Using fallback method');
+      const fragment = range.extractContents();
+      mark.appendChild(fragment);
+      range.insertNode(mark);
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+      console.log('[StudyTools] Highlight created (fallback):', id);
+      saveSession();
+    }
+  }
+
+  // Setup toolbar
+  function setupToolbar() {
+    const toggle = document.getElementById('study-mode-toggle');
+    const colorSection = document.getElementById('color-section');
+    const studyInfo = document.getElementById('study-info');
+    const collapseBtn = document.getElementById('collapse-btn');
+    const toolbarBody = document.getElementById('toolbar-body');
+    const printBtn = document.getElementById('print-btn');
+
+    // Define event handlers as named functions
+    handleMouseMove = function(e) {
+      if (!isStudyMode) return;
+      const range = getWordRangeAtPoint(e.clientX, e.clientY);
+      showWordHover(range);
+    };
+
+    handleMouseLeave = function() {
+      removeWordHover();
+    };
+
+    handleWordClick = function(e) {
+      if (!isStudyMode) return;
+      
+      // Check if clicking existing highlight
+      if (e.target.closest('mark[data-highlight-id]')) {
+        return; // Let mark's own handler handle it
+      }
+
+      e.preventDefault();
+
+      const range = getWordRangeAtPoint(e.clientX, e.clientY);
+      if (!range) return;
+
+      if (!isSelecting) {
+        // First click: save start position
+        isSelecting = true;
+        firstClickRange = range.cloneRange();
+        showBanner();
+        console.log('[StudyTools] First word selected');
+      } else {
+        // Second click: create highlight from firstClick to here
+        isSelecting = false;
+        hideBanner();
+
+        // Combine ranges: from start of firstClickRange to end of current range
+        // Ensure correct order (firstClick could be after or before)
+        const combinedRange = document.createRange();
+        const cmp = firstClickRange.compareBoundaryPoints(Range.START_TO_START, range);
+
+        if (cmp <= 0) {
+          // firstClick comes before or at same position
+          combinedRange.setStart(firstClickRange.startContainer, firstClickRange.startOffset);
+          combinedRange.setEnd(range.endContainer, range.endOffset);
+        } else {
+          // firstClick comes after
+          combinedRange.setStart(range.startContainer, range.startOffset);
+          combinedRange.setEnd(firstClickRange.endContainer, firstClickRange.endOffset);
+        }
+
+        createHighlight(combinedRange);
+        firstClickRange = null;
+      }
+    };
+
+    handleKeydown = function(e) {
+      if (e.key === 'Escape' && isSelecting) {
+        console.log('[StudyTools] Selection cancelled');
+        isSelecting = false;
+        firstClickRange = null;
+        hideBanner();
+      }
+    };
+
+    // Study mode toggle
+    if (toggle) {
+      toggle.addEventListener('change', function() {
+        isStudyMode = this.checked;
+        console.log('[StudyTools] Study Mode:', isStudyMode);
+
+        if (colorSection) colorSection.style.display = isStudyMode ? 'block' : 'none';
+        if (studyInfo) studyInfo.style.display = isStudyMode ? 'block' : 'none';
+
+        if (isStudyMode) {
+          // Enable study mode
+          postContent.classList.add('study-active');
+          postContent.addEventListener('mousemove', handleMouseMove);
+          postContent.addEventListener('mouseleave', handleMouseLeave);
+          postContent.addEventListener('click', handleWordClick);
+          document.addEventListener('keydown', handleKeydown);
+        } else {
+          // Disable study mode
+          postContent.classList.remove('study-active');
+          postContent.removeEventListener('mousemove', handleMouseMove);
+          postContent.removeEventListener('mouseleave', handleMouseLeave);
+          postContent.removeEventListener('click', handleWordClick);
+          document.removeEventListener('keydown', handleKeydown);
+          removeWordHover();
+          isSelecting = false;
+          firstClickRange = null;
+          hideBanner();
+        }
+      });
+    }
+
+    // Color picker
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedColor = this.dataset.color;
+        console.log('[StudyTools] Color selected:', selectedColor);
+      });
+    });
+
+    // Collapse
+    if (collapseBtn && toolbarBody) {
+      collapseBtn.addEventListener('click', () => {
+        toolbarBody.classList.toggle('hidden');
+        collapseBtn.textContent = toolbarBody.classList.contains('hidden') ? '+' : '−';
+      });
+    }
+
+    // Print
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        console.log('[StudyTools] Printing...');
+        window.print();
+      });
+    }
+  }
+
+  // Setup annotation
+  function setupAnnotation() {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    const closeBtn = document.getElementById('popup-close');
+    const saveBtn = document.getElementById('save-btn');
+    const deleteBtn = document.getElementById('delete-btn');
+
+    if (!popup) return;
+
+    // Close popup
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+        currentPopupMark = null;
+      });
+    }
+
+    // Save note
+    if (saveBtn && textarea) {
+      saveBtn.addEventListener('click', () => {
+        if (!currentPopupMark) return;
+
+        const note = textarea.value.trim();
+        if (note) {
+          currentPopupMark.dataset.note = note;
+        } else {
+          delete currentPopupMark.dataset.note;
+        }
+
+        saveSession();
+        popup.style.display = 'none';
+        currentPopupMark = null;
+
+        console.log('[StudyTools] Note saved');
+      });
+    }
+
+    // Delete highlight
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', () => {
+        if (!currentPopupMark) return;
+
+        // Unwrap mark
+        const parent = currentPopupMark.parentNode;
+        while (currentPopupMark.firstChild) {
+          parent.insertBefore(currentPopupMark.firstChild, currentPopupMark);
+        }
+        parent.removeChild(currentPopupMark);
+
+        saveSession();
+        popup.style.display = 'none';
+        currentPopupMark = null;
+
+        console.log('[StudyTools] Highlight deleted');
+      });
+    }
+
+    // Close popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if (popup.style.display === 'block' && 
+          !popup.contains(e.target) && 
+          !e.target.closest('mark[data-highlight-id]')) {
+        popup.style.display = 'none';
+        currentPopupMark = null;
+      }
+    });
+  }
+
+  // Show annotation popup
+  function showAnnotationPopup(mark) {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    
+    if (!popup) return;
+
+    currentPopupMark = mark;
+    
+    if (textarea) {
+      textarea.value = mark.dataset.note || '';
+    }
+
+    // Position popup
+    const rect = mark.getBoundingClientRect();
+    popup.style.display = 'block';
+    popup.style.left = rect.left + 'px';
+    popup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+
+    console.log('[StudyTools] Popup shown for:', mark.dataset.highlightId);
+  }
+
+  // Show/hide banner
+  function showBanner() {
+    const banner = document.getElementById('instruction-banner');
+    if (banner) banner.style.display = 'block';
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById('instruction-banner');
+    if (banner) banner.style.display = 'none';
+  }
+
+  // Save to sessionStorage
+  function saveSession() {
+    if (!postContent) return;
+
+    const path = window.location.pathname;
+    
+    // Save entire content with highlights
+    const data = JSON.parse(sessionStorage.getItem('sinibaca-study-session') || '{}');
+    data[path] = postContent.innerHTML;
+    sessionStorage.setItem('sinibaca-study-session', JSON.stringify(data));
+
+    const highlightCount = postContent.querySelectorAll('mark[data-highlight-id]').length;
+    console.log('[StudyTools] Saved', highlightCount, 'highlights to session');
+  }
+
+  // Load from sessionStorage
+  function loadSession() {
+    if (!postContent) return;
+
+    const path = window.location.pathname;
+    const data = JSON.parse(sessionStorage.getItem('sinibaca-study-session') || '{}');
+    const savedContent = data[path];
+
+    if (!savedContent) {
+      console.log('[StudyTools] No saved session');
+      return;
+    }
+
+    console.log('[StudyTools] Restoring session...');
+    postContent.innerHTML = savedContent;
+
+    // Re-attach click handlers to restored highlights
+    postContent.querySelectorAll('mark[data-highlight-id]').forEach(mark => {
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+    });
+
+    const highlightCount = postContent.querySelectorAll('mark[data-highlight-id]').length;
+    console.log('[StudyTools] Restored', highlightCount, 'highlights');
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

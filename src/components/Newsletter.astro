@@ -84,6 +84,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
     transition: all 0.2s;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .instagram-button span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
   
   .instagram-button:hover {
