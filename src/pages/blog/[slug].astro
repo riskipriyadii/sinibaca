@@ -3,26 +3,57 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Giscus from "../../components/Giscus.astro";
 import TableOfContentsOverlay from "../../components/TableOfContentsOverlay.astro";
+import { countReferences } from "../../utils/countReferences";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
+  
+  // Build category color mapping (same as RightPanel.astro)
+  const categoryColorPalette = [
+    { bg: '#6B8FD4', text: '#FFFFFF', dark: '#6B8FD4' }, // Filsafat - Blue
+    { bg: '#52B788', text: '#FFFFFF', dark: '#52B788' }, // Arsitektur - Green
+    { bg: '#fecaca', text: '#991b1b', dark: '#fca5a5' }, // Red
+    { bg: '#a7f3d0', text: '#065f46', dark: '#6ee7b7' }, // Green
+    { bg: '#bfdbfe', text: '#1e40af', dark: '#93c5fd' }, // Blue
+    { bg: '#fbcfe8', text: '#9f1239', dark: '#f9a8d4' }, // Pink
+    { bg: '#fed7aa', text: '#9a3412', dark: '#fdba74' }, // Orange
+    { bg: '#d1fae5', text: '#065f46', dark: '#a7f3d0' }, // Mint
+  ];
+  
+  const categoryCounts: Record<string, number> = {};
+  posts.forEach((post) => {
+    const cat = post.data.category || "Uncategorized";
+    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+  });
+  const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+  
+  const categoryColorMap: Record<string, typeof categoryColorPalette[0]> = {};
+  categories.forEach(([cat], index) => {
+    categoryColorMap[cat] = categoryColorPalette[index % categoryColorPalette.length];
+  });
+  
   return posts.map((post) => {
     const slug = post.slug || post.id.split('/').pop()?.replace(/\.mdx?$/, '') || 'post';
+    const category = post.data.category || "Uncategorized";
+    const categoryColor = categoryColorMap[category];
     return {
       params: { slug },
-      props: { post },
+      props: { post, categoryColor },
     };
   });
 }
 
 interface Props {
   post: CollectionEntry<"blog">;
+  categoryColor: { bg: string; text: string; dark: string };
 }
 
-const { post } = Astro.props;
+const { post, categoryColor } = Astro.props;
 const { Content } = await render(post);
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+
+const refCount = countReferences(post.body || "");
 
 function getImageUrl(thumbnail?: string, heroImage?: string | { src: string }): string {
   const placeholder = `${base}images/placeholder.jpg`;
@@ -44,6 +75,12 @@ const imageUrl = getImageUrl(post.data.thumbnail, post.data.heroImage);
 const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
   year: "numeric", month: "long", day: "numeric"
 });
+
+const updatedDateStr = post.data.updatedDate ? post.data.updatedDate.toLocaleDateString("id-ID", {
+  day: "numeric", month: "short", year: "numeric",
+}) : null;
+
+const showUpdated = post.data.updatedDate && post.data.updatedDate.getTime() !== post.data.pubDate.getTime();
 ---
 
 <Layout title={post.data.title} description={post.data.description || ""} noScroll={true}>
@@ -51,8 +88,27 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
   <article class="blog-post">
     <header class="post-header">
       <div class="post-meta" style="padding-left: 4px; overflow: visible;">
-        <a href={`${base}categories/${post.data.category || 'Uncategorized'}`} class="category">{post.data.category || "Uncategorized"}</a>
-        <span class="date">{dateStr}</span>
+        <a 
+          href={`${base}categories/${post.data.category || 'Uncategorized'}`} 
+          class="category"
+          style={`background: ${categoryColor.bg}; color: ${categoryColor.text};`}
+        >{post.data.category || "Uncategorized"}</a>
+        <span class="rilis-pill">
+          <span class="rilis-badge">Rilis</span>
+          <span class="rilis-date">{dateStr}</span>
+        </span>
+        {showUpdated && (
+          <span class="updated-pill">
+            <span class="updated-badge">Diperbarui</span>
+            <span class="updated-date">{updatedDateStr}</span>
+          </span>
+        )}
+        {refCount > 0 && (
+          <span class="ref-badge">
+            <img src={`${base}icons/ref-icon.png`} alt="referensi" width="16" height="16" style="width:16px;height:16px;object-fit:contain;display:inline-block;" />
+            {refCount} referensi
+          </span>
+        )}
       </div>
       <h1 class="post-title">{post.data.title}</h1>
       {post.data.description && (
@@ -86,10 +142,12 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
   }
   .post-meta {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
     font-size: 0.875rem;
     color: var(--text-light);
     margin-bottom: 16px;
+    align-items: center;
   }
   .category {
     display: inline-flex;
@@ -97,34 +155,138 @@ const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
     gap: 6px;
     padding: 6px 12px;
     border-radius: 999px;
-    background: var(--bg-secondary);
-    color: var(--text-muted);
     font-size: 0.8rem;
     text-decoration: none;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  :global(.dark) .category {
+    filter: brightness(0.85);
+  }
+  :global(.dark) .category:hover {
+    filter: brightness(1);
+  }
+  .rilis-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 0.72rem;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .rilis-pill:hover {
+    transform: scale(1.05);
+  }
+  .rilis-badge {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 700;
+    padding: 0 0.65rem;
+    transition: all 0.15s ease;
+  }
+  .rilis-pill:hover .rilis-badge {
+    background: #2563eb;
+    color: white;
+  }
+  .rilis-date {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: #dbeafe;
+    color: #1e3a8a;
+    font-weight: 500;
+    padding: 0 0.65rem;
+    transition: all 0.15s ease;
+  }
+  .rilis-pill:hover .rilis-date {
+    background: #2563eb;
+    color: white;
+  }
+  .updated-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 0.72rem;
+    flex-shrink: 0;
     transition: all 0.15s ease;
     cursor: pointer;
   }
-  .category:hover {
-    background: var(--accent);
-    color: white;
+  .updated-pill:hover {
     transform: scale(1.05);
   }
-  .date {
+  .updated-badge {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: #f0fdf4;
+    color: #15803d;
+    font-weight: 700;
+    padding: 0 0.65rem;
+    transition: all 0.15s ease;
+  }
+  .updated-pill:hover .updated-badge {
+    background: #16a34a;
+    color: white;
+  }
+  .updated-date {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: #dcfce7;
+    color: #14532d;
+    font-weight: 500;
+    padding: 0 0.65rem;
+    transition: all 0.15s ease;
+  }
+  .updated-pill:hover .updated-date {
+    background: #16a34a;
+    color: white;
+  }
+  .ref-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    height: 28px;
     padding: 6px 12px;
     border-radius: 999px;
     background: var(--bg-secondary);
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    flex-shrink: 0;
     transition: all 0.15s ease;
     cursor: pointer;
   }
-  .date:hover {
+  .ref-badge:hover {
     background: var(--accent);
     color: white;
     transform: scale(1.05);
+  }
+  /* Dark mode styles for updated pill */
+  :global(.dark) .updated-badge {
+    background: #14532d;
+    color: #bbf7d0;
+  }
+  :global(.dark) .updated-date {
+    background: #166534;
+    color: #dcfce7;
+  }
+  :global(.dark) .updated-pill:hover .updated-badge,
+  :global(.dark) .updated-pill:hover .updated-date {
+    background: #16a34a;
+    color: white;
   }
   .post-title {
     font-size: 2.25rem;

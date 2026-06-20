@@ -151,6 +151,11 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
     text-transform: capitalize;
     flex-shrink: 0;
     box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+  .post-card:hover .category {
+    transform: translateY(-2px);
+    filter: brightness(1.2);
   }
   .updated-pill {
     display: inline-flex;
@@ -196,6 +201,11 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
     color: #1d4ed8;
     font-weight: 700;
     padding: 0 0.65rem;
+    transition: all 0.15s ease;
+  }
+  .post-card:hover .rilis-badge {
+    background: #2563eb;
+    color: white;
   }
   .rilis-date {
     display: flex;
@@ -205,6 +215,11 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
     color: #1e3a8a;
     font-weight: 500;
     padding: 0 0.65rem;
+    transition: all 0.15s ease;
+  }
+  .post-card:hover .rilis-date {
+    background: #2563eb;
+    color: white;
   }
   .card-footer-row {
     display: flex;
