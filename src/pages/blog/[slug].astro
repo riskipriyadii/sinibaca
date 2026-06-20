@@ -83,7 +83,7 @@ const updatedDateStr = post.data.updatedDate ? post.data.updatedDate.toLocaleDat
 const showUpdated = post.data.updatedDate && post.data.updatedDate.getTime() !== post.data.pubDate.getTime();
 ---
 
-<Layout title={post.data.title} description={post.data.description || ""} noScroll={true}>
+<Layout title={post.data.title} description={post.data.description || ""}>
   <TableOfContentsOverlay />
   <article class="blog-post">
     <header class="post-header">
