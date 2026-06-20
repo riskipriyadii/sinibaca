@@ -892,8 +892,6 @@ const socials = [
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            // Force toggle to stay checked (default state)
-            tocToggle.checked = true;
             showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
             return false;
           }
@@ -929,6 +927,14 @@ const socials = [
     
     if (!postContent) {
       console.log('[StudyTools] .post-content not found on this page');
+      
+      // Auto-reset toggles when not on an article page
+      const toggle = document.getElementById('study-mode-toggle');
+      if (toggle && toggle.checked) {
+        toggle.checked = false;
+        console.log('[StudyTools] Auto-reset Study Mode toggle (not on article page)');
+      }
+      
       // Still setup toast protection even if no post content
       setupToastProtection();
       return;
@@ -1340,26 +1346,23 @@ const socials = [
   const tocInput = document.getElementById('toc-toggle');
 
   if (tocInput) {
-    // Load saved state; default is true (enabled)
-    const saved = localStorage.getItem(TOC_STORAGE_KEY);
-    if (saved !== null) {
-      tocInput.checked = saved === 'true';
+    // Check if we're on an article page
+    if (!isArticlePage()) {
+      // Auto-reset to OFF when not on article page
+      tocInput.checked = false;
+      console.log('[TOC] Auto-reset toggle to OFF (not on article page)');
     } else {
-      tocInput.checked = true; // default ON
+      // Load saved state only when on article page; default is true (enabled)
+      const saved = localStorage.getItem(TOC_STORAGE_KEY);
+      if (saved !== null) {
+        tocInput.checked = saved === 'true';
+      } else {
+        tocInput.checked = true; // default ON
+      }
     }
 
     // On change: save and notify the ToC overlay
     tocInput.addEventListener('change', function(e) {
-      // Check if we're on an article page
-      if (!isArticlePage()) {
-        // Prevent toggle from changing
-        e.preventDefault();
-        this.checked = true;
-        showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
-        console.log('[TOC] Toggle blocked - not on article page');
-        return;
-      }
-
       const enabled = this.checked;
       localStorage.setItem(TOC_STORAGE_KEY, String(enabled));
       document.dispatchEvent(
