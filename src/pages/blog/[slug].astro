@@ -104,10 +104,10 @@ const showUpdated = post.data.updatedDate && post.data.updatedDate.getTime() !==
           </span>
         )}
         {refCount > 0 && (
-          <span class="ref-badge">
+          <button class="ref-badge" data-scroll-to="referensi" aria-label="Gulir ke bagian Referensi">
             <img src={`${base}icons/ref-icon.png`} alt="referensi" width="16" height="16" style="width:16px;height:16px;object-fit:contain;display:inline-block;" />
             {refCount} referensi
-          </span>
+          </button>
         )}
       </div>
       <h1 class="post-title">{post.data.title}</h1>
@@ -268,11 +268,24 @@ const showUpdated = post.data.updatedDate && post.data.updatedDate.getTime() !==
     flex-shrink: 0;
     transition: all 0.15s ease;
     cursor: pointer;
+    border: none;
+    font-family: inherit;
+    outline: none;
   }
   .ref-badge:hover {
     background: var(--accent);
     color: white;
     transform: scale(1.05);
+  }
+  .ref-badge:focus {
+    outline: none;
+  }
+  .ref-badge:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .ref-badge:active {
+    transform: scale(0.98);
   }
   /* Dark mode styles for updated pill */
   :global(.dark) .updated-badge {
@@ -398,4 +411,30 @@ const showUpdated = post.data.updatedDate && post.data.updatedDate.getTime() !==
     border-top: 1px solid var(--border);
     margin: 40px 0;
   }
+  
+  /* Scroll margin for headings to account for any fixed elements */
+  .post-content :global(h2),
+  .post-content :global(h3) {
+    scroll-margin-top: 80px;
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const refBadge = document.querySelector('.ref-badge[data-scroll-to]');
+    
+    if (refBadge) {
+      refBadge.addEventListener('click', () => {
+        const targetId = refBadge.getAttribute('data-scroll-to');
+        const targetElement = document.getElementById(targetId || '');
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      });
+    }
+  });
+</script>
