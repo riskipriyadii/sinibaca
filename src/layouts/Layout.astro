@@ -94,7 +94,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
       }
       body.no-scroll .sidebar-left,
       body.no-scroll .sidebar-right {
-        overflow-y: visible;
+        overflow-y: auto;
       }
       body.no-scroll .main-content {
         height: 100%;
@@ -233,7 +233,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
           background: var(--bg);
           border-right: 1px solid var(--border);
           padding: 20px;
-          padding-top: 80px;
+          padding-top: 96px;
           overflow-y: auto;
           box-sizing: border-box;
         }
@@ -261,25 +261,22 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         body.no-scroll .page-wrapper {
           padding-top: 60px;
           padding-bottom: 10px;
+          overflow: hidden;
+          height: 100vh;
         }
         .sidebar-left {
           width: 260px;
           max-width: 85vw;
           padding: 16px;
+          padding-top: 68px;
         }
         body.no-scroll {
-          height: auto;
-          overflow: visible;
-        }
-        body.no-scroll .page-wrapper {
-          min-height: 0;
-          flex: 1;
-          overflow: visible;
-          padding-top: 60px;
-          padding-bottom: 10px;
+          height: 100vh;
+          overflow: hidden;
         }
         body.no-scroll .main-content {
-          overflow: visible;
+          overflow: hidden;
+          pointer-events: none;
         }
       }
 
@@ -294,6 +291,7 @@ const { title = "sinibaca", description = "Blog modern dengan Astro", noScroll =
         .sidebar-left {
           width: 240px;
           padding: 12px;
+          padding-top: 64px;
         }
       }
     </style>
