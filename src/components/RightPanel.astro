@@ -67,8 +67,9 @@ categories.forEach(([cat], index) => {
                 class="category-tab" 
                 style={`background: var(--tab-bg-${category.toLowerCase().replace(/\s+/g, '-')}, ${colorScheme.bg})`}
                 data-category={category}
+                data-text-color={colorScheme.text}
               >
-                <span class="category-name">{category}</span>
+                <span class="category-name" style={`color: ${colorScheme.text}`}>{category}</span>
               </div>
               <div class="item-content">
                 <span class="item-title">{post.data.title}</span>
