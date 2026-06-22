@@ -1,32 +1,43 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../layouts/Layout.astro";
-import { countReferences } from "../utils/countReferences";
+import Layout from "../../layouts/Layout.astro";
+import { countReferences } from "../../utils/countReferences";
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
-const sortedPosts = posts.sort(
-  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+  );
 
-const postsPerPage = 3;
-const recentPosts = sortedPosts.slice(0, postsPerPage);
-const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
-const currentPage = 1;
+  return paginate(sortedPosts, { pageSize: 3 });
+}
+
+type Props = {
+  page: Page<CollectionEntry<"blog">>;
+};
+
+const { page } = Astro.props as Props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const totalPosts = allPosts.length;
+const currentPage = page.currentPage;
+const totalPages = page.lastPage;
 ---
 
 <Layout title="sinibaca — Blog Modern" description="Kumpulan artikel teknologi, tutorial, dan catatan pengembangan web.">
   <div class="home-wrapper">
     <div class="home-header">
       <div class="page-title-card">
-        <span class="title-badge">{posts.length}</span>
+        <span class="title-badge">{totalPosts}</span>
         <span class="title-label">Tulisan</span>
       </div>
       <p class="page-subtitle">Setiap tulisan disertai referensi yang bisa ditelusuri.</p>
     </div>
 
     <div class="posts-list" id="posts-list">
-      {recentPosts.map((post) => {
+      {page.data.map((post) => {
         const thumb = post.data.thumbnail || (post.data.heroImage ? (typeof post.data.heroImage === "string" ? post.data.heroImage : post.data.heroImage.src) : null);
         const imageUrl = thumb ? (thumb.startsWith("/") ? `${base}${thumb}` : `${base}/${thumb}`) : `${base}/images/placeholder.jpg`;
         const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
@@ -76,27 +87,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       })}
     </div>
 
-    {totalPages > 1 && (
-      <div class="pagination-wrap">
-        <div class="pagination-group">
-          {currentPage > 1 && (
-            <a href={currentPage === 2 ? `${base}/` : `${base}/page/${currentPage - 1}`} class="pagination-btn">← Sebelumnya</a>
-          )}
-          
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-            pageNum === currentPage ? (
-              <span class="page-number active" aria-current="page">{pageNum}</span>
-            ) : (
-              <a href={pageNum === 1 ? `${base}/` : `${base}/page/${pageNum}`} class="page-number">{pageNum}</a>
-            )
-          ))}
-          
-          {currentPage < totalPages && (
-            <a href={`${base}/page/${currentPage + 1}`} class="pagination-btn">Berikutnya →</a>
-          )}
-        </div>
+    <div class="pagination-wrap">
+      <div class="pagination-group">
+        {page.url.prev && (
+          <a href={page.url.prev} class="pagination-btn">← Sebelumnya</a>
+        )}
+        
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+          pageNum === currentPage ? (
+            <span class="page-number active" aria-current="page">{pageNum}</span>
+          ) : (
+            <a href={pageNum === 1 ? `${base}/` : `${base}/page/${pageNum}`} class="page-number">{pageNum}</a>
+          )
+        ))}
+        
+        {page.url.next && (
+          <a href={page.url.next} class="pagination-btn">Berikutnya →</a>
+        )}
       </div>
-    )}
+    </div>
   </div>
 </Layout>
 
