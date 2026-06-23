@@ -116,20 +116,19 @@ const postsData = posts.map(p => ({
     const posts = JSON.parse(searchBar.dataset.posts || "[]");
     const base = window.location.pathname.startsWith("/sinibaca") ? "/sinibaca" : "";
 
-    function formatDate(dateStr) {
+    function formatDate(dateStr: string) {
       if (!dateStr) return "";
       const d = new Date(dateStr);
       return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
     }
 
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function renderResults(results) {
-      searchList.innerHTML = "";
+    function renderResults(results: any[]) {
+      if (!searchList || !searchEmpty) return;
+      
+      // Clear search list safely
+      while (searchList.firstChild) {
+        searchList.removeChild(searchList.firstChild);
+      }
 
       if (results.length === 0) {
         searchEmpty.style.display = "flex";
@@ -138,26 +137,44 @@ const postsData = posts.map(p => ({
 
       searchEmpty.style.display = "none";
 
-      results.slice(0, 8).forEach(post => {
+      results.slice(0, 8).forEach((post: any) => {
         const li = document.createElement("li");
         li.className = "search-item";
-        li.innerHTML = `
-          <a href="${base}/blog/${post.slug}" class="search-result-item">
-            <div class="search-meta">
-              <span class="search-title">${escapeHtml(post.title)}</span>
-              ${post.description ? `<span class="search-desc">${escapeHtml(post.description)}</span>` : ""}
-            </div>
-            <time class="search-time">${formatDate(post.pubDate)}</time>
-          </a>
-        `;
-        searchList.appendChild(li);
+        
+        const a = document.createElement("a");
+        a.href = `${base}/blog/${post.slug}`;
+        a.className = "search-result-item";
+        
+        const meta = document.createElement("div");
+        meta.className = "search-meta";
+        
+        const title = document.createElement("span");
+        title.className = "search-title";
+        title.textContent = post.title;
+        meta.appendChild(title);
+        
+        if (post.description) {
+          const desc = document.createElement("span");
+          desc.className = "search-desc";
+          desc.textContent = post.description;
+          meta.appendChild(desc);
+        }
+        
+        const time = document.createElement("time");
+        time.className = "search-time";
+        time.textContent = formatDate(post.pubDate);
+        
+        a.appendChild(meta);
+        a.appendChild(time);
+        li.appendChild(a);
+        searchList!.appendChild(li);
       });
     }
 
-    function filterPosts(query) {
+    function filterPosts(query: string) {
       const q = query.toLowerCase().trim();
       if (!q) return posts.slice(0, 8);
-      return posts.filter(post =>
+      return posts.filter((post: any) =>
         post.title.toLowerCase().includes(q) ||
         post.description.toLowerCase().includes(q) ||
         post.category.toLowerCase().includes(q)
@@ -165,25 +182,25 @@ const postsData = posts.map(p => ({
     }
 
     searchInput.addEventListener("focus", () => {
-      const filtered = filterPosts(searchInput.value);
+      const filtered = filterPosts((searchInput as HTMLInputElement).value);
       renderResults(filtered);
       searchDropdown.classList.add("active");
     });
 
     searchInput.addEventListener("input", () => {
-      const filtered = filterPosts(searchInput.value);
+      const filtered = filterPosts((searchInput as HTMLInputElement).value);
       renderResults(filtered);
       searchDropdown.classList.add("active");
     });
 
     searchBtn?.addEventListener("click", () => {
-      const firstLink = searchList.querySelector("a");
+      const firstLink = searchList?.querySelector("a");
       if (firstLink) firstLink.click();
     });
 
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        const firstLink = searchList.querySelector("a");
+        const firstLink = searchList?.querySelector("a");
         if (firstLink) {
           e.preventDefault();
           firstLink.click();
@@ -191,12 +208,12 @@ const postsData = posts.map(p => ({
       }
       if (e.key === "Escape") {
         searchDropdown.classList.remove("active");
-        searchInput.blur();
+        (searchInput as HTMLInputElement).blur();
       }
     });
 
     document.addEventListener("click", (e) => {
-      if (!searchBar.contains(e.target)) {
+      if (searchBar && e.target instanceof Node && !searchBar.contains(e.target)) {
         searchDropdown.classList.remove("active");
       }
     });
