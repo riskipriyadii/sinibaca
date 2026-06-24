@@ -123,9 +123,9 @@ const showUpdated = post.data.updatedDate && post.data.updatedDate.getTime() !==
     <img src={imageUrl} alt={post.data.title} class="hero-image" onerror={`this.src='${base}images/placeholder.jpg'`} />
     <div class="post-content">
       <Content />
+      <Giscus />
     </div>
   </article>
-  <Giscus />
 </Layout>
 
 <style>
