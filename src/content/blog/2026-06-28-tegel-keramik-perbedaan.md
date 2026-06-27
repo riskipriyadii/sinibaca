@@ -56,3 +56,4 @@ Bayu Ardi Isnanto. "Perbedaan Keramik, Granit, dan Tegel untuk Lantai, Simak Seb
 Retia Kartika Dewi, Rizal Setyo Nugroho. "Perbedaan Keramik, Granit, dan Tegel untuk Rumah, Mana yang Terbaik?" Kompas.com. 5 Januari 2022. https://www.kompas.com/tren/read/2022/01/05/181832165/perbedaan-keramik-granit-dan-tegel-untuk-rumah-mana-yang-terbaik. Diakses 28 Juni 2026.
 
 Admin Stone Depot. "Perbedaan Tegel dan Keramik: Kelebihan dan Aplikasinya." jualbatualam.com. 12 Maret 2025. https://jualbatualam.com/perbedaan-tegel-dan-keramik-kelebihan-dan-aplikasinya/. Diakses 28 Juni 2026.
+
