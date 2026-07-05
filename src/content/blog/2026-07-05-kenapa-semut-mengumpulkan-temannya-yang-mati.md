@@ -27,7 +27,7 @@ Responsnya sendiri ternyata bergantung pada asal bangkai. Semut abu-abu (Formica
 
 Beda dengan bangkai, semut yang hanya terluka justru diperlakukan sebaliknya. Pada semut Matabele (Megaponera analis), anggota koloni yang terluka dalam perburuan makanan (bukan mati) dievakuasi kembali ke sarang, dirawat lewat penjilatan luka dan pemberian senyawa antimikroba dari kelenjar metapleural, sampai bisa pulih dan berfungsi lagi.
 
-## Referensi Sumber
+## Referensi
 
 Zelagin, D. "Is a Corpse a Corpse? Spatial Aspects of Necrophoresis in the Western Harvester Ant, Pogonomyrmex occidentalis." University of Colorado Boulder, Ecology and Evolutionary Biology. 2015. https://www.colorado.edu/ebio/2016/01/08/corpse-corpse-spatial-aspects-necrophoresis-western-harvester-ant-pogonomyrmex. Diakses 5 Juli 2026.
 
