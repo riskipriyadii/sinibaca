@@ -1,0 +1,2002 @@
+<!DOCTYPE html><html lang="id" data-mode="light" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Ember Tanpa Mesin Filter: Anatomi Ekosistem Mikro dari Warisan Tsuboniwa ke Siklus Nitrogen untuk Kehidupan Ikan dan Tanaman Hias</title><meta name="description" content="Sebuah ember kecil, beberapa ekor ikan, segumpal tanaman air, tanpa pompa, tanpa filter mekanis, tanpa aerator. Air tetap bening dan ikan tetap hidup bertahun-tahun, berlawanan dengan dogma akuarium konvensional yang mengajarkan bahwa air tanpa filter akan beracun dalam hitungan hari. Fenomena ini sering disebut tren media sosial, padahal ia warisan dua jalur panjang yang berjalan terpisah selama berabad-abad."><link rel="icon" type="image/x-icon" href="/sinibaca/favicons/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/sinibaca/favicons/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/sinibaca/favicons/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/sinibaca/favicons/apple-touch-icon.png"><link rel="manifest" href="/sinibaca/favicons/site.webmanifest"><link rel="icon" type="image/x-icon" href="/sinibaca/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><script>
+      const saved = localStorage.getItem("theme");
+      if (saved) document.documentElement.setAttribute("data-mode", saved);
+    </script><style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.sidebar { display: flex; flex-direction: column; gap: 1rem; }
+
+  .profile-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+    transition: box-shadow 0.3s ease;
+  }
+  .profile-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03);
+  }
+
+  .avatar-wrap {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar {
+    position: relative;
+    z-index: 2;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    display: block;
+    border: 3px solid var(--accent, #6366f1);
+  }
+  .about-avatar-ring {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border: 2px dashed #0969da;
+    opacity: 0.35;
+    z-index: 1;
+    will-change: transform, border-radius;
+    animation: 
+      ring-spin 8s linear infinite,
+      ring-blob 4s ease-in-out infinite;
+    transform-origin: center center;
+  }
+  @keyframes ring-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes ring-blob {
+    0%,100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+    25%     { border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%; }
+    50%     { border-radius: 55% 45% 60% 40% / 45% 55% 50% 60%; }
+    75%     { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; }
+  }
+
+  .name { font-size: 1.05rem; font-weight: 800; margin: 20px 0 0; letter-spacing: -0.01em; }
+  .bio { font-size: 0.75rem; color: var(--muted, #6b7280); margin: 4px 0 0; line-height: 1.5; }
+
+  .section-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  .section-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted, #94a3b8);
+    margin: 0 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .nav-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.5rem;
+    align-items: stretch;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--text, #0f172a);
+    transition: all 0.2s ease;
+    font-weight: 500;
+    line-height: 1.4;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .nav-item:hover {
+    background: var(--hover, #f1f5f9);
+    border-color: var(--accent, #6366f1);
+    color: var(--accent, #6366f1);
+    transform: translateY(-1px);
+  }
+  .nav-item:active {
+    transform: translateY(0);
+  }
+  .nav-icon { 
+    display: flex; 
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* Nav Item Toggle (for Study Mode) */
+  .nav-item-toggle {
+    cursor: pointer;
+    justify-content: space-between;
+  }
+
+  .nav-label-text {
+    flex: 1;
+  }
+
+  .nav-item-toggle .study-toggle-slider {
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.3s;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .nav-item-toggle .study-toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+  }
+
+  .nav-item-toggle input:checked ~ .study-toggle-slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .nav-item-toggle input:checked ~ .study-toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  /* Nav Item Button (for Print PDF) */
+  .nav-item-button {
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .nav-item-button:hover {
+    background: var(--hover, #f1f5f9);
+  }
+
+  .social-list { display: flex; flex-direction: column; gap: 0.5rem; align-items: stretch; }
+  .social-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .social-item:hover {
+    background: var(--hover, #f1f5f9);
+    border-color: var(--accent, #6366f1);
+    color: var(--accent, #6366f1);
+    transform: translateY(-1px);
+  }
+  .social-icon { display: flex; align-items: center; }
+
+  /* Unified Card Styles */
+  .unified-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease;
+  }
+  .unified-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .unified-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted, #94a3b8);
+    margin: 0 0 0.75rem;
+  }
+
+  .unified-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .item-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .item-icon-wrapper.study-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .item-icon-wrapper .icon-emoji {
+    font-size: 1.4rem;
+  }
+
+  .item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    color: var(--text, #1e1b4b);
+  }
+
+  .item-subtitle {
+    font-size: 0.75rem;
+    color: var(--muted, #6b7280);
+    margin: 0 0 0.5rem;
+  }
+
+  .instagram-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 0.875rem;
+    background: var(--hover, #f8f9fa);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text, #1e1b4b);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .instagram-link:hover {
+    background: var(--accent, #6366f1);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    border-color: var(--accent, #6366f1);
+  }
+
+  .instagram-link img {
+    flex-shrink: 0;
+  }
+
+  .instagram-link span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .unified-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border, #e2e8f0), transparent);
+    margin: 1rem 0;
+  }
+
+  /* Study Tools Styles */
+  .study-toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text, #333);
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+  }
+
+  .study-toggle-label input[type="checkbox"] {
+    display: none;
+  }
+
+  .study-toggle-slider {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+
+  .study-toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+  }
+
+  .study-toggle-label input:checked + .study-toggle-slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .study-toggle-label input:checked + .study-toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  .study-color-section {
+    padding: 0.75rem;
+    background: var(--hover, #f8f9fa);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+  }
+
+  .color-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted, #666);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .color-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .color-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .color-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .color-btn.active {
+    border-color: var(--accent, #667eea);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  .color-btn.yellow { background: #fef08a; }
+  .color-btn.blue { background: #bfdbfe; }
+  .color-btn.pink { background: #fbcfe8; }
+
+  .print-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.7rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.75rem;
+  }
+
+  .print-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  .study-info-text {
+    padding: 0.65rem;
+    background: linear-gradient(135deg, #f0f4ff, #e8f0ff);
+    border-radius: 8px;
+    font-size: 0.7rem;
+    color: var(--accent, #667eea);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* Study Tools - Banner and Popup */
+  .instruction-banner {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 10000;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+
+  .instruction-banner kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  .post-content.study-active {
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  mark[data-highlight-id] {
+    cursor: pointer;
+    transition: filter 0.2s;
+    padding: 2px 0;
+    border-radius: 2px;
+  }
+
+  mark[data-highlight-id]:hover {
+    filter: brightness(0.95);
+  }
+
+  mark[data-note]::after {
+    content: '📝';
+    margin-left: 2px;
+    font-size: 11px;
+  }
+
+  .annotation-popup {
+    position: fixed;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    z-index: 10001;
+    border: 1px solid #e5e7eb;
+  }
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .popup-header strong {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .popup-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .popup-close:hover {
+    color: #333;
+  }
+
+  #note-textarea {
+    width: 100%;
+    min-height: 70px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+
+  .popup-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .popup-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .delete-btn {
+    background: #ef4444;
+    color: white;
+  }
+
+  .delete-btn:hover {
+    background: #dc2626;
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .save-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Toast Notification - positioned below navigation card in sidebar */
+  .toast-notification {
+    width: 100%;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    z-index: 100;
+    line-height: 1.5;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .toast-notification.show {
+    animation: toastSlideDown 0.3s ease forwards;
+  }
+
+  .toast-notification.hide {
+    animation: toastFadeOut 0.3s ease forwards;
+  }
+
+  @keyframes toastSlideDown {
+    from { 
+      transform: translateY(-10px);
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    to { 
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 100px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0;
+    }
+  }
+
+  @keyframes toastFadeOut {
+    from { 
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 100px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    to { 
+      transform: translateY(-10px);
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  /* Mobile-only adjustments */
+  @media (max-width: 767px) {
+    .nav-item-toggle.mobile-hidden {
+      display: none !important;
+    }
+  }
+
+  @media print {
+    .instruction-banner,
+    .annotation-popup,
+    .toast-notification {
+      display: none !important;
+    }
+
+    mark[data-highlight-id] {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    mark[data-note]::after {
+      content: '';
+    }
+  }</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.right-panel[data-astro-cid-buurnn3n]{display:flex;flex-direction:column}.unified-card[data-astro-cid-buurnn3n]{background:var(--color-card-bg);border:1px solid var(--color-border);border-radius:16px;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);transition:box-shadow 0.3s ease}.unified-card[data-astro-cid-buurnn3n]:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04)}.dark .unified-card[data-astro-cid-buurnn3n]{box-shadow:0 1px 3px rgba(0,0,0,0.2),0 1px 2px rgba(0,0,0,0.15)}.dark .unified-card[data-astro-cid-buurnn3n]:hover{box-shadow:0 4px 12px rgba(0,0,0,0.3),0 2px 4px rgba(0,0,0,0.15)}.unified-section[data-astro-cid-buurnn3n]{margin:0}.unified-heading[data-astro-cid-buurnn3n]{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-muted);margin:0 0 0.875rem}.section-divider[data-astro-cid-buurnn3n]{height:1px;background:var(--color-border);margin:1.25rem 0}.updated-list[data-astro-cid-buurnn3n]{display:flex;flex-direction:column;gap:0.75rem}.updated-item[data-astro-cid-buurnn3n]{display:flex;align-items:stretch;text-decoration:none;border-radius:10px;border:1px solid var(--color-border);transition:all 0.2s ease;background:var(--color-card-bg);box-shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.06)}.updated-item[data-astro-cid-buurnn3n]:hover{transform:translateX(2px);box-shadow:0 4px 12px rgba(0,0,0,0.12),0 2px 6px rgba(0,0,0,0.08)}.category-tab[data-astro-cid-buurnn3n]{width:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;border-radius:10px 0 0 10px;padding:0.5rem 0;overflow:hidden;box-shadow:2px 0px 6px rgba(0,0,0,0.18),inset -1px 0 0 rgba(255,255,255,0.12)}.category-tab[data-astro-cid-buurnn3n]::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");pointer-events:none;border-radius:inherit}.category-name[data-astro-cid-buurnn3n]{writing-mode:vertical-rl;text-orientation:mixed;font-size:0.65rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;color:#FFFFFF}.item-content[data-astro-cid-buurnn3n]{flex:1;display:flex;flex-direction:column;gap:0.25rem;padding:0.625rem 0.75rem;min-width:0}.item-title[data-astro-cid-buurnn3n]{font-size:0.875rem;font-weight:500;color:var(--text);line-height:1.4;transition:color 0.2s ease}.updated-item[data-astro-cid-buurnn3n]:hover .item-title[data-astro-cid-buurnn3n]{color:var(--accent)}.item-date[data-astro-cid-buurnn3n]{font-size:0.7rem;color:var(--text-muted)}.category-grid[data-astro-cid-buurnn3n]{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem}.category-card[data-astro-cid-buurnn3n]{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.625rem;border-radius:8px;text-decoration:none;transition:all 0.2s ease;border:1px solid transparent;min-height:36px}.category-card[data-astro-cid-buurnn3n]:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1);border-color:var(--color-border)}.category-label[data-astro-cid-buurnn3n]{font-size:0.75rem;font-weight:600;line-height:1.2;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.category-count[data-astro-cid-buurnn3n]{font-size:0.7rem;font-weight:700;margin-left:0.25rem;flex-shrink:0}.tag-cloud[data-astro-cid-buurnn3n]{display:flex;flex-wrap:wrap;gap:0.5rem}.tag-link[data-astro-cid-buurnn3n]{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.625rem;border-radius:8px;background:#e0e7ff;color:#3730a3;font-size:0.75rem;text-decoration:none;transition:all 0.2s ease;font-weight:600;border:1px solid transparent;min-height:36px;gap:0.25rem}.tag-link[data-astro-cid-buurnn3n]:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1);border-color:var(--color-border)}.tag-count[data-astro-cid-buurnn3n]{font-size:0.7rem;font-weight:700;margin-left:0.25rem;flex-shrink:0}.dark .tag-link[data-astro-cid-buurnn3n]{background:#4c1d95;color:#e9d5ff;filter:brightness(0.85)}.dark .tag-link[data-astro-cid-buurnn3n]:hover{filter:brightness(1)}.dark .category-tab[data-astro-cid-buurnn3n]{filter:brightness(0.85)}.dark .category-card[data-astro-cid-buurnn3n]{filter:brightness(0.85)}.dark .category-card[data-astro-cid-buurnn3n] .category-label[data-astro-cid-buurnn3n],.dark .category-card[data-astro-cid-buurnn3n] .category-count[data-astro-cid-buurnn3n]{filter:brightness(1.3)}.dark .updated-item[data-astro-cid-buurnn3n]{background:var(--color-bg-secondary);box-shadow:0 1px 3px rgba(0,0,0,0.3),0 1px 2px rgba(0,0,0,0.2)}.dark .updated-item[data-astro-cid-buurnn3n]:hover{box-shadow:0 4px 12px rgba(0,0,0,0.4),0 2px 6px rgba(0,0,0,0.3)}@media (max-width: 768px){.category-grid[data-astro-cid-buurnn3n]{grid-template-columns:repeat(2,1fr)}}@media (max-width: 480px){.category-grid[data-astro-cid-buurnn3n]{grid-template-columns:1fr}.category-tab[data-astro-cid-buurnn3n]{width:28px}.category-name[data-astro-cid-buurnn3n]{font-size:0.6rem}}</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.85);
+    border-bottom: 1px solid var(--border, #e2e8f0);
+    z-index: 100;
+    transition: background 0.3s ease;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  html[data-mode="dark"] .topbar {
+    background: rgba(10,10,10,0.85);
+    border-bottom-color: var(--border, #1e1e1e);
+  }
+
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text, #0f172a);
+    font-weight: 700;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+  .logo-img {
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .search-bar {
+    position: relative;
+    flex: 1;
+    max-width: 480px;
+    min-width: 180px;
+    z-index: 200;
+    box-sizing: border-box;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg, #ffffff);
+    border: 1.5px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    padding: 3px;
+    transition: all 0.2s ease;
+    height: 40px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    box-sizing: border-box;
+  }
+  .search-box:focus-within {
+    border-color: var(--accent, #6366f1);
+    box-shadow: 0 0 0 4px rgba(99,102,241,0.1), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  .search-icon {
+    color: var(--text-muted, #9ca3af);
+    margin-left: 10px;
+    margin-right: 8px;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text, #0f172a);
+    font-size: 0.875rem;
+    font-family: inherit;
+    height: 100%;
+    min-width: 0;
+    padding: 0 4px;
+  }
+  .search-input::placeholder {
+    color: var(--text-muted, #9ca3af);
+  }
+
+  .search-btn {
+    background: #111827;
+    color: #ffffff;
+    border: none;
+    padding: 0 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    height: 100%;
+    margin: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .search-btn:hover {
+    background: #374151;
+  }
+
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--bg, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
+    padding: 6px 0;
+    box-sizing: border-box;
+  }
+  .search-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .search-dropdown::-webkit-scrollbar {
+    width: 6px;
+  }
+  .search-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .search-dropdown::-webkit-scrollbar-thumb {
+    background: var(--border, #e2e8f0);
+    border-radius: 3px;
+  }
+
+  .search-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .search-item {
+    border-bottom: 1px solid var(--border, #f1f5f9);
+  }
+  .search-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 16px;
+    text-decoration: none !important;
+    transition: background-color 0.12s ease;
+    cursor: pointer;
+    color: inherit;
+    gap: 12px;
+  }
+  .search-result-item:hover {
+    background-color: var(--bg-secondary, #f8fafc);
+  }
+  .search-result-item:hover .search-title {
+    color: var(--accent, #6366f1);
+  }
+
+  .search-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text, #0f172a);
+    line-height: 1.4;
+    text-decoration: none !important;
+    border-bottom: none !important;
+  }
+
+  .search-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted, #6b7280);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .search-time {
+    font-size: 0.75rem;
+    color: var(--text-muted, #9ca3af);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .search-empty {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-muted, #94a3b8);
+    font-size: 0.8125rem;
+    gap: 8px;
+  }
+
+  .topbar-nav {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .header-actions-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    background: var(--card-bg, #ffffff);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    height: 40px;
+  }
+
+  .theme-toggle-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 1rem;
+    border: none;
+    border-right: 1px solid var(--border, #e2e8f0);
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    color: var(--text, #0f172a);
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 100%;
+  }
+  .theme-toggle-header:hover {
+    background: var(--bg-secondary, #f8fafc);
+  }
+  .theme-toggle-header img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .header-actions-group .nav-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 1rem;
+    border: none;
+    border-right: 1px solid var(--border, #e2e8f0);
+    border-radius: 0;
+    text-decoration: none;
+    color: var(--text, #0f172a);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    background: transparent;
+    box-sizing: border-box;
+    height: 100%;
+  }
+
+  .header-actions-group .nav-item:hover {
+    background: var(--bg-secondary, #f8fafc);
+  }
+
+  .nav-gallery svg {
+    flex-shrink: 0;
+  }
+
+
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: #eff6ff;
+    color: var(--text, #0f172a);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+  .menu-toggle:hover {
+    background-color: #dbeafe;
+  }
+
+  @media (max-width: 768px) {
+    .topbar-inner {
+      padding: 0 12px;
+      gap: 8px;
+    }
+    .header-actions-group {
+      height: 36px;
+    }
+    .theme-toggle-header {
+      padding: 0 0.75rem;
+      font-size: 0.75rem;
+      gap: 6px;
+    }
+    .theme-toggle-header img {
+      width: 20px;
+      height: 20px;
+    }
+    .header-actions-group .nav-item span {
+      display: none;
+    }
+    .header-actions-group .nav-item {
+      padding: 0 0.5rem;
+      min-width: 36px;
+      justify-content: center;
+    }
+    .post-count-badge,
+    .post-count-pill {
+      padding: 0 0.6rem;
+      font-size: 0.75rem;
+    }
+    .search-bar {
+      max-width: none;
+      min-width: 0;
+      flex: 1;
+    }
+    .search-box {
+      height: 36px;
+    }
+    .search-btn {
+      padding: 0 12px;
+      font-size: 12px;
+    }
+    .search-dropdown {
+      position: fixed;
+      top: 66px;
+      left: 12px;
+      right: 12px;
+      width: auto;
+      min-width: auto;
+      max-width: calc(100vw - 24px);
+      box-sizing: border-box;
+    }
+    .menu-toggle {
+      display: flex;
+    }
+    .header-actions-group {
+      height: 34px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .topbar {
+      height: 56px;
+    }
+    .topbar-inner {
+      padding: 0 10px;
+      gap: 6px;
+    }
+    .logo-text {
+      font-size: 0.95rem;
+    }
+    
+    /* Flexible search bar for mobile */
+    .search-bar {
+      flex: 1 1 auto;
+      max-width: none;
+      min-width: 0;
+    }
+    .search-box {
+      height: 34px;
+      padding: 2px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .search-icon {
+      width: 16px;
+      height: 16px;
+      margin-left: 4px;
+      margin-right: 0px;
+      flex-shrink: 0;
+    }
+    .search-input {
+      display: block;
+      flex: 1;
+      font-size: 0.8rem;
+      padding: 0 4px;
+      min-width: 0;
+    }
+    .search-input::placeholder {
+      font-size: 0.8rem;
+    }
+    .search-btn {
+      padding: 0 10px;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    
+    /* Actions group adjustments */
+    .topbar-nav {
+      flex: 0 0 auto;
+      display: flex;
+    }
+    .header-actions-group {
+      flex: 0 0 auto;
+    }
+    .header-actions-group .theme-toggle-header {
+      display: flex;
+      padding: 0 0.41rem;
+    }
+    .header-actions-group .theme-toggle-header span {
+      display: none;
+    }
+    .header-actions-group .theme-toggle-header img {
+      width: 20px;
+      height: 20px;
+    }
+    .header-actions-group .nav-item {
+      padding: 0 0.25rem;
+      min-width: 32px;
+    }
+    .menu-toggle {
+      width: 36px;
+      height: 36px;
+    }
+    .menu-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+    .search-dropdown {
+      top: 62px;
+      left: 10px;
+      right: 10px;
+      max-width: calc(100vw - 20px);
+      box-sizing: border-box;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .logo-text {
+      display: none;
+    }
+    .topbar-inner {
+      gap: 6px;
+    }
+  }</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/components/Footer.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.site-footer[data-astro-cid-sz7xmlte]{width:100%;background:var(--bg-secondary);border-top:1px solid var(--border);height:60px;flex-shrink:0;overflow-x:hidden;display:flex;align-items:center;justify-content:center}.footer-content[data-astro-cid-sz7xmlte]{max-width:1400px;margin:0 auto;padding:0 24px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.copyright[data-astro-cid-sz7xmlte]{font-size:0.9rem;font-weight:500;color:var(--text);margin:0;line-height:1.2}.tagline[data-astro-cid-sz7xmlte]{font-size:0.8rem;color:var(--text-muted);margin:0;line-height:1.2}@media (max-width: 768px){.footer-content[data-astro-cid-sz7xmlte]{padding:0 12px}.copyright[data-astro-cid-sz7xmlte]{font-size:0.85rem}.tagline[data-astro-cid-sz7xmlte]{font-size:0.75rem}}@media (max-width: 480px){.footer-content[data-astro-cid-sz7xmlte]{padding:0 10px}.copyright[data-astro-cid-sz7xmlte]{font-size:0.8rem}.tagline[data-astro-cid-sz7xmlte]{font-size:0.7rem}}</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro?astro&amp;type=style&amp;index=0&amp;lang.css">:root {
+        --bg: #ffffff;
+        --bg-secondary: #f8fafc;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --text-light: #94a3b8;
+        --border: #e2e8f0;
+        --accent: #6366f1;
+        --hover: #f1f5f9;
+        --card-bg: #ffffff;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      html[data-mode="dark"] {
+        --bg: #0a0a0a;
+        --bg-secondary: #141414;
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+        --text-light: #64748b;
+        --border: #1e1e1e;
+        --accent: #818cf8;
+        --hover: #1a1a1a;
+        --card-bg: #141414;
+      }
+      html {
+        scroll-behavior: smooth;
+        font-family: "Inter", system-ui, sans-serif;
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+      }
+      body.no-scroll {
+        height: 100vh;
+        overflow: hidden;
+      }
+      body.no-scroll .page-wrapper {
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+        overflow: hidden;
+        padding-top: 80px;
+        padding-bottom: 0;
+        min-height: 0;
+        flex: 1;
+      }
+      body.no-scroll .sidebar-left,
+      body.no-scroll .sidebar-right {
+        overflow-y: auto;
+      }
+      body.no-scroll .main-content {
+        height: 100%;
+        overflow-y: auto;
+      }
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      img, video, canvas, svg {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      ::selection {
+        background: rgba(99,102,241,0.2);
+        color: var(--text);
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+      }</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro?astro&amp;type=style&amp;index=1&amp;lang.css">.page-wrapper[data-astro-cid-sckkx6r4]{display:flex;align-items:flex-start;padding:80px 24px 40px;flex:1;min-height:0;width:100%;max-width:100%;overflow-x:hidden}.sidebar-left[data-astro-cid-sckkx6r4],.sidebar-right[data-astro-cid-sckkx6r4]{position:sticky;top:0;overflow-y:visible;flex-shrink:0;align-self:flex-start}.sidebar-left[data-astro-cid-sckkx6r4]{width:300px;min-width:300px;margin-right:32px}.sidebar-right[data-astro-cid-sckkx6r4]{width:400px;min-width:400px;margin-left:13px}.main-content[data-astro-cid-sckkx6r4]{flex:1;height:100%;overflow-y:auto;min-width:0;overflow-x:hidden;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:var(--border, #d1d5db) transparent;padding-right:13px}.main-content[data-astro-cid-sckkx6r4]::-webkit-scrollbar{width:6px}.main-content[data-astro-cid-sckkx6r4]::-webkit-scrollbar-track{background:transparent}.main-content[data-astro-cid-sckkx6r4]::-webkit-scrollbar-thumb{background-color:var(--border, #d1d5db);border-radius:999px}.main-content[data-astro-cid-sckkx6r4]::-webkit-scrollbar-thumb:hover{background-color:var(--text-muted, #9ca3af)}@media (max-width: 1200px){.sidebar-right[data-astro-cid-sckkx6r4]{display:none}}@media (max-width: 900px){.page-wrapper[data-astro-cid-sckkx6r4]{display:grid;grid-template-columns:1fr;padding:64px 16px 32px;gap:0;width:100%;max-width:100vw;box-sizing:border-box;overflow-x:hidden}body.no-scroll .page-wrapper[data-astro-cid-sckkx6r4]{padding-top:64px;padding-bottom:14px}.sidebar-left[data-astro-cid-sckkx6r4]{display:none;position:fixed;top:0;left:0;bottom:0;width:280px;max-width:80vw;height:100vh;z-index:90;background:var(--bg);border-right:1px solid var(--border);padding:20px;padding-top:96px;overflow-y:auto;box-sizing:border-box}.sidebar-left[data-astro-cid-sckkx6r4].mobile-open{display:block}.main-content[data-astro-cid-sckkx6r4]{max-width:100%;width:100%;height:auto;overflow-y:visible;box-sizing:border-box;overflow-x:hidden}}@media (max-width: 480px){.page-wrapper[data-astro-cid-sckkx6r4]{padding:60px 12px 24px;width:100%;max-width:100vw;box-sizing:border-box;overflow-x:hidden}body.no-scroll .page-wrapper[data-astro-cid-sckkx6r4]{padding-top:60px;padding-bottom:10px;overflow:hidden;height:100vh}.sidebar-left[data-astro-cid-sckkx6r4]{width:260px;max-width:85vw;padding:16px;padding-top:68px}body.no-scroll{height:100vh;overflow:hidden}body.no-scroll .main-content[data-astro-cid-sckkx6r4]{overflow:hidden;pointer-events:none}}@media (max-width: 360px){.page-wrapper[data-astro-cid-sckkx6r4]{padding:56px 12px 20px}body.no-scroll .page-wrapper[data-astro-cid-sckkx6r4]{padding-top:56px;padding-bottom:8px}.sidebar-left[data-astro-cid-sckkx6r4]{width:240px;padding:12px;padding-top:64px}}</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/components/Giscus.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.giscus-section[data-astro-cid-an2nl7ar]{margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e5e7eb)}</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro?astro&amp;type=style&amp;index=0&amp;lang.css">#toc-overlay[data-astro-cid-ztdg3xqy]{position:fixed;z-index:200;opacity:0;transform:translateX(12px);pointer-events:none;transition:opacity 0.3s cubic-bezier(0.16,1,0.3,1),transform 0.3s cubic-bezier(0.16,1,0.3,1)}#toc-overlay[data-astro-cid-ztdg3xqy].is-visible{opacity:1;transform:translateX(0);pointer-events:auto}.toc-inner[data-astro-cid-ztdg3xqy]{height:100%;background:var(--color-card-bg, #ffffff);border-radius:16px;border:1px solid var(--color-border-light, rgba(0, 0, 0, 0.07));box-shadow:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.06);overflow:hidden;display:flex;flex-direction:column}.toc-header[data-astro-cid-ztdg3xqy]{display:flex;align-items:center;gap:7px;padding:16px 20px 14px;border-bottom:1px solid rgba(0,0,0,0.06);flex-shrink:0}.toc-icon[data-astro-cid-ztdg3xqy]{color:var(--color-primary, #6366f1);flex-shrink:0;opacity:0.85}.toc-label[data-astro-cid-ztdg3xqy]{font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-muted, #94a3b8)}nav[data-astro-cid-ztdg3xqy]{overflow-y:auto;overflow-x:hidden;flex:1;padding:8px 0 16px}nav[data-astro-cid-ztdg3xqy]::-webkit-scrollbar{width:3px}nav[data-astro-cid-ztdg3xqy]::-webkit-scrollbar-track{background:transparent}nav[data-astro-cid-ztdg3xqy]::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:99px}#toc-list[data-astro-cid-ztdg3xqy]{list-style:none;padding:0 12px;margin:0;display:flex;flex-direction:column;gap:1px}.toc-item{display:block;width:100%;text-align:left;background:none;border:none;border-left:2px solid transparent;border-radius:0 6px 6px 0;cursor:pointer;padding:6px 8px 6px 12px;font-size:0.81rem;font-family:inherit;line-height:1.5;color:var(--color-text, #0f172a);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 0.15s ease,background-color 0.15s ease,border-left-color 0.15s ease}.toc-item.toc-h3{font-size:0.76rem;padding-left:20px;color:var(--color-text-muted, #94a3b8)}.toc-item:hover{background:rgba(0,0,0,0.035);color:var(--color-text, #0f172a)}.toc-item.toc-h3:hover{color:var(--color-text-secondary, #475569)}.toc-item.is-active{color:var(--color-primary, #6366f1);background:rgba(99,102,241,0.09);border-left-color:var(--color-primary, #6366f1);font-weight:500}.toc-item.toc-h3.is-active{font-weight:400}@media (max-width: 1100px){#toc-overlay[data-astro-cid-ztdg3xqy]{display:none!important}}</style>
+<style data-vite-dev-id="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro?astro&amp;type=style&amp;index=0&amp;lang.css">.blog-post[data-astro-cid-4sn4zg3r]{animation:fadeInUp 0.5s ease}@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.post-header[data-astro-cid-4sn4zg3r]{margin-bottom:32px;overflow:visible}.post-meta[data-astro-cid-4sn4zg3r]{display:flex;flex-wrap:wrap;gap:12px;font-size:0.875rem;color:var(--text-light);margin-bottom:16px;align-items:center}.category[data-astro-cid-4sn4zg3r]{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:0.8rem;text-decoration:none;flex-shrink:0;transition:all 0.15s ease;cursor:pointer;font-weight:600}.category[data-astro-cid-4sn4zg3r]:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.15)}.dark .category[data-astro-cid-4sn4zg3r]{filter:brightness(0.85)}.dark .category[data-astro-cid-4sn4zg3r]:hover{filter:brightness(1)}.rilis-pill[data-astro-cid-4sn4zg3r]{display:inline-flex;align-items:center;height:24px;border-radius:999px;overflow:hidden;font-size:0.72rem;flex-shrink:0;cursor:pointer}.rilis-pill[data-astro-cid-4sn4zg3r]:hover{transform:scale(1.05)}.rilis-badge[data-astro-cid-4sn4zg3r]{display:flex;align-items:center;height:100%;background:#eff6ff;color:#1d4ed8;font-weight:700;padding:0 0.65rem;transition:all 0.15s ease}.rilis-pill[data-astro-cid-4sn4zg3r]:hover .rilis-badge[data-astro-cid-4sn4zg3r]{background:#2563eb;color:white}.rilis-date[data-astro-cid-4sn4zg3r]{display:flex;align-items:center;height:100%;background:#dbeafe;color:#1e3a8a;font-weight:500;padding:0 0.65rem;transition:all 0.15s ease}.rilis-pill[data-astro-cid-4sn4zg3r]:hover .rilis-date[data-astro-cid-4sn4zg3r]{background:#2563eb;color:white}.updated-pill[data-astro-cid-4sn4zg3r]{display:inline-flex;align-items:center;height:24px;border-radius:999px;overflow:hidden;font-size:0.72rem;flex-shrink:0;transition:all 0.15s ease;cursor:pointer}.updated-pill[data-astro-cid-4sn4zg3r]:hover{transform:scale(1.05)}.updated-badge[data-astro-cid-4sn4zg3r]{display:flex;align-items:center;height:100%;background:#f0fdf4;color:#15803d;font-weight:700;padding:0 0.65rem;transition:all 0.15s ease}.updated-pill[data-astro-cid-4sn4zg3r]:hover .updated-badge[data-astro-cid-4sn4zg3r]{background:#16a34a;color:white}.updated-date[data-astro-cid-4sn4zg3r]{display:flex;align-items:center;height:100%;background:#dcfce7;color:#14532d;font-weight:500;padding:0 0.65rem;transition:all 0.15s ease}.updated-pill[data-astro-cid-4sn4zg3r]:hover .updated-date[data-astro-cid-4sn4zg3r]{background:#16a34a;color:white}.ref-badge[data-astro-cid-4sn4zg3r]{display:inline-flex;align-items:center;gap:4px;height:28px;padding:6px 12px;border-radius:999px;background:var(--bg-secondary);color:var(--text-muted);font-size:0.75rem;flex-shrink:0;transition:all 0.15s ease;cursor:pointer;border:none;font-family:inherit;outline:none}.ref-badge[data-astro-cid-4sn4zg3r]:hover{background:var(--accent);color:white;transform:scale(1.05)}.ref-badge[data-astro-cid-4sn4zg3r]:focus{outline:none}.ref-badge[data-astro-cid-4sn4zg3r]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.ref-badge[data-astro-cid-4sn4zg3r]:active{transform:scale(0.98)}.dark .updated-badge[data-astro-cid-4sn4zg3r]{background:#14532d;color:#bbf7d0}.dark .updated-date[data-astro-cid-4sn4zg3r]{background:#166534;color:#dcfce7}.dark .updated-pill[data-astro-cid-4sn4zg3r]:hover .updated-badge[data-astro-cid-4sn4zg3r],.dark .updated-pill[data-astro-cid-4sn4zg3r]:hover .updated-date[data-astro-cid-4sn4zg3r]{background:#16a34a;color:white}.post-title[data-astro-cid-4sn4zg3r]{font-size:2.25rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin:0 0 16px;color:var(--text)}.post-description[data-astro-cid-4sn4zg3r]{font-size:1.125rem;line-height:1.7;color:var(--text-muted);margin:0 0 20px}.post-tags[data-astro-cid-4sn4zg3r]{display:flex;flex-wrap:wrap;gap:10px}.tag[data-astro-cid-4sn4zg3r]{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--bg-secondary);color:var(--text-muted);font-size:0.8rem;text-decoration:none;transition:all 0.15s ease;cursor:pointer}.tag[data-astro-cid-4sn4zg3r]:hover{background:var(--accent);color:white;transform:scale(1.05)}.hero-image[data-astro-cid-4sn4zg3r]{width:100%;border-radius:16px;margin-bottom:40px;aspect-ratio:16/9;object-fit:contain;background:white}.post-content[data-astro-cid-4sn4zg3r]{font-size:1.05rem;line-height:1.8;color:var(--text)}.post-content[data-astro-cid-4sn4zg3r] h1:first-of-type{display:none}.post-content[data-astro-cid-4sn4zg3r] h2{font-size:1.5rem;font-weight:700;margin-top:40px;margin-bottom:16px;letter-spacing:-0.01em}.post-content[data-astro-cid-4sn4zg3r] h3{font-size:1.25rem;font-weight:600;margin-top:32px;margin-bottom:12px}.post-content[data-astro-cid-4sn4zg3r] p{margin-bottom:20px}.post-content[data-astro-cid-4sn4zg3r] pre{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:20px;overflow-x:auto;font-size:0.9rem}.post-content[data-astro-cid-4sn4zg3r] code{font-family:"JetBrains Mono","Fira Code",monospace;font-size:0.9em}.post-content[data-astro-cid-4sn4zg3r] img{border-radius:12px;max-width:100%;height:auto}.post-content[data-astro-cid-4sn4zg3r] blockquote{border-left:4px solid var(--accent);padding-left:20px;margin-left:0;color:var(--text-muted);font-style:italic}.post-content[data-astro-cid-4sn4zg3r] ul,.post-content[data-astro-cid-4sn4zg3r] ol{padding-left:24px;margin-bottom:20px}.post-content[data-astro-cid-4sn4zg3r] li{margin-bottom:8px}.post-content[data-astro-cid-4sn4zg3r] a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}.post-content[data-astro-cid-4sn4zg3r] hr{border:none;border-top:1px solid var(--border);margin:40px 0}.post-content[data-astro-cid-4sn4zg3r] h2,.post-content[data-astro-cid-4sn4zg3r] h3{scroll-margin-top:80px}</style><script type="module" src="/@vite/client"></script>
+<script type="module" src="/@id/astro/runtime/client/dev-toolbar/entrypoint.js"></script>
+<script>window.__astro_dev_toolbar__ = {"root":"C:\\Users\\sicario\\sinibaca-v2\\","version":"6.4.6","debugInfo":"Astro                    v6.4.6\nNode                     v24.15.0\nSystem                   Windows (x64)\nPackage Manager          npm\nOutput                   static\nAdapter                  none\nIntegrations             @astrojs/mdx"}</script>
+<script type="module" src="/src/components/Sidebar.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/components/RightPanel.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/components/TopBar.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/components/Footer.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/layouts/Layout.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/layouts/Layout.astro?astro&type=style&index=1&lang.css"></script>
+<script type="module" src="/src/components/Giscus.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/components/TableOfContentsOverlay.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/src/pages/blog/[slug].astro?astro&type=style&index=0&lang.css"></script></head> <body class data-astro-cid-sckkx6r4 data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro" data-astro-source-loc="130:45"> <header class="topbar" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="16:24"> <div class="topbar-inner" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="17:29"> <a href="/sinibaca/" class="logo" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="18:39"> <img src="/sinibaca/favicons/favicon-32x32.png" alt="sinibaca" class="logo-img" width="28" height="28" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="19:8"> <span class="logo-text" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="20:31">sinibaca</span> </a> <div class="search-bar" data-posts="[{&quot;title&quot;:&quot;Orang-orang yang Hidupnya Tidak Bisa Dikontrol karena Mereka Sudah Tahu Apa yang Benar-benar Penting&quot;,&quot;slug&quot;:&quot;2026-06-02-sokrates-diogenes-artikel&quot;,&quot;description&quot;:&quot;Sokrates hidup di tengah Atena yang hiruk-pikuk tanpa harta; Diogenes tidur di tong tanpa status. Keduanya tidak peduli apakah orang lain marah, tertawa, atau menganggap mereka gila. Bukan karena mereka kebal terhadap tekanan sosial, tapi karena mereka sudah menemukan sesuatu yang lebih kokoh untuk dijadikan pegangan.&quot;,&quot;category&quot;:&quot;Filsafat&quot;,&quot;pubDate&quot;:&quot;2026-06-02T00:00:00.000Z&quot;},{&quot;title&quot;:&quot;Tikus Tidak Masuk Rumah Karena Kotor, Ia Masuk Karena Arsitektur Rumahmu Mengundangnya&quot;,&quot;slug&quot;:&quot;2026-06-14-tikus-arsitektur-rumah&quot;,&quot;description&quot;:&quot;Sebuah studi di Singapura mengukur faktor risiko serangan tikus di ratusan tempat pembuangan sampah pada kawasan hunian publik. Hasilnya mengejutkan bukan karena berkaitan dengan volume sampah, melainkan karena berkaitan dengan besi: penutup saluran yang rusak meningkatkan risikonya hingga 36,7 kali lipat.&quot;,&quot;category&quot;:&quot;Arsitektur&quot;,&quot;pubDate&quot;:&quot;2026-06-10T00:00:00.000Z&quot;},{&quot;title&quot;:&quot;Pragmatis-Idealis Tanpa Hipokrit: Bukan Utopia, Tapi Ada Satu Syarat yang Tidak Bisa Ditawar&quot;,&quot;slug&quot;:&quot;2026-06-19-pragmatic-idealism&quot;,&quot;description&quot;:&quot;Pada September 1862, Abraham Lincoln sudah menyiapkan Proklamasi Emansipasi di lacinya. Ia menunggu. Bukan karena ragu, tapi karena Seward memperingatkan: mengumumkan proklamasi saat Uni terus kalah akan terlihat seperti seruan putus asa. Lincoln menunggu kemenangan di Antietam, lalu mengumumkan. Prinsipnya, penghapusan perbudakan, tidak bergeser. Caranya, pilih momen yang tepat, disesuaikan sepenuhnya.&quot;,&quot;category&quot;:&quot;Filsafat&quot;,&quot;pubDate&quot;:&quot;2026-06-19T00:00:00.000Z&quot;},{&quot;title&quot;:&quot;Ember Tanpa Mesin Filter: Anatomi Ekosistem Mikro dari Warisan Tsuboniwa ke Siklus Nitrogen untuk Kehidupan Ikan dan Tanaman Hias&quot;,&quot;slug&quot;:&quot;2026-06-22-ember-tanpa-mesin-filter&quot;,&quot;description&quot;:&quot;Sebuah ember kecil, beberapa ekor ikan, segumpal tanaman air, tanpa pompa, tanpa filter mekanis, tanpa aerator. Air tetap bening dan ikan tetap hidup bertahun-tahun, berlawanan dengan dogma akuarium konvensional yang mengajarkan bahwa air tanpa filter akan beracun dalam hitungan hari. Fenomena ini sering disebut tren media sosial, padahal ia warisan dua jalur panjang yang berjalan terpisah selama berabad-abad.&quot;,&quot;category&quot;:&quot;Sains&quot;,&quot;pubDate&quot;:&quot;2026-06-22T00:00:00.000Z&quot;}]" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="23:68"> <div class="search-box" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="24:31"> <img src="/sinibaca/search-icon.png" alt="Search" class="search-icon" width="22" height="22" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="25:10"> <input type="text" placeholder="Cari tulisan.." class="search-input" id="search-input" autocomplete="off" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="26:10"> <button type="button" class="search-btn" id="search-btn" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="27:66">Cari</button> </div> <div class="search-dropdown" id="search-dropdown" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="29:57"> <ul class="search-list" id="search-list" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="30:10"></ul> <div class="search-empty" id="search-empty" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="31:53"> <img src="/sinibaca/search-icon.png" alt="Search" width="32" height="32" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="32:12"> <div data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="33:16">Tidak ada hasil ditemukan</div> </div> </div> </div> <div class="topbar-nav" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="38:29"> <div class="header-actions-group" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="39:41"> <button id="theme-toggle" class="theme-toggle-header" aria-label="Toggle dark mode" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="40:93"> <img id="theme-icon" src="/sinibaca/icon-mode-gelap.png" alt="" width="28" height="28" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="41:12"> <span id="theme-text" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="42:33">Mode Gelap</span> </button> <a href="/sinibaca/galeri" class="nav-item nav-gallery" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="44:65"> <img src="/sinibaca/gallery-icon.png" alt="Galeri" width="31" height="31" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="45:12"> <span data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="46:17">Galeri</span> </a> <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="48:79"> <img src="/sinibaca/menu-icon.png" alt="Menu" width="31" height="31" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TopBar.astro" data-astro-source-loc="49:12"> </button> </div> </div> </div> </header> <script type="module" src="/src/components/TopBar.astro?astro&type=script&index=0&lang.ts"></script> <div class="page-wrapper" data-astro-cid-sckkx6r4 data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro" data-astro-source-loc="132:31"> <aside class="sidebar-left" data-astro-cid-sckkx6r4 data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro" data-astro-source-loc="133:35"> <div class="sidebar" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="36:22"> <div class="profile-card" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="37:29"> <div class="avatar-wrap" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="38:30"> <div class="about-avatar-ring" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="39:8"></div> <img src="/@fs/C:/Users/sicario/sinibaca-v2/src/assets/avatar.png?origWidth=320&amp;origHeight=400&amp;origFormat=png" alt="sinibaca" class="avatar" width="96" height="96" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="40:8"> </div> <h3 class="name" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="42:22">sinibaca</h3> <p class="bio" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="43:20">Nulis kalau semua kondisi mendukung, dan itu jarang terjadi.</p> </div> <div class="section-card" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="46:29"> <h4 class="section-title" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="47:31">Navigasi</h4> <nav class="nav-list" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="48:27"> <a href="/sinibaca/" class="nav-item" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="50:46"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="51:12"><img src="/sinibaca/home-icon.png" alt="Beranda" width="25.5" height="25.5" style="display:block;" /></span> Beranda </a><a href="/sinibaca/arsip" class="nav-item" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="50:46"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="51:12"><img src="/sinibaca/archive-icon.png" alt="Arsip" width="25.5" height="25.5" style="display:block;" /></span> Arsip </a><a href="/sinibaca/about" class="nav-item" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="50:46"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="51:12"><img src="/sinibaca/about-icon.png" alt="Tentang" width="25.5" height="25.5" style="display:block;" /></span> Tentang </a> <!-- Kabar Rilis Tulisan --> <a href="https://www.instagram.com/ronin.monetaro/" target="_blank" rel="noopener noreferrer" class="nav-item" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="57:118"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="58:32"> <img src="/sinibaca/bookmark-icon.png" alt="Kabar Rilis" width="25.5" height="25.5" style="display:block;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="59:12"> </span>
+Bisa ikuti di Instagram @ronin.monetaro
+</a> <!-- Study Mode --> <label class="nav-item nav-item-toggle mobile-hidden" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="65:61"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="66:32">✨</span> <span class="nav-label-text" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="67:38">Mode Stabilo</span> <input type="checkbox" id="study-mode-toggle" style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="68:10"> <span class="study-toggle-slider" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="69:10"></span> </label> <!-- Daftar Isi Toggle --> <label class="nav-item nav-item-toggle mobile-hidden" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="73:61"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="74:32"> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="75:159"> <line x1="3" y1="6" x2="21" y2="6" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="76:14"></line> <line x1="3" y1="12" x2="16" y2="12" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="77:14"></line> <line x1="3" y1="18" x2="12" y2="18" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="78:14"></line> </svg> </span> <span class="nav-label-text" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="81:38">Daftar Isi</span> <input type="checkbox" id="toc-toggle" checked style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="82:10"> <span class="study-toggle-slider" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="83:10"></span> </label> <!-- Print PDF --> <button id="print-btn" class="nav-item nav-item-button" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="87:63"> <span class="nav-icon" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="88:32"> <svg width="25.5" height="25.5" viewBox="0 0 24 24" fill="currentColor" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="89:83"> <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="90:14"></path> </svg> </span>
+Print PDF
+</button> </nav> <!-- Hidden UI for Study Mode --> <div id="color-section" class="study-color-section" style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="98:80"> <div class="color-label" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="99:32">Pilih Warna:</div> <div class="color-buttons" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="100:34"> <button class="color-btn yellow active" data-color="yellow" title="Yellow" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="101:10"></button> <button class="color-btn blue" data-color="blue" title="Blue" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="102:10"></button> <button class="color-btn pink" data-color="pink" title="Pink" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="103:10"></button> </div> </div> <div id="study-info" class="study-info-text" style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="107:73">
+💡 Klik kata pertama untuk mulai highlight
+</div> </div> <!-- Toast Notification (below Navigasi card) --> <div id="toast-notification" class="toast-notification" style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="113:4"></div> <!-- Study Tools Hidden Elements --> <div id="instruction-banner" class="instruction-banner" style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="116:82">
+Click another word to finish highlighting, or press <kbd data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="117:62">Esc</kbd> to cancel
+</div> <div id="annotation-popup" class="annotation-popup" style="display: none;" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="120:78"> <div class="popup-header" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="121:31"> <strong data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="122:15">Catatan</strong> <button id="popup-close" class="popup-close" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="123:52">×</button> </div> <textarea id="note-textarea" placeholder="Add a note..." data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="125:6"></textarea> <div class="popup-actions" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="126:32"> <button id="delete-btn" class="popup-btn delete-btn" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="127:60">Delete</button> <button id="save-btn" class="popup-btn save-btn" data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Sidebar.astro" data-astro-source-loc="128:56">Save</button> </div> </div> </div>  <script>
+(function() {
+  console.log('[StudyTools] Script loaded');
+
+  let isStudyMode = false;
+  let selectedColor = 'yellow';
+  let isSelecting = false;
+  let firstClickRange = null;
+  let currentPopupMark = null;
+  let postContent = null;
+  let hoverMark = null;
+  let toastTimeout = null;
+
+  const colorMap = {
+    yellow: '#fef08a',
+    blue: '#bfdbfe',
+    pink: '#fbcfe8'
+  };
+
+  let handleMouseMove, handleMouseLeave, handleWordClick, handleKeydown;
+
+  // Check if current page is an article page
+  function isArticlePage() {
+    const path = window.location.pathname;
+    console.log('[Toast] Checking path:', path);
+    // Check if path contains /blog/ followed by a slug
+    const isArticle = path.includes('/blog/') && !path.endsWith('/blog') && !path.endsWith('/blog/');
+    console.log('[Toast] Is article page:', isArticle);
+    return isArticle;
+  }
+
+  // Show toast notification
+  function showToast(message) {
+    console.log('[Toast] Showing toast:', message);
+    const toast = document.getElementById('toast-notification');
+    if (!toast) {
+      console.error('[Toast] Toast element not found!');
+      return;
+    }
+
+    console.log('[Toast] Toast element found, displaying...');
+
+    // Clear any existing timeout
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
+    }
+
+    // Remove hide class if present
+    toast.classList.remove('hide');
+    
+    // Set message and display
+    toast.textContent = message;
+    toast.style.display = 'block';
+    
+    // Add show class for animation
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 10);
+
+    // Hide after 3 seconds
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      
+      // Remove from DOM after animation
+      setTimeout(() => {
+        toast.style.display = 'none';
+        toast.classList.remove('hide');
+      }, 300);
+    }, 3000);
+  }
+
+  // Setup toast protection for non-article pages
+  function setupToastProtection() {
+    console.log('[Toast] Setting up toast protection...');
+    
+    const toggle = document.getElementById('study-mode-toggle');
+    const tocToggle = document.getElementById('toc-toggle');
+    const printBtn = document.getElementById('print-btn');
+
+    if (toggle) {
+      console.log('[Toast] Toggle found, attaching listener');
+      // Use click event on the label instead of change event on checkbox
+      const toggleLabel = toggle.closest('.nav-item-toggle');
+      if (toggleLabel) {
+        toggleLabel.addEventListener('click', function(e) {
+          console.log('[Toast] Toggle clicked');
+          if (!isArticlePage()) {
+            console.log('[Toast] Not article page, preventing toggle');
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Force toggle to stay unchecked
+            toggle.checked = false;
+            showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+            return false;
+          }
+        }, true); // Use capture phase
+      }
+    } else {
+      console.error('[Toast] Toggle not found!');
+    }
+
+    if (tocToggle) {
+      console.log('[Toast] TOC Toggle found, attaching listener');
+      // Use click event on the label instead of change event on checkbox
+      const tocToggleLabel = tocToggle.closest('.nav-item-toggle');
+      if (tocToggleLabel) {
+        tocToggleLabel.addEventListener('click', function(e) {
+          console.log('[Toast] TOC Toggle clicked');
+          if (!isArticlePage()) {
+            console.log('[Toast] Not article page, preventing TOC toggle');
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+            return false;
+          }
+        }, true); // Use capture phase
+      }
+    } else {
+      console.error('[Toast] TOC Toggle not found!');
+    }
+
+    if (printBtn) {
+      console.log('[Toast] Print button found, attaching listener');
+      printBtn.addEventListener('click', function(e) {
+        console.log('[Toast] Print button clicked');
+        if (!isArticlePage()) {
+          console.log('[Toast] Not article page, preventing print');
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+          return false;
+        }
+        console.log('[Toast] Article page, allowing print');
+      }, true); // Use capture phase
+    } else {
+      console.error('[Toast] Print button not found!');
+    }
+
+    console.log('[Toast] Toast protection setup complete');
+  }
+
+  function init() {
+    postContent = document.querySelector('.post-content');
+    
+    if (!postContent) {
+      console.log('[StudyTools] .post-content not found on this page');
+      
+      // Auto-reset toggles when not on an article page
+      const toggle = document.getElementById('study-mode-toggle');
+      if (toggle && toggle.checked) {
+        toggle.checked = false;
+        console.log('[StudyTools] Auto-reset Study Mode toggle (not on article page)');
+      }
+      
+      // Still setup toast protection even if no post content
+      setupToastProtection();
+      return;
+    }
+
+    console.log('[StudyTools] .post-content found!');
+
+    setupToolbar();
+    setupAnnotation();
+    loadSession();
+
+    console.log('[StudyTools] Ready!');
+  }
+
+  function getWordRangeAtPoint(x, y) {
+    let range;
+
+    if (document.caretPositionFromPoint) {
+      const caret = document.caretPositionFromPoint(x, y);
+      if (!caret) return null;
+      range = document.createRange();
+      range.setStart(caret.offsetNode, caret.offset);
+      range.setEnd(caret.offsetNode, caret.offset);
+    } else if (document.caretRangeFromPoint) {
+      range = document.caretRangeFromPoint(x, y);
+      if (!range) return null;
+    } else {
+      return null;
+    }
+
+    if (range.startContainer.nodeType !== Node.TEXT_NODE) return null;
+
+    const textNode = range.startContainer;
+    const text = textNode.textContent;
+    let start = range.startOffset;
+    let end = range.startOffset;
+
+    while (start > 0 && !/\s/.test(text[start - 1])) start--;
+    while (end < text.length && !/\s/.test(text[end])) end++;
+
+    if (start === end) return null;
+
+    const wordRange = document.createRange();
+    wordRange.setStart(textNode, start);
+    wordRange.setEnd(textNode, end);
+    return wordRange;
+  }
+
+  function showWordHover(range) {
+    removeWordHover();
+    if (!range) return;
+
+    const rect = range.getBoundingClientRect();
+    if (rect.width === 0) return;
+
+    hoverMark = document.createElement('div');
+    hoverMark.style.cssText = `
+      position: fixed;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      background: rgba(0, 0, 0, 0.07);
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 9998;
+    `;
+    document.body.appendChild(hoverMark);
+  }
+
+  function removeWordHover() {
+    if (hoverMark) {
+      hoverMark.remove();
+      hoverMark = null;
+    }
+  }
+
+  function createHighlight(range) {
+    const mark = document.createElement('mark');
+    mark.style.backgroundColor = colorMap[selectedColor];
+    mark.style.borderRadius = '2px';
+    mark.style.cursor = 'pointer';
+    mark.style.padding = '2px 0';
+
+    const id = 'hl-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+    mark.dataset.highlightId = id;
+    mark.dataset.color = selectedColor;
+
+    try {
+      range.surroundContents(mark);
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+      console.log('[StudyTools] Highlight created:', id);
+      saveSession();
+    } catch (err) {
+      console.log('[StudyTools] Using fallback method');
+      const fragment = range.extractContents();
+      mark.appendChild(fragment);
+      range.insertNode(mark);
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+      console.log('[StudyTools] Highlight created (fallback):', id);
+      saveSession();
+    }
+  }
+
+  function setupToolbar() {
+    const toggle = document.getElementById('study-mode-toggle');
+    const colorSection = document.getElementById('color-section');
+    const studyInfo = document.getElementById('study-info');
+    const printBtn = document.getElementById('print-btn');
+
+    handleMouseMove = function(e) {
+      if (!isStudyMode) return;
+      const range = getWordRangeAtPoint(e.clientX, e.clientY);
+      showWordHover(range);
+    };
+
+    handleMouseLeave = function() {
+      removeWordHover();
+    };
+
+    handleWordClick = function(e) {
+      if (!isStudyMode) return;
+      
+      if (e.target.closest('mark[data-highlight-id]')) {
+        return;
+      }
+
+      e.preventDefault();
+
+      const range = getWordRangeAtPoint(e.clientX, e.clientY);
+      if (!range) return;
+
+      if (!isSelecting) {
+        isSelecting = true;
+        firstClickRange = range.cloneRange();
+        showBanner();
+        console.log('[StudyTools] First word selected');
+      } else {
+        isSelecting = false;
+        hideBanner();
+
+        const combinedRange = document.createRange();
+        const cmp = firstClickRange.compareBoundaryPoints(Range.START_TO_START, range);
+
+        if (cmp <= 0) {
+          combinedRange.setStart(firstClickRange.startContainer, firstClickRange.startOffset);
+          combinedRange.setEnd(range.endContainer, range.endOffset);
+        } else {
+          combinedRange.setStart(range.startContainer, range.startOffset);
+          combinedRange.setEnd(firstClickRange.endContainer, firstClickRange.endOffset);
+        }
+
+        createHighlight(combinedRange);
+        firstClickRange = null;
+      }
+    };
+
+    handleKeydown = function(e) {
+      if (e.key === 'Escape' && isSelecting) {
+        console.log('[StudyTools] Selection cancelled');
+        isSelecting = false;
+        firstClickRange = null;
+        hideBanner();
+      }
+    };
+
+    if (toggle) {
+      toggle.addEventListener('change', function(e) {
+        // Check if we're on an article page
+        if (!isArticlePage()) {
+          // Prevent toggle from changing
+          e.preventDefault();
+          this.checked = false;
+          showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+          console.log('[StudyTools] Study Mode blocked - not on article page');
+          return;
+        }
+
+        isStudyMode = this.checked;
+        console.log('[StudyTools] Study Mode:', isStudyMode);
+
+        if (colorSection) colorSection.style.display = isStudyMode ? 'block' : 'none';
+        if (studyInfo) studyInfo.style.display = isStudyMode ? 'block' : 'none';
+
+        if (isStudyMode) {
+          postContent.classList.add('study-active');
+          postContent.addEventListener('mousemove', handleMouseMove);
+          postContent.addEventListener('mouseleave', handleMouseLeave);
+          postContent.addEventListener('click', handleWordClick);
+          document.addEventListener('keydown', handleKeydown);
+        } else {
+          postContent.classList.remove('study-active');
+          postContent.removeEventListener('mousemove', handleMouseMove);
+          postContent.removeEventListener('mouseleave', handleMouseLeave);
+          postContent.removeEventListener('click', handleWordClick);
+          document.removeEventListener('keydown', handleKeydown);
+          removeWordHover();
+          isSelecting = false;
+          firstClickRange = null;
+          hideBanner();
+        }
+      });
+    }
+
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedColor = this.dataset.color;
+        console.log('[StudyTools] Color selected:', selectedColor);
+      });
+    });
+
+    if (printBtn) {
+      printBtn.addEventListener('click', (e) => {
+        // Check if we're on an article page
+        if (!isArticlePage()) {
+          e.preventDefault();
+          showToast('Fitur ini hanya bisa digunakan saat kamu sedang membaca tulisan');
+          console.log('[StudyTools] Print blocked - not on article page');
+          return;
+        }
+
+        console.log('[StudyTools] Printing...');
+        window.print();
+      });
+    }
+  }
+
+  function setupAnnotation() {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    const closeBtn = document.getElementById('popup-close');
+    const saveBtn = document.getElementById('save-btn');
+    const deleteBtn = document.getElementById('delete-btn');
+
+    if (!popup) return;
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+        currentPopupMark = null;
+      });
+    }
+
+    if (saveBtn && textarea) {
+      saveBtn.addEventListener('click', () => {
+        if (!currentPopupMark) return;
+
+        const note = textarea.value.trim();
+        if (note) {
+          currentPopupMark.dataset.note = note;
+        } else {
+          delete currentPopupMark.dataset.note;
+        }
+
+        saveSession();
+        popup.style.display = 'none';
+        currentPopupMark = null;
+
+        console.log('[StudyTools] Note saved');
+      });
+    }
+
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', () => {
+        if (!currentPopupMark) return;
+
+        const parent = currentPopupMark.parentNode;
+        while (currentPopupMark.firstChild) {
+          parent.insertBefore(currentPopupMark.firstChild, currentPopupMark);
+        }
+        parent.removeChild(currentPopupMark);
+
+        saveSession();
+        popup.style.display = 'none';
+        currentPopupMark = null;
+
+        console.log('[StudyTools] Highlight deleted');
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (popup.style.display === 'block' && 
+          !popup.contains(e.target) && 
+          !e.target.closest('mark[data-highlight-id]')) {
+        popup.style.display = 'none';
+        currentPopupMark = null;
+      }
+    });
+  }
+
+  function showAnnotationPopup(mark) {
+    const popup = document.getElementById('annotation-popup');
+    const textarea = document.getElementById('note-textarea');
+    
+    if (!popup) return;
+
+    currentPopupMark = mark;
+    
+    if (textarea) {
+      textarea.value = mark.dataset.note || '';
+    }
+
+    const rect = mark.getBoundingClientRect();
+    popup.style.display = 'block';
+    popup.style.left = rect.left + 'px';
+    popup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+
+    console.log('[StudyTools] Popup shown for:', mark.dataset.highlightId);
+  }
+
+  function showBanner() {
+    const banner = document.getElementById('instruction-banner');
+    if (banner) banner.style.display = 'block';
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById('instruction-banner');
+    if (banner) banner.style.display = 'none';
+  }
+
+  function saveSession() {
+    if (!postContent) return;
+
+    const path = window.location.pathname;
+    
+    const data = JSON.parse(sessionStorage.getItem('sinibaca-study-session') || '{}');
+    data[path] = postContent.innerHTML;
+    sessionStorage.setItem('sinibaca-study-session', JSON.stringify(data));
+
+    const highlightCount = postContent.querySelectorAll('mark[data-highlight-id]').length;
+    console.log('[StudyTools] Saved', highlightCount, 'highlights to session');
+  }
+
+  function loadSession() {
+    if (!postContent) return;
+
+    const path = window.location.pathname;
+    const data = JSON.parse(sessionStorage.getItem('sinibaca-study-session') || '{}');
+    const savedContent = data[path];
+
+    if (!savedContent) {
+      console.log('[StudyTools] No saved session');
+      return;
+    }
+
+    console.log('[StudyTools] Restoring session...');
+    postContent.innerHTML = savedContent;
+
+    postContent.querySelectorAll('mark[data-highlight-id]').forEach(mark => {
+      mark.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAnnotationPopup(mark);
+      });
+    });
+
+    const highlightCount = postContent.querySelectorAll('mark[data-highlight-id]').length;
+    console.log('[StudyTools] Restored', highlightCount, 'highlights');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// Daftar Isi toggle persistence
+(function() {
+  const TOC_STORAGE_KEY = 'sinibaca-toc-enabled';
+
+  // Check if current page is an article page
+  function isArticlePage() {
+    const path = window.location.pathname;
+    return path.includes('/blog/') && !path.endsWith('/blog') && !path.endsWith('/blog/');
+  }
+
+  // Show toast notification
+  function showToast(message) {
+    const toast = document.getElementById('toast-notification');
+    if (!toast) return;
+
+    toast.classList.remove('hide');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      
+      setTimeout(() => {
+        toast.style.display = 'none';
+        toast.classList.remove('hide');
+      }, 300);
+    }, 3000);
+  }
+
+  const tocInput = document.getElementById('toc-toggle');
+
+  if (tocInput) {
+    // Check if we're on an article page
+    if (!isArticlePage()) {
+      // Auto-reset to OFF when not on article page
+      tocInput.checked = false;
+      console.log('[TOC] Auto-reset toggle to OFF (not on article page)');
+    } else {
+      // Load saved state only when on article page; default is true (enabled)
+      const saved = localStorage.getItem(TOC_STORAGE_KEY);
+      if (saved !== null) {
+        tocInput.checked = saved === 'true';
+      } else {
+        tocInput.checked = true; // default ON
+      }
+    }
+
+    // On change: save and notify the ToC overlay
+    tocInput.addEventListener('change', function(e) {
+      const enabled = this.checked;
+      localStorage.setItem(TOC_STORAGE_KEY, String(enabled));
+      document.dispatchEvent(
+        new CustomEvent('toc-visibility-changed', { detail: { enabled } })
+      );
+    });
+  }
+})();
+</script> </aside> <main class="main-content" data-astro-cid-sckkx6r4 data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro" data-astro-source-loc="136:34">  <div id="toc-overlay" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="5:23"> <div class="toc-inner" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="6:26"> <div class="toc-header" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="7:29"> <svg class="toc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="8:172"> <line x1="3" y1="6" x2="21" y2="6" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="9:10"></line> <line x1="3" y1="12" x2="16" y2="12" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="10:10"></line> <line x1="3" y1="18" x2="12" y2="18" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="11:10"></line> </svg> <span class="toc-label" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="13:31">Daftar Isi</span> </div> <nav data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="15:10"> <ul id="toc-list" data-astro-cid-ztdg3xqy data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/TableOfContentsOverlay.astro" data-astro-source-loc="16:8"></ul> </nav> </div> </div>  <script type="module" src="/src/components/TableOfContentsOverlay.astro?astro&type=script&index=0&lang.ts"></script> <article class="blog-post" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="88:30"> <header class="post-header" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="89:33"> <div class="post-meta" style="padding-left: 4px; overflow: visible;" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="90:76"> <a href="/sinibaca/categories/Sains" class="category" style="background: #fecaca; color: #991b1b;" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="95:10">Sains</a> <span class="rilis-pill" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="96:34"> <span class="rilis-badge" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="97:37">Rilis</span> <span class="rilis-date" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="98:36">22 Juni 2026</span> </span>  <button class="ref-badge" data-scroll-to="referensi" aria-label="Gulir ke bagian Referensi" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="107:103"> <img src="/sinibaca/icons/ref-icon.png" alt="referensi" width="16" height="16" style="width:16px;height:16px;object-fit:contain;display:inline-block;" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="108:14"> 31 referensi
+</button> </div> <h1 class="post-title" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="113:30">Ember Tanpa Mesin Filter: Anatomi Ekosistem Mikro dari Warisan Tsuboniwa ke Siklus Nitrogen untuk Kehidupan Ikan dan Tanaman Hias</h1> <p class="post-description" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="115:37">Sebuah ember kecil, beberapa ekor ikan, segumpal tanaman air, tanpa pompa, tanpa filter mekanis, tanpa aerator. Air tetap bening dan ikan tetap hidup bertahun-tahun, berlawanan dengan dogma akuarium konvensional yang mengajarkan bahwa air tanpa filter akan beracun dalam hitungan hari. Fenomena ini sering disebut tren media sosial, padahal ia warisan dua jalur panjang yang berjalan terpisah selama berabad-abad.</p> <div class="post-tags" style="padding-left: 4px; overflow: visible;" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="117:76"> <a href="/sinibaca/tags/tsuboniwa" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#tsuboniwa</a><a href="/sinibaca/tags/arsitektur" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#arsitektur</a><a href="/sinibaca/tags/siklus-nitrogen" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#siklus-nitrogen</a><a href="/sinibaca/tags/ekosistem" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#ekosistem</a><a href="/sinibaca/tags/zooplankton" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#zooplankton</a><a href="/sinibaca/tags/alga" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#alga</a><a href="/sinibaca/tags/nitrifikasi" class="tag" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="119:54">#nitrifikasi</a> </div> </header> <img src="/sinibaca/images/ember-tanpa-mesin-filter.png" alt="Ember Tanpa Mesin Filter: Anatomi Ekosistem Mikro dari Warisan Tsuboniwa ke Siklus Nitrogen untuk Kehidupan Ikan dan Tanaman Hias" class="hero-image" onerror="this.src='/sinibaca/images/placeholder.jpg'" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="123:6"> <div class="post-content" data-astro-cid-4sn4zg3r data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/pages/blog/[slug].astro" data-astro-source-loc="124:31"> <h1 id="ember-tanpa-mesin-filter-anatomi-ekosistem-mikro-dari-warisan-tsuboniwa-ke-siklus-nitrogen-untuk-kehidupan-ikan-dan-tanaman-hias">Ember Tanpa Mesin Filter: Anatomi Ekosistem Mikro dari Warisan Tsuboniwa ke Siklus Nitrogen untuk Kehidupan Ikan dan Tanaman Hias</h1>
+<p>Sebuah ember kecil, beberapa ekor ikan, segumpal tanaman air, tanpa pompa, tanpa filter mekanis, tanpa aerator. Air tetap bening dan ikan tetap hidup bertahun-tahun, berlawanan dengan dogma akuarium konvensional yang mengajarkan bahwa air tanpa filter akan beracun dalam hitungan hari. Fenomena ini sering disebut tren media sosial, padahal ia warisan dua jalur panjang yang berjalan terpisah selama berabad-abad.</p>
+<p>Jalur pertama bersifat historis: bentuk taman air mini bukan ciptaan algoritma, melainkan turunan dari tradisi taman Asia Timur, khususnya tsuboniwa zaman Heian, yang sudah memampatkan “alam dalam skala kecil” ke ruang seukuran pot sejak seribu tahun lalu. Jalur kedua bersifat biologis: stabilitas tanpa mesin filter ditopang siklus nitrogen, proses bertahap amonia menjadi nitrit lalu nitrat oleh bakteri nitrifikasi, yang berjalan beriringan dengan dinamika alga dan zooplankton sebagai penyeimbang nutrisi. Artikel ini menyusuri akar historisnya dulu, lalu membedah anatomi biologis yang sebenarnya menjaga ember itu hidup.</p>
+<h2 id="akar-yang-lebih-tua-dari-algoritma">Akar yang Lebih Tua dari Algoritma</h2>
+<h3 id="taman-seukuran-pot">Taman Seukuran Pot</h3>
+<p>Tsuboniwa (坪庭) adalah taman sangat kecil khas Jepang yang sering disebut taman semi-dalam ruangan karena posisinya terkurung bangunan. Namanya punya tiga makna berlapis: 坪 berarti satuan luas sekitar 3,3 meter persegi yang dipakai arsitek dalam denah, 壷 berarti pot atau jar yang menyiratkan taman sebagai ruang tiga dimensi terbungkus dinding dan atap, dan 経穴 merujuk titik energi ki dalam pengobatan tradisional, memberi makna spiritual sebagai titik penyembuh dalam tubuh bangunan.</p>
+<p>Marc Keane menyebut esensi taman ini sebagai <em>“a tiny point of calm and beauty”</em> di tengah hiruk pikuk hidup sehari-hari. Variasi namanya tergantung fungsi dan lokasi: naka-niwa untuk taman dalam segala ukuran, tōri-niwa untuk taman lorong akses, mise-niwa untuk taman depan toko, hashiri-niwa untuk taman dapur beratap, dan hako-niwa untuk taman kotak.</p>
+<h3 id="dari-halaman-istana-ke-gang-pedagang">Dari Halaman Istana ke Gang Pedagang</h3>
+<p>Cikal bakal tsuboniwa adalah halaman dalam istana periode Heian bergaya shinden-zukuri, yang sendiri diadaptasi dari rumah halaman tradisional Tiongkok berbasis feng shui. Taman-taman ini disebut dalam Genji-monogatari; nama seperti Fujitsubo dan Kiritsubo bahkan menjadi julukan bagi penghuni perempuannya. Pada periode Edo, pedagang membangun taman kecil di celah antara toko yang menghadap jalan dan rumah tinggal di belakangnya, mengikuti estetika cha-niwa yang populer saat itu.</p>
+<p>Kebijakan Toyotomi Hideyoshi yang memaksa pembagian lahan menjadi petak sempit, dijuluki “sarang belut”, membuat rumah machiya membutuhkan celah taman di tengah agar mendapat cahaya dan udara. Sejak awal abad ke-18, celah ini menjadi elemen standar arsitektur kota. Risalah taman tertua Jepang, Sakuteiki dari abad ke-11, sudah membahas teori penataan ruang semacam ini, dan popularitas tsuboniwa kembali meningkat di awal abad ke-21, kini menyebar ke hotel, restoran, dan gedung publik.</p>
+<h3 id="bukan-sekadar-pemanis">Bukan Sekadar Pemanis</h3>
+<p>Tsuboniwa menghadirkan sentuhan alam ke rumah, menyambungkan ruang dalam dan luar, sekaligus memberi ventilasi serta cahaya alami pasif yang krusial bagi rumah sempit dan memanjang seperti machiya. Fungsinya juga praktis: sebagai impluvium penampung air hujan, lokasi sumur, dan tempat temizu, cuci tangan ritual. Di tengah keterbatasan ruang kota yang padat, taman ini menjaga privasi penghuni dan berfungsi sebagai ruang perlindungan sementara saat bencana seperti kebakaran atau gempa.</p>
+<p>Taman ini dirancang untuk dipandang, bukan dimasuki, dinikmati dari ruangan atau veranda sambil duduk santai atau makan. Keane merumuskan tiga prinsip dasarnya: kesederhanaan, tidak berlebihan dengan tanaman musiman; skala sangat kecil, lebih mirip patung daripada taman; dan keterkurungan penuh oleh dinding dan ruangan sehingga menyatu dengan rutinitas harian. Elemen umumnya meliputi lentera batu, wadah air, kerikil yang dirapikan teliti, dan tanaman penyuka naungan seperti pakis dan lumut.</p>
+<p>Merawat taman ini dipandang sebagai ritual menenangkan hati, bukan sekadar tugas. Keane menangkapnya dalam satu kalimat: <em>“the ki you put in is the ki you get back”</em>.</p>
+<h3 id="alam-yang-dijinakkan">Alam yang Dijinakkan</h3>
+<p>Penelitian Agnese Haijima mengelompokkan reinterpretasi tsuboniwa kontemporer menjadi empat tipe: taman pusat yang membuka ke langit sambil menjaga privasi, taman tepi yang menyambung dalam-luar khas rumah machiya, taman sudut yang mengisi ruang terabaikan, dan taman citra yang dirancang seperti lukisan sekali pandang. Tantangan modern berupa bangunan bertingkat dan ruang bawah tanah memunculkan solusi pencahayaan buatan atau pencahayaan anidolik memakai kabel serat optik.</p>
+<p>Tesis utama Haijima adalah bahwa alam dalam taman Jepang tidak pernah otentik seperti alam liar; ia <em>“a product of Japanese philosophy, culture”</em> yang disesuaikan untuk kebutuhan manusia, bukan representasi ekosistem nyata. Pemilihan spesies tanaman sangat terbatas seperti pinus, maple, dan sakura, dipangkas rapi, disusun dalam bingkai geometris, kontras dengan gagasan Deep Ecology Barat yang menolak hierarki nilai antar makhluk hidup. Vila Murin-an di Kyoto dan taman karesansui Totekiko, yang sama sekali tidak memakai tanaman, jadi dua contoh klasiknya; Manshu-in, juga di Kyoto, didokumentasikan langsung oleh Keane sebagai contoh suasana tsuboniwa yang tenang dan terjaga.</p>
+<h3 id="arsitektur-induk-shinden-zukuri">Arsitektur Induk: Shinden-zukuri</h3>
+<p>Shinden-zukuri adalah gaya arsitektur mansion bangsawan periode Heian, terdiri dari shinden, bangunan utama, yang dihubungkan ke bangunan-bangunan sekunder lewat koridor. Gaya ini lahir setelah Jepang menghentikan misi diplomatik ke Tang China pada 894 dan mengembangkan “Kokufu bunka”, kebudayaan nasional yang lebih sesuai iklim lokal. Tidak ada aturan baku soal elemen yang wajib ada; gaya ini lebih merupakan “ideal arsitektur”, mirip konsep gaya Queen Anne atau Cape Cod di Barat, ketimbang standar kaku, karena ilustrasi yang masih ada menunjukkan variasi detail antar estate.</p>
+<p>Shinden secara harfiah berarti aula tidur, dan estate dibangun di atas lahan persegi seluas satu chō, sekitar 109 hingga 120 meter per sisi, dikelilingi tembok tanah dengan gerbang utama, seimon, di sisi timur atau barat, dan gerbang belakang, uramon, di sisi seberangnya. Bangunan utama selalu menghadap selatan ke halaman terbuka, diapit dua paviliun sekunder di timur dan barat membentuk konfigurasi U, dan secara vertikal kompleks terbagi tiga zona: selatan untuk taman dan kolam, tengah untuk halaman dan bangunan utama, utara untuk bangunan pendukung yang jarang dikunjungi tamu.</p>
+<p>Ruang intinya, moya, biasanya berukuran lima bay lebar dan dua bay dalam, dengan satu bay setara satu jō atau sekitar tiga meter, dan tidak memiliki partisi permanen; privasi diatur sekat portabel, dan satu sudutnya, nurigome, berdinding plester permanen sebagai ruang penyimpanan harta keluarga sekaligus kamar tidur pemilik rumah. Gaya ini mencapai puncak pada abad ke-10 hingga 11, lalu menurun ketika kelas samurai naik kekuasaan dan melahirkan gaya buke-zukuri yang menambahkan menara pertahanan dan dapur lebih besar untuk prajurit, sebelum akhirnya tergeser shoin-zukuri di periode Muromachi.</p>
+<h3 id="tsubo-produk-sampingan-sebuah-koridor">Tsubo: Produk Sampingan Sebuah Koridor</h3>
+<p>Tai no ya dihubungkan ke shinden lewat dua jenis koridor beratap, wataridono dan sukiwatadono. Murasaki Shikibu, penulis Tale of Genji, diketahui dari catatan hariannya pernah tinggal di ruang berdinding dalam koridor semacam ini. Ruang kosong di antara kedua koridor itulah yang membentuk tsubo, halaman kecil persegi yang dikelilingi jalan berpagar, dan justru dari sinilah nama tsuboniwa berasal.</p>
+<p>Detail ini penting: tsubo, dalam pengertian arsitektur Heian, bukan taman yang dirancang sengaja dari awal, melainkan ruang sisa di antara dua bangunan penghubung. Filosofi mengisi ruang sisa dengan keindahan inilah yang kemudian diwariskan turun-temurun hingga menjadi disiplin desain tersendiri.</p>
+<h3 id="taman-dan-kolam-di-ujung-selatan">Taman dan Kolam di Ujung Selatan</h3>
+<p>Taman dengan kolam besar terletak di seberang moya, diisi air dari aliran kecil bernama yarimizu yang melintas di bawah koridor dan disilangi beberapa jembatan. Bentukan gunung, batu, pulau kecil, dan jembatan disusun untuk menghadirkan kesan Tanah Suci Barat milik Buddha Amida. Tsuridono, paviliun di ujung selatan, dimanfaatkan untuk acara melihat bulan dan mencari angin sejuk di malam panas.</p>
+<p>Tidak ada bangunan shinden-zukuri asli yang masih berdiri hingga kini. Byōdō-in sering disebut contohnya, tetapi pihak Byōdō-in sendiri menyatakan bangunannya bukan bergaya shinden-zukuri; Shishinden di kompleks Istana Kekaisaran Kyoto dianggap paling mendekati struktur dasar yang asli. Satu-satunya cara melihat estate semacam ini secara utuh kini lewat rekonstruksi skala seperti model 1:4 “Genji Spring Palace”, yang ironisnya dibangun berdasar istana fiktif dalam Tale of Genji yang tidak pernah benar-benar ada.</p>
+<h3 id="meminjam-pemandangan-yang-tak-bisa-dimiliki">Meminjam Pemandangan yang Tak Bisa Dimiliki</h3>
+<p>Selain memampatkan alam ke ruang sempit, taman Asia Timur juga punya teknik berlawanan: menarik lanskap yang jauh masuk ke komposisi taman. Teknik ini disebut shakkei, dan menurut horticulturist Ayse Pogue, <em>“the literal meaning of shakkei is ‘borrowed scenery’ or ‘borrowed landscape’”</em>. Praktiknya sudah berlangsung sejak periode Heian, tetapi istilahnya baru tercatat dalam risalah taman Tiongkok abad ke-17, Yuanye, dengan karakter yang sama dibaca shakkei dalam bahasa Jepang dan jiejing dalam Mandarin; Sakuteiki sendiri tidak menyebut istilah ini secara langsung, hanya memuat konsep terkait seperti shōtoku no sansui, lanskap alami.</p>
+<p>Ada catatan menarik soal asal istilah ini. Pogue menyebut orang Tiongkok lebih dulu menamai konsep ini shakkei, lalu desainer Kyoto meminjam istilah itu tetapi justru menyebutnya ikedori, menangkap secara hidup, sebagai istilah berbeda, sementara sumber lain menjelaskan shakkei sebagai cara baca Jepang dari karakter Tiongkok yang sama, bukan istilah terpisah. Yuanye membagi konsep meminjam pemandangan menjadi empat kategori: yuanjie untuk peminjaman jarak jauh seperti gunung dan danau, linjie untuk bangunan tetangga yang berdekatan, yangjie untuk langit dan bintang, dan fujie untuk batu serta kolam di bawah.</p>
+<p>Empat syarat formalnya: taman harus berada dalam area bangunan tempat ia dilihat, harus ada objek lanskap jauh yang “ditangkap hidup”, desainer menyaring pandangan agar hanya fitur yang diinginkan tampil, dan pemandangan pinjaman itu dihubungkan dengan latar depan taman. Syarat mutlaknya, objek yang dipinjam harus permanen, selalu ada di sana, karena prinsip shakkei adalah menangkap lanskap yang tidak mudah berubah.</p>
+<h3 id="menyaring-pandangan">Menyaring Pandangan</h3>
+<p>Teknik mikiri, secara harfiah pemangkasan, mengontrol secara presisi apa yang terlihat dan tersembunyi, biasanya memakai dinding tanah liat berlapis genting atau elevasi alami untuk menutup pandangan yang tak diinginkan. Penghubung visual antara lanskap jauh dan taman umumnya dibuat lewat objek perantara seperti susunan batu atau lentera, yang mengarahkan mata penonton ke titik yang dikehendaki desainer. Gunung Hiei di Kyoto jadi objek pinjaman favorit yang terlihat di taman Entsuji dan Shoden-ji, sementara Murin-an, Shugaku-in Imperial Villa, dan Joju-in juga jadi rujukan klasik di kota yang sama.</p>
+<p>Di luar Kyoto, Isuien Garden di Nara, Ritsurin Garden di Takamatsu, Genkyu-en dengan latar Kastil Hikone, dan Adachi Museum of Art di Yasugi memakai prinsip serupa, sementara Senganen Garden meminjam pemandangan Teluk Kagoshima dan gunung berapi Sakurajima. Tiongkok punya versinya sendiri lewat Humble Administrator’s Garden dan Master of the Nets di Suzhou, yang membingkai bonsai lewat Moon Gate berbentuk lingkaran sebagai simbol lanskap liar, serta Summer Palace di Beijing.</p>
+<p>Tantangan utama era modern, lanskap pinjaman rentan berubah sewaktu-waktu akibat tekanan populasi dan pembangunan. Sophie Walker, penulis The Japanese Garden, menulis bahwa <em>“metaphorically speaking, the distant view is one we struggle to hold onto”</em>, dan di Kyoto sendiri urbanisasi memaksa tukang taman menyaring pandangan kota yang terus tumbuh, hanya menyisakan elemen alam yang masih indah.</p>
+<h3 id="dari-kyoto-ke-oregon">Dari Kyoto ke Oregon</h3>
+<p>Konsep ini sejak 1960-an dirumuskan ulang sebagai teori arsitektur modernis, terutama oleh arsitek Jepang yang berupaya merancang kontinuitas ruang interior-eksterior. Suteki House di Oregon membingkai pohon ek di seberang sungai, Totoro House di Sydney memakai jendela bulat dan pintu kaca geser sebagai bingkai lanskap, dan Lantern at Linkhorn Bay di Virginia memakai atap kantilever untuk menonjolkan garis pantai. Di Melbourne, arsitek Lucy Clemenger memakai shakkei untuk melebur batas rumah dengan taman kota di sebelahnya, sementara Portland Japanese Garden di Amerika Serikat punya pemandangan Gunung Hood yang fungsinya setara Gunung Fuji bagi taman-taman di Tokyo.</p>
+<p>Bagi yang ingin menerapkannya di rumah, Pogue menyarankan memulai dengan banyak melihat referensi visual karena konsepnya mudah membingungkan tanpa contoh nyata. Fokus pinjaman bisa sesederhana satu pohon di pekarangan tetangga, dibingkai tanaman atau tembok pendek, dengan pagar tanaman ala Jepang yang memakai dua hingga tiga jenis tekstur berbeda agar mata tetap terarah ke pemandangan di baliknya.</p>
+<p>Sejauh ini jelas: ember mini pond hari ini adalah ekstensi paling literal dari filosofi memampatkan alam ke ruang seukuran wadah, bahkan namanya pun, tsubo, secara harfiah berarti pot atau jar. Pertanyaan berikutnya adalah bagaimana wadah sekecil itu benar-benar bisa hidup tanpa mesin.</p>
+<h2 id="mesin-biokimia-di-balik-air-yang-tetap-bening">Mesin Biokimia di Balik Air yang Tetap Bening</h2>
+<h3 id="penemu-yang-salah-disebut-sendirian">Penemu yang Salah Disebut Sendirian</h3>
+<p>Sergei Winogradsky lahir di Kiev pada 1856, belajar kimia di bawah Menshutkin dan botani di bawah Andrei Famintsyn di Universitas St. Petersburg, lulus 1881 dan meraih gelar master botani pada 1884. Pada 1885 ia pindah ke Strassburg, bergabung dengan laboratorium botanis Anton de Bary, semacam masa “postdoc” yang membebaskannya dari tradisi akademik Rusia yang lebih kaku. Dua tahun kemudian ia meneliti bakteri Beggiatoa dan menemukan bahwa organisme ini mengoksidasi hidrogen sulfida menjadi sulfur sebagai sumber energi, bentuk lithotrophy pertama yang diketahui dalam mikrobiologi, sekaligus dasar konseptual bagi konsep autotrofi yang baru ia rumuskan penuh lewat penelitian nitrifikasi.</p>
+<p>Eksperimen kuncinya sederhana: sel yang diberi H₂S langsung dipenuhi butiran sulfur, sementara di larutan sulfat saja sel itu mati, membuktikan prosesnya oksidasi, bukan reduksi.</p>
+<p>Setelah de Bary meninggal, Winogradsky pindah ke Swiss Polytechnic Institute Zurich dan fokus meneliti oksidasi nitrogen tereduksi antara 1888 hingga 1891. Ia menetapkan dua genus baru, Nitrosomonas yang mengoksidasi amonia menjadi nitrit dan Nitrobacter yang mengoksidasi nitrit menjadi nitrat, meski publikasi awalnya masih menyebut nama “Nitrosococcus” untuk fungsi serupa, dan menerbitkan hasilnya dalam lima memoar berseri “Recherches sur les organismes de la nitrification” di Annales de l’Institut Pasteur. Ia membuktikan nitrifikasi berlangsung dua tahap oleh dua kelompok organisme berbeda, dan bahwa keduanya mampu mensintesis materi organik dari CO₂ tanpa cahaya matahari, konsep yang kemudian disebut kemosintesis atau autotrofi, dengan terobosan teknis beralih dari media gelatin yang penuh kontaminan ke media gel silika.</p>
+<p>Stanier mengapresiasi karya ini sebagai <em>“elegance of method, soundness of reasoning, and daring originality of thought”</em>. Namun klaim awal Winogradsky pada 1890 bahwa ia telah mengisolasi mikroba penitrifikasi murni sebenarnya keliru; kulturnya masih campuran bakteri pengoksidasi amonia dan nitrit, dan ia baru berhasil memisahkan keduanya pada memoar kelima setahun berikutnya.</p>
+<h3 id="siapa-sebenarnya-lebih-dulu">Siapa Sebenarnya Lebih Dulu</h3>
+<p>Riset Sedlacek tahun 2020 berargumen bahwa Winogradsky menerima kredit berlebih dibanding kontemporernya. Jean-Jacques Schloesing dan Achille Müntz pada 1877 lebih dulu membuktikan secara eksperimental bahwa nitrifikasi adalah proses biologis lewat eksperimen kolom tanah buatan. Robert Warington pada 1879, lebih dari satu dekade sebelum Winogradsky, lebih dulu mengamati bahwa nitrifikasi berlangsung dua tahap.</p>
+<p>Grace dan Percy Frankland pada 1890 kemungkinan besar adalah peneliti pertama yang benar-benar mengisolasi kultur murni bakteri pengoksidasi amonia, menggunakan teknik pengenceran berseri selama bertahun-tahun, persis di tahun yang sama ketika kultur Winogradsky sendiri ternyata masih campuran. Winogradsky baru mengakui secara pribadi sekitar 40 tahun kemudian bahwa kulturnya saat itu cocok untuk studi nitrifikasi tetapi tidak murni dalam arti ketat.</p>
+<h3 id="hidup-setelah-nitrifikasi">Hidup Setelah Nitrifikasi</h3>
+<p>Winogradsky kembali ke St. Petersburg pada 1891 memimpin Institut Kedokteran Eksperimental hingga 1905, dan antara 1893 hingga 1895 menemukan Clostridium pasteurianum, bakteri pengikat nitrogen bebas anaerobik pertama yang berhasil diisolasi, bukti pertama fiksasi nitrogen non-simbiotik. Ia pensiun dini pada 1905 ke perkebunan keluarga di Gorodok, Ukraina, menjalani hidup sebagai gentleman farmer sambil tetap bermain piano, sebelum Revolusi Rusia 1917 memaksanya melarikan diri lewat Odessa ke Swiss lalu Beograd.</p>
+<p>Pada 1922 ia bergabung dengan Pasteur Institute di Brie-Comte-Robert, memimpin divisi mikrobiologi pertanian, merintis bidang ekologi mikroba lewat “metode langsung” untuk studi tanah dan menolak generalisasi dari kultur murni laboratorium ke kondisi alami. Ia meninggal pada 24 Februari 1953 di kota yang sama, usia 96 tahun, dikenal sebagai “founder of microbiology” dan “founder of microbial ecology”, meski Sedlacek menyebut sebagian gelar ini berasal dari atensi literatur yang tidak proporsional dibanding kontribusi aktualnya. Kolom Winogradsky masih dipakai sebagai alat pengajaran mikrobiologi dasar hingga kini, namanya dipakai Institut Mikrobiologi Akademi Sains Rusia sejak 2003, dan monumen patungnya berdiri di bekas perkebunannya di Ukraina sejak 2012.</p>
+<h3 id="plot-twist-150-tahun-kemudian">Plot Twist 150 Tahun Kemudian</h3>
+<p>Antara 2004 dan 2005, dua kelompok riset independen menemukan gen ammonia monooxygenase pada arkea, memunculkan kelompok arkea pengoksidasi amonia yang kultur pertamanya, Nitrosopumilus maritimus, diisolasi pada 2005. Pada 2015, dua kelompok riset secara paralel menemukan comammox, organisme tunggal yang mampu mengoksidasi amonia langsung menjadi nitrat. Kemampuan ini sejak awal sejarah nitrifikasi sudah dihipotesiskan, tetapi baru terbukti hampir 150 tahun setelah Winogradsky pertama kali memetakan prosesnya.</p>
+<h3 id="siapa-yang-sebenarnya-bekerja-di-ember-itu">Siapa yang Sebenarnya Bekerja di Ember Itu</h3>
+<p>Selama bertahun-tahun ilmuwan mengasumsikan Nitrosomonas mengurai amonia dan Nitrobacter mengoksidasi nitrit di akuarium, tetapi asumsi ini berasal dari kultur laboratorium yang cenderung memilih bakteri tertentu, bukan cerminan kondisi alami. Studi terkini justru menunjukkan Nitrospira kemungkinan memegang peran lebih besar. Thom Demas dari Tennessee Aquarium menyimpulkan ada banyak spesies bakteri yang memakan senyawa nitrogen, dan kemungkinan besar banyak bakteri sekaligus yang bertanggung jawab atas siklus nitrogen di tempat dan waktu manapun.</p>
+<p>Setiap akuarium, termasuk ember mini pond, adalah ekosistem unik; bakteri di dalamnya beradaptasi dan berevolusi secara mandiri, sehingga komposisi spesiesnya bisa berbeda bahkan antar wadah yang berdampingan.</p>
+<h3 id="dua-tahap-delapan-jam-sekali-membelah">Dua Tahap, Delapan Jam Sekali Membelah</h3>
+<p>Mekanismenya sederhana di atas kertas: amonia dioksidasi kelompok bakteri pertama menghasilkan nitrit, lalu nitrit menjadi sumber energi bagi kelompok bakteri kedua, oksidator nitrit. Wadah dianggap “tersiklus” ketika kedua koloni cukup besar untuk memproses seluruh limbah yang diproduksi ikan, proses yang butuh 21 hari hingga enam minggu. Nitrifikasi tergolong lambat; bakteri E. coli mengganda setiap 20 menit, sementara nitrifier tercepat membutuhkan delapan jam untuk membelah diri.</p>
+<h3 id="lima-cara-membunuh-koloni-bakteri">Lima Cara Membunuh Koloni Bakteri</h3>
+<p>pH rendah sangat menghambat proses ini. Dr. Peter Strom mencatat pH 6 sudah sangat menghambat dan pH 5,5 adalah batas absolut: <em>“tidak ada nitrifikasi tradisional di bawah itu, bahkan 6,5 sudah memperlambat mereka”</em>. Suhu ekstrem juga berbahaya; di kolam ikan daerah dingin, bakteri mati hampir seluruhnya di musim dingin sehingga biofilter harus dibangun ulang setiap musim semi.</p>
+<p>Kadar oksigen yang turun akibat air terlalu hangat atau mati listrik dapat memusnahkan sebagian bakteri secara langsung. Amonia berlebih juga berdampak buruk, sebuah paradoks karena bakteri ini sebenarnya membutuhkan amonia untuk berkembang. Debris yang menumpuk di filter memperbesar bioload sekaligus memperlambat aliran air, mengurangi suplai amonia ke bakteri, dan antibiotik, sesuai definisinya sebagai antimikroba, dapat melawan bakteri biofilter meski dampaknya bergantung pada produk spesifik.</p>
+<h3 id="biofilm-yang-tak-mau-hilang">Biofilm yang Tak Mau Hilang</h3>
+<p>Bakteri nitrifikasi membentuk biofilm yang merekat ke permukaan kaca, kerikil, dan media filter segera setelah mulai tumbuh, dan lapisan ini terus menebal. Memvakum kerikil, bahkan lebih dari separuh dasar wadah sekaligus, tidak akan menghilangkan bakteri secara signifikan karena daya hisapnya terlalu lemah untuk melepas biofilm. Strom menegaskan bahkan <em>“powerwashing pun tidak akan membersihkan semuanya”</em>, sehingga anggapan bahwa memvakum lebih dari separuh kerikil bisa memicu siklus ulang tidak berdasar secara ilmiah.</p>
+<h3 id="ketika-alga-mengambil-alih">Ketika Alga Mengambil Alih</h3>
+<p>Stabilitas siklus nitrogen bisa runtuh ketika nutrien berlebih memicu algal bloom, lonjakan populasi alga yang ditandai perubahan warna air. Eutrofikasi terjadi ketika nitrogen dan fosfor berlebih memicu pertumbuhan fitoplankton, lalu dekomposisi biomassanya oleh bakteri mengonsumsi oksigen terlarut hingga terbentuk zona hipoksia. Aktivitas manusia hampir menggandakan aliran nitrogen dan melipattigakan aliran fosfor ke lingkungan dibanding nilai alaminya.</p>
+<p>Pertanian adalah sumber nonpoint terbesar; penggunaan pupuk nitrogen global meningkat delapan kali dan fosfor tiga kali sejak awal 1960-an, dengan rata-rata 20 persen pupuk nitrogen hilang lewat limpasan. Sumber perkotaan mencakup air limbah, septic tank bocor, dan limpasan air hujan, sementara deposisi atmosfer dari bahan bakar fosil menyumbang 20 hingga 40 persen masukan nitrogen ke perairan pesisir. Urea, yang kini mencakup sekitar 40 persen produksi pupuk nitrogen dunia, terbukti mendorong produksi toksin lebih besar pada bloom dinoflagelat dibanding nitrat, dan amonium berdampak serupa.</p>
+<h3 id="perang-n-versus-p">Perang N versus P</h3>
+<p>Secara tradisional, fosfor dianggap limiter utama di air tawar dan nitrogen di perairan pesisir, tetapi riset terkini menunjukkan pengurangan ganda keduanya diperlukan karena sistem hulu-hilir saling terhubung. Fiksasi nitrogen oleh cyanobacteria tidak cukup memenuhi kebutuhan ekosistem di kondisi eutrofik tinggi karena laju denitrifikasi tahunan sering melebihi laju fiksasinya. Rasio nutrien sangat menentukan komposisi spesies fitoplankton, dan perubahan rasio akibat aktivitas manusia menggeser dominasi dari diatom yang umumnya tidak toksik ke dinoflagelat atau cyanobacteria yang berbahaya.</p>
+<p>Perlu dicatat, efek nutrien sangat spesifik per spesies; beberapa bloom berbahaya tidak terhubung langsung dengan eutrofikasi dan justru berkembang di perairan yang relatif bersih.</p>
+<h3 id="apa-yang-mengatur-kepadatan-alga">Apa yang Mengatur Kepadatan Alga</h3>
+<p>Suhu air adalah faktor penentu utama kepadatan alga, meningkat dalam rentang 15 hingga 30 derajat Celsius, dengan cyanobacteria punya keunggulan kompetitif di atas 25 derajat dibanding alga lain. Oksigen terlarut berkorelasi negatif kuat dengan suhu, mendekati ambang hipoksia di musim panas dan menjadi faktor pembatas kritis di perairan tertutup. Stratifikasi vertikal kolom air memperkuat dominasi cyanobacteria karena mereka mengatur keterapungan lewat vesikel gas untuk mengakses nutrien di kedalaman sekaligus berfotosintesis di permukaan, menggeser kompetitor yang lebih berat seperti diatom.</p>
+<p>Coffey dan timnya merangkum skenario idealnya: <em>“curah hujan lebat yang meningkatkan limpasan dan pasokan nutrien, diikuti kekeringan berkepanjangan saat suhu air dan stratifikasi berada di titik maksimal”</em>.</p>
+<h3 id="kasus-khusus-genangan-kecil-di-kota">Kasus Khusus: Genangan Kecil di Kota</h3>
+<p>Danau di taman perkotaan memiliki luas sempit, kondisi hidrodinamik buruk, dan kapasitas swapurifikasi rendah, kombinasi yang menjadikannya sangat rentan terhadap eutrofikasi. Studi di lima taman kota Xinxiang, China, menunjukkan kepadatan alga di semua lapisan kedalaman mencapai puncak pada Agustus, didorong kenaikan suhu dari sekitar 15 ke 27 derajat Celsius, dengan suhu dan oksigen terlarut menjadi faktor penentu dominan di semua kedalaman. Penambahan air reklamasi untuk mempertahankan level air, praktik umum di taman kota, justru berisiko memasukkan substansi eutrofik tambahan.</p>
+<p>Implikasinya jelas untuk ember mini pond: volume kecil dan aliran air yang minim membuatnya jauh lebih sensitif terhadap fluktuasi suhu dan nutrien dibanding kolam atau akuarium besar.</p>
+<h3 id="ketika-air-membaik-racun-justru-lebih-pekat">Ketika Air Membaik, Racun Justru Lebih Pekat</h3>
+<p>Algal bloom yang berbahaya menyebabkan kematian massal ikan, keracunan shellfish, gangguan pernapasan, dan penutupan sumber air minum, dengan toksin cyanobacteria mengancam lewat konsumsi, kontak langsung, dan inhalasi droplet udara. Dekomposisi biomassa bloom menguras oksigen di dasar air, memicu kematian organisme bentik yang tidak dapat melarikan diri, dampak paling parah dari eutrofikasi. Secara paradoks, eutrofikasi berlebihan dapat menggeser spesies bloom besar yang tidak toksik dan digantikan spesies toksik penghasil racun kerang justru saat beban nutrien berkurang dan air mulai membaik.</p>
+<h3 id="proyeksi-yang-memburuk">Proyeksi yang Memburuk</h3>
+<p>Kenaikan suhu air memperluas jendela musiman kemunculan cyanobacteria, dengan proyeksi rata-rata hari bloom meningkat dari sekitar tujuh hari per tahun saat ini menjadi 16 hingga 23 hari pada 2050 dan 18 hingga 39 hari pada 2090. Pola presipitasi yang berubah, hujan ekstrem diikuti kekeringan lebih panjang, menciptakan siklus ideal bagi bloom: nutrient flushing, akumulasi, stratifikasi, lalu bloom. Beban nitrogen ke sungai-sungai besar Amerika Serikat diproyeksikan meningkat 19 persen akibat perubahan iklim saja, dengan dampak lebih besar diperkirakan di India, China, dan Asia Tenggara, sementara distribusi bloom secara keseluruhan diproyeksikan meluas ke utara, terutama di Laut Utara, dalam seabad mendatang.</p>
+<h3 id="cara-menahan-laju-eutrofikasi">Cara Menahan Laju Eutrofikasi</h3>
+<p>Prinsip kuncinya, pengelolaan harus berbasis skala watershed, bukan badan air individual, dan reduksi nutrien ganda nitrogen serta fosfor secara bersamaan adalah satu-satunya solusi jangka panjang yang viable. Di sisi pertanian, 4R Nutrient Stewardship soal waktu, tempat, dosis, dan sumber yang tepat, ditambah cover crop dan riparian buffer, terbukti mengurangi kehilangan nutrien dari tepi lahan hingga 50 persen. Kontrol fisik seperti flushing hidrologis untuk menekan residence time, sedimentasi clay sebagai flokulan, dan restorasi makrofita jadi pilihan lain di skala badan air.</p>
+<p>Untuk perairan kecil, Phoslock berbasis bentonite-lanthanum mengikat fosfat di sedimen, sementara hidrogen peroksida efektif sebagai algasida tanpa meninggalkan polutan residu permanen. Kebijakan komprehensif mencakup regulasi standar efluen dan TMDL, insentif ekonomi seperti subsidi praktik terbaik dan pasar kualitas air, restorasi ekosistem lahan basah, serta sinergi dengan kebijakan energi untuk menekan deposisi nitrogen dari atmosfer.</p>
+<h3 id="zooplankton-rem-yang-bisa-patah">Zooplankton: Rem yang Bisa Patah</h3>
+<p>Rasio zooplankton terhadap fitoplankton, disingkat Z/P, mengukur seberapa efektif biomassa fitoplankton ditransfer ke tingkat trofik berikutnya, dan penurunannya adalah indikator kunci meledaknya algal bloom. Dari 14 danau di sepanjang Sungai Yangtze, 79 persen menunjukkan penurunan Z/P dengan rata-rata anjlok 92 persen; kepadatan fitoplankton meningkat rata-rata 3.156 kali lipat sementara zooplankton hanya dua kali lipat. Sebagai pembanding, data 18 tahun dari Great Lakes menunjukkan korelasi yang jauh lebih lemah dan tidak ada tanda dekuplling yang memburuk seiring waktu, kontras tajam dengan danau-danau Yangtze yang tereutrofikasi berat.</p>
+<h3 id="mengapa-rem-itu-patah">Mengapa Rem Itu Patah</h3>
+<p>Dari sisi bottom-up, kepadatan fitoplankton berkorelasi signifikan dengan PDB kawasan danau, mengonfirmasi aktivitas manusia sebagai pemicu utama, dan proporsi cyanobacteria yang meningkat dari 53 ke 62 persen antara 1990-an dan 2010-an berkorelasi negatif kuat dengan densitas zooplankton. Sianotoksin tidak hanya mematikan zooplankton tetapi juga mengecilkan ukuran tubuhnya, mereduksi tekanan predasi terhadap fitoplankton meski populasinya masih ada. Dari sisi top-down, ikan zooplanktivora seperti Neosalanx taihuensis di Danau Taihu menekan populasi cladosera dan kopepoda hingga jaringan makanan kehilangan kontrol atas-bawah.</p>
+<p>Di danau-danau dataran tinggi seperti Erhai, penebaran ikan eksotis zooplanktivora memangkas proporsi zooplankton krustasea dari 26 ke 3 persen, sementara rotifer justru meningkat enam kali lipat. Sekitar 50.000 waduk di DAS Yangtze mengubah ritme hidrologi, dan zooplankton krustasea dengan siklus hidup panjang jauh lebih rentan terhadap perubahan ini dibanding rotifer yang siklusnya pendek, mempercepat pergeseran komunitas ke rotifer yang kurang efektif mengontrol fitoplankton.</p>
+<h3 id="kualitas-pakan-menentukan-segalanya">Kualitas Pakan Menentukan Segalanya</h3>
+<p>Efisiensi pertumbuhan kotor zooplankton, atau gross growth efficiency, ternyata prediktor terkuat kekuatan kuplling, mengungguli ketersediaan nutrisi maupun intensitas predasi ikan dalam simulasi model. Ketika efisiensi ini tinggi, zooplankton dapat mempertahankan biomassa tinggi dan menekan fitoplankton bahkan di bawah predasi ikan yang intens. Ketika rendah, terutama saat cyanobacteria dominan, zooplankton mudah dihabisi predasi, dan nutrien saja yang mengendalikan biomassa alga, skenario terburuk bagi pengelola danau.</p>
+<p>Pola ini mengkonfirmasi data Yangtze: cyanobacteria adalah pakan berkualitas rendah yang memutus transfer energi, bukan sekadar akibat eutrofikasi semata.</p>
+<h3 id="bukan-semua-zooplankton-setara">Bukan Semua Zooplankton Setara</h3>
+<p>Tiga kelompok mesozooplankton utama punya preferensi ukuran makanan berbeda: doliolida paling efisien pada partikel di bawah 15 mikrometer, cladosera pada 15 hingga 70 mikrometer, dan kopepoda di atas 70 mikrometer. Kopepoda adalah pemilih makanan aktif dengan efisiensi asimilasi tertinggi sekitar 55 persen tapi laju filtrasi terendah, sementara cladosera adalah penyaring pasif non-selektif yang paling efektif mengendalikan fitoplankton ukuran sedang sekaligus paling rentan predasi ikan. Dominasi rotifer yang tumbuh saat krustasea menurun bukan sekadar penggantian biasa; rotifer tidak setara secara fungsional sebagai pengontrol fitoplankton karena ukuran dan efisiensi filtrasinya jauh lebih rendah.</p>
+<h3 id="dua-danau-dua-nasib">Dua Danau, Dua Nasib</h3>
+<p>Danau Taihu antara 2007 dan 2019 mencatat biomassa zooplankton turun 79 persen dan fitoplankton naik 113 persen, dengan rasio Z/P menyusut menjadi sepersepuluh nilai awal. Danau Donghu, di periode yang sama, justru mencatat Z/P meningkat 2,46 kali nilai awal meski eutrofikasi tetap konsisten. Faktor pembedanya adalah tekanan predasi ikan mas perak dan bighead carp yang menekan bloom cyanobacteria, memberi ruang bagi zooplankton krustasea untuk naik sekitar 10 kali lipat antara 2014 dan 2019.</p>
+<p>Kasus Donghu memvalidasi secara empiris prediksi model bahwa ketika kuplling dijaga lewat intervensi rantai trofik, ekosistem bisa tetap stabil meski di bawah beban nutrien tinggi. Implikasi manajemennya: memulihkan struktur komunitas ikan, lewat biomanipulasi ikan filter-feeder dan penghapusan ikan invasif, adalah komplemen yang sama penting dengan mengurangi input nutrien dari luar, dan melepas sebagian fasilitas konservasi air kecil untuk memulihkan ritme hidrologi alami jadi kunci bagi pemulihan zooplankton krustasea yang sensitif terhadap fluktuasi muka air.</p>
+<h3 id="daphnia-buruh-mikroskopis">Daphnia: Buruh Mikroskopis</h3>
+<p>Kualitas alga lebih menentukan pertumbuhan Daphnia daripada kuantitasnya; alga berlimpah tidak menjamin pertumbuhan optimal jika nilai gizi atau kecernaannya buruk. Diatom menghasilkan individu Daphnia jauh lebih besar dan keturunan lebih banyak dibanding alga hijau pada kuantitas karbon identik, dan analisis isotop stabil membuktikan 92 persen pertumbuhan Daphnia dalam diet campuran berasal dari diatom. Diatom kaya asam lemak esensial yang tidak bisa disintesis sendiri oleh Daphnia, sementara alga hijau secara umum punya kandungan nutrisi lebih rendah.</p>
+<h3 id="ketika-mangsa-melawan-balik">Ketika Mangsa Melawan Balik</h3>
+<p>Keterbatasan fosfor mempertebal dinding sel alga tertentu, disebut nutrient-dependent defenses, sehingga alga lolos dari pencernaan Daphnia dalam kondisi hidup. Oocystis yang tumbuh dalam kondisi fosfor terbatas menyebabkan penurunan tajam populasi Daphnia, reproduksi mendekati nol, dan mortalitas juvenil hampir total, meski pakan tersedia melimpah. Efisiensi asimilasi karbon Daphnia yang memakan Oocystis defisien fosfor diperkirakan hanya sekitar 7 persen, dibanding 41 persen pada kondisi cukup fosfor, menunjukkan energi, bukan fosfor, yang sebenarnya membatasi pertumbuhan.</p>
+<p>Sebagai pembanding, Ankistrodesmus yang tanpa pertahanan ditekan habis grazing Daphnia hingga di bawah 1 persen dari kontrol, sementara Oocystis tetap bertahan 29 hingga 51 persen. Temuan ini membantah model klasik threshold element ratio yang gagal memprediksi keterbatasan pertumbuhan Daphnia di alam karena tidak memperhitungkan pertahanan kimiawi alga.</p>
+<h3 id="naik-lalu-jatuh-berulang">Naik Lalu Jatuh, Berulang</h3>
+<p>Pola umum populasi Daphnia berulang: tumbuh cepat, melampaui carrying capacity, turun tajam, memberi ruang bloom alga sementara, lalu pulih kembali. Saat kepadatan juvenil sangat rendah dan rekrutmen terhenti, alga mengalami bloom sementara karena tekanan grazing melemah, dan bloom berakhir begitu juvenil baru tumbuh dewasa. Ada juga ambang batas ketersediaan pakan; konsentrasi alga di bawah sekitar 2.600 sel per mililiter tidak dapat dimanfaatkan Daphnia bahkan pada kepadatan tinggi.</p>
+<h3 id="drama-generasi-tua-versus-muda">Drama Generasi Tua versus Muda</h3>
+<p>Dewasa Daphnia menekan kelangsungan hidup juvenil lewat kompetisi, sementara juvenil sendiri tidak menekan dewasa, melainkan menyediakan rekrutmen pengganti dewasa yang mati. Ketika persaingan dewasa terlalu kuat, rasio juvenil terhadap dewasa menurun drastis, dan tanpa juvenil baru yang matang, kapasitas grazing populasi tidak bisa meningkat, membuat kontrol top-down terhadap alga runtuh sementara. Estimasi model menunjukkan dampak negatif juvenil terhadap fitoplankton justru lebih kuat dari dampak dewasa, bukan karena lebih efisien menggrazing, melainkan karena dinamika ini merepresentasikan mekanisme pemulihan kontrol alga.</p>
+<h3 id="evolusi-yang-mengubah-fungsi-ekosistem">Evolusi yang Mengubah Fungsi Ekosistem</h3>
+<p>Adaptasi evolusioner Daphnia magna terhadap tekanan predasi ikan, menghasilkan juvenil lebih kecil dan lebih banyak, secara tidak langsung melemahkan kontrol top-down terhadap fitoplankton lewat perubahan interaksi juvenil-dewasa. Populasi yang belum pernah terpapar ikan justru menunjukkan kontrol alga lebih kuat dibanding populasi yang sudah lama terpapar predasi, berlawanan dengan prediksi awal, karena juvenilnya lebih besar dan lebih tahan terhadap kompetisi dewasa. Temuan ini membuktikan eko-evolusi dapat mengubah fungsi ekosistem lewat perubahan halus pada interaksi demografis, bukan hanya lewat perubahan kepadatan populasi semata.</p>
+<h3 id="tipe-respons-yang-menstabilkan">Tipe Respons yang Menstabilkan</h3>
+<p>Respons fungsional tipe II yang saturating secara tradisional diasumsikan untuk Daphnia, tetapi data terbaru menunjukkan kecenderungan tipe III yang sigmoidal dan lebih menstabilkan sistem. Sistem dengan respons tipe III lebih tahan terhadap pengayaan nutrien dan tidak menghasilkan siklus populasi berkelanjutan seperti pada tipe II. Model terintegrasi yang menggabungkan dinamika individu Daphnia dengan model ekosistem berhasil mereproduksi pola musiman di lapangan, dengan pertumbuhan alga yang bergantung pada cuaca dan tekanan grazing, bukan sekadar pasokan pakan harian seperti di laboratorium.</p>
+<h2 id="ember-sebagai-laboratorium-luar-angkasa">Ember sebagai Laboratorium Luar Angkasa</h2>
+<h3 id="kotak-kaca-untuk-mars">Kotak Kaca untuk Mars</h3>
+<p>Penelitian closed ecological system di University of Washington berangkat dari premis bahwa habitasi permanen di luar angkasa membutuhkan sistem yang mendaur ulang limbah menjadi air, oksigen, dan makanan tanpa pertukaran massa eksternal, persis seperti bumi sendiri yang merupakan kapal tertutup dengan input energi hanya dari matahari. Tim peneliti merangkumnya dengan tajam: <em>“creating a biological community is painfully simple; every time one closes a bottle, a living ecosystem is created”</em>. Kritik historisnya datang dari pengalaman stasiun MIR, yang mengalami kerusakan alat akibat asam dari fungi yang tumbuh dari keringat dan jaringan kulit astronot.</p>
+<p>Eksperimennya memakai alga Ankistrodesmus dan Scenedesmus sebagai produsen primer serta Daphnia magna sebagai grazer, dipilih karena mudah diamati, tangguh, cepat reproduksi, dan banyak data biologinya tersedia. Media kimianya menggabungkan T82-LoSi, yang mengandung 22 elemen dengan nitrat sebagai pembatas pertumbuhan alga tapi tanpa sumber karbon anorganik, dengan Kent media yang menyuplai karbon lewat natrium bikarbonat. Wadahnya tissue culture flask 75 hingga 750 mililiter, dipilih karena murah dan optiknya jernih, dengan flask dibiarkan terbuka lima hari sebelum enam ekor Daphnia dimasukkan dan sistem disegel untuk diamati hingga 30 hari.</p>
+<h3 id="menghitung-yang-tak-terhitung">Menghitung yang Tak Terhitung</h3>
+<p>Penghitungan manual populasi Daphnia terganggu oleh dua bias: populasi besar sulit dilacak satu per satu, dan gerombolan alga sering menutupi pandangan terhadap individu yang lebih kecil. Solusinya kombinasi tiga metode, rekaman video untuk tracking manual, program MATLAB untuk melacak objek dari seri file gambar, dan Adobe Photoshop dengan script kontras kustom untuk citra resolusi tinggi. Pendekatan ini memungkinkan penghitungan akurat pada populasi besar yang sebelumnya hanya bisa diestimasi sebagai “puluhan”, sekaligus mengarsipkan data untuk studi lanjutan.</p>
+<h3 id="yang-berhasil-dan-yang-mandek">Yang Berhasil dan Yang Mandek</h3>
+<p>Rotasi kontainer yang mensimulasikan variasi gravitasi tidak mempengaruhi survival maupun reproduksi Daphnia dibanding kontrol statis. Densitas Daphnia berbanding terbalik dengan volume mikrokosmos, flask kecil punya densitas lebih tinggi tapi tingkat kepunahan lebih besar, dan populasi hingga 200 individu hanya tercapai di flask 750 mililiter. Eksperimen skala besar memakai carboy air laut 60 liter terbukti layak untuk studi jangka panjang, meski karbon dioksida atmosferik menurun tajam dalam minggu pertama dan copepod Tigriopus californicus akhirnya mendominasi sistem.</p>
+<p>Media sintetis ternyata mendukung populasi Daphnia lebih tinggi dibanding air danau alami yang diautoklaf, menunjukkan elemen kimianya cukup memadai. Tetapi di semua perlakuan, baik media alami maupun sintetis, sistem terbuka maupun tertutup, generasi F1 gagal tumbuh dewasa dan bereproduksi; populasi memuncak sekitar hari ke-15 lalu menurun tanpa pernah matang. Peningkatan nutrien justru berkorelasi negatif dengan populasi puncak, kemungkinan karena efek toksik nitrat pada konsentrasi tinggi, dan tidak ada perbedaan signifikan antara sistem terbuka dan tertutup, mengindikasikan karbon dioksida serta oksigen bukan faktor pembatas utama.</p>
+<p>Kesimpulannya jujur: hampir semua kondisi berhasil menopang Daphnia hingga generasi F1, tetapi belum ada satu pun yang berhasil menghasilkan generasi F2, cucu dari populasi awal, sehingga riset lanjutan difokuskan mencari nutrien mikro yang mungkin belum teridentifikasi dalam media sintetis. Bahkan dengan presisi laboratorium dan kontrol penuh atas setiap variabel kimiawi, menutup sebuah ekosistem sepenuhnya tetap jauh lebih sulit daripada sekadar menutup botol.</p>
+<h2 id="benang-merah-dua-jalur-satu-prinsip">Benang Merah: Dua Jalur, Satu Prinsip</h2>
+<p>Tsuboniwa dan siklus nitrogen sama-sama soal memampatkan alam ke ruang yang dibatasi rapat, taman dibatasi dinding dan atap, ember dibatasi volume air. Tsuboniwa mengerjakannya lewat estetika spasial; framing pandangan, mikiri, dan keterkurungan penuh. Siklus nitrogen mengerjakannya lewat kimia; oksidasi bertahap dan kuplling trofik antara bakteri, alga, dan zooplankton.</p>
+<p>Keduanya juga berbagi satu prinsip yang sama pentingnya: butuh keseimbangan, bukan kekosongan. Taman Jepang yang baik tidak steril, selalu ada lumut dan pakis hidup yang dirawat setiap hari; ember mini pond yang stabil juga tidak steril, butuh bakteri, alga, dan grazer yang saling menahan populasi masing-masing. Riset NASA soal closed ecological system justru membuktikan bahwa sistem yang benar-benar tertutup rapat, tanpa celah udara atau cahaya alami, justru lebih rapuh dibanding ember rumahan yang setengah terbuka.</p>
+<p>Bagi pembaca hari ini, ember tanpa filter bukan hack instan dari media sosial, melainkan simulasi miniatur dari dua tradisi panjang: estetika spasial Asia Timur yang sudah dipikirkan sejak periode Heian, dan kimia mikroba yang baru sepenuhnya dipahami kurang dari satu abad lalu, dengan plot twist comammox yang baru terkonfirmasi pada 2015. Keduanya mengajarkan hal yang sama: stabilitas datang dari hubungan antar bagian, bukan dari kontrol penuh atas setiap variabel.</p>
+<h2 id="penutup">Penutup</h2>
+<p>Kalau ember sekecil itu bisa menjadi semesta mini yang menopang ikan dan tanaman hias, berapa banyak sistem alami rumahan lain yang sebenarnya kita kelola tanpa sadar sedang menjalankan kimia dan filosofi berabad-abad? Air yang tetap bening di ember itu bukan keajaiban, melainkan jejak panjang dari taman istana Heian dan laboratorium Winogradsky yang berakhir di atas meja dapur kita.</p>
+<h2 id="referensi">Referensi</h2>
+<p>Sedlacek, C.J. “It Takes a Village: Discovering and Isolating the Nitrifiers.” Frontiers in Microbiology. 2020. <a href="https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2020.01900/full">https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2020.01900/full</a></p>
+<p>Britannica Editors. “Sergey Nikolayevich Winogradsky.” Encyclopedia Britannica. <a href="https://www.britannica.com/biography/Sergey-Nikolayevich-Winogradsky">https://www.britannica.com/biography/Sergey-Nikolayevich-Winogradsky</a></p>
+<p>Dworkin, M. &#x26; Gutnick, D. “Sergei Winogradsky: a founder of modern microbiology and the first microbial ecologist.” FEMS Microbiology Reviews. 2012. <a href="https://academic.oup.com/femsre/article/36/2/364/565076">https://academic.oup.com/femsre/article/36/2/364/565076</a></p>
+<p>Wikipedia contributors. “Sergei Winogradsky.” Wikipedia. <a href="https://en.wikipedia.org/wiki/Sergei_Winogradsky">https://en.wikipedia.org/wiki/Sergei_Winogradsky</a></p>
+<p>Muha, Laura. “The Skeptical Fishkeeper: Nitrifying Bacteria.” TFH Magazine. <a href="https://tfhmagazine.com/articles/freshwater/nitrifying-bacteria">https://tfhmagazine.com/articles/freshwater/nitrifying-bacteria</a></p>
+<p>Wikipedia contributors. “Tsubo-niwa.” Wikipedia. 2026. <a href="https://en.wikipedia.org/wiki/Tsubo-niwa">https://en.wikipedia.org/wiki/Tsubo-niwa</a></p>
+<p>Haijima, Agnese. “Nature in Miniature in Modern Japanese Urban Space: Tsuboniwa – Pocket Gardens.” Rethinking Nature in Contemporary Japan: From Tradition to Modernity (Ca’ Foscari Japanese Studies 7). 2017. <a href="https://edizionicafoscari.unive.it/media/pdf/books/978-88-6969-172-0/978-88-6969-172-0-ch-02_mV8Y3nh.pdf">https://edizionicafoscari.unive.it/media/pdf/books/978-88-6969-172-0/978-88-6969-172-0-ch-02_mV8Y3nh.pdf</a></p>
+<p>Keane, Marc P. “Japanese Courtyard Gardens.” Kyoto Journal. 2016. <a href="https://kyotojournal.org/gardens/tsubo-niwa-japanese-courtyard-gardens/">https://kyotojournal.org/gardens/tsubo-niwa-japanese-courtyard-gardens/</a></p>
+<p>Wikipedia contributors. “Algal Bloom.” Wikipedia. 2026. <a href="https://en.wikipedia.org/wiki/Algal_bloom">https://en.wikipedia.org/wiki/Algal_bloom</a></p>
+<p>Anderson, D.M., Glibert, P.M., &#x26; Burkholder, J.M. “Harmful Algal Blooms and Eutrophication: Nutrient Sources, Composition, and Consequences.” Estuaries (via ResearchGate). 2002. <a href="https://www.researchgate.net/publication/225519007_Harmful_Algal_Blooms_and_Eutrophication_Nutrient_Sources_Composition_and_Consequences">https://www.researchgate.net/publication/225519007_Harmful_Algal_Blooms_and_Eutrophication_Nutrient_Sources_Composition_and_Consequences</a></p>
+<p>Coffey, R. et al. “A Review of Water Quality Responses to Air Temperature and Precipitation Changes 2: Nutrients, Algal Blooms, Sediment, Pathogens.” J Am Water Resour Assoc (via PMC). 2018. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8048137/">https://pmc.ncbi.nlm.nih.gov/articles/PMC8048137/</a></p>
+<p>Paerl, H.W., Otten, T.G., &#x26; Kudela, R. “Mitigating the Expansion of Harmful Algal Blooms Across the Freshwater-to-Marine Continuum.” Environmental Science &#x26; Technology. 2018. <a href="https://pubs.acs.org/doi/10.1021/acs.est.7b05950">https://pubs.acs.org/doi/10.1021/acs.est.7b05950</a></p>
+<p>World Resources Institute (WRI). “Eutrophication and Hypoxia: Learn.” WRI. <a href="https://www.wri.org/initiatives/eutrophication-and-hypoxia/learn">https://www.wri.org/initiatives/eutrophication-and-hypoxia/learn</a></p>
+<p>Zhang, Y., Qin, W., &#x26; Qiao, L. “Research on the Algal Density Change Features of Water Bodies in Urban Parks and the Environmental Driving Factors.” Sustainability (MDPI). 2022. <a href="https://www.mdpi.com/2071-1050/14/22/15263">https://www.mdpi.com/2071-1050/14/22/15263</a></p>
+<p>Dong, C., Guo, X., Liu, H., Chu, Z., &#x26; Wu, T. “Changing Patterns and Driving Factors of Plankton Coupling Relationships in Lakes around the Yangtze River, China.” Microorganisms 12(8): 1698. MDPI. 2024. <a href="https://doi.org/10.3390/microorganisms12081698">https://doi.org/10.3390/microorganisms12081698</a></p>
+<p>Kovalenko, K.E., Reavie, E.D., Figary, S., Rudstam, L.G., Watkins, J.M., Scofield, A., &#x26; Filstrup, C.T. “Zooplankton-phytoplankton biomass and diversity relationships in the Great Lakes.” PLoS ONE 18(10): e0292988. 2023. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10602272/">https://pmc.ncbi.nlm.nih.gov/articles/PMC10602272/</a></p>
+<p>Katechakis, A. “Selected interactions between phytoplankton, zooplankton and the microbial food web: Microcosm experiments in marine and limnic habitats.” Disertasi Doktor, Ludwig-Maximilians-Universität München. 2005. <a href="https://edoc.ub.uni-muenchen.de/5047/1/Katechakis_Alexis.pdf">https://edoc.ub.uni-muenchen.de/5047/1/Katechakis_Alexis.pdf</a></p>
+<p>Danielsdottir, M.G., Brett, M.T., &#x26; Arhonditsis, G.B. “Phytoplankton food quality control of planktonic food web processes.” Hydrobiologia 589: 29–41. Springer. 2007. <a href="https://utsc.utoronto.ca/~georgea/resources/25.pdf">https://utsc.utoronto.ca/~georgea/resources/25.pdf</a></p>
+<p>Tripathi, S.N., Kumar, P., Kumar, D., &#x26; Dwivedi, A.C. “The intertwined lives: phytoplankton, zooplankton, and the fish in aquatic ecosystems.” Journal of the Kalash Science 13(1): 49–54. 2025. <a href="https://www.researchgate.net/publication/393151332">https://www.researchgate.net/publication/393151332</a></p>
+<p>DeMott, W.R. &#x26; Van Donk, E. “Strong interactions between stoichiometric constraints and algal defenses: evidence from population dynamics of Daphnia and algae in phosphorus-limited microcosms.” Oecologia. 2013. <a href="https://pubmed.ncbi.nlm.nih.gov/22802021/">https://pubmed.ncbi.nlm.nih.gov/22802021/</a></p>
+<p>Goitom, E. et al. “Rapid evolution leads to differential population dynamics and top-down control in resurrected Daphnia populations.” Evolutionary Applications. 2018. <a href="https://onlinelibrary.wiley.com/doi/10.1111/eva.12567">https://onlinelibrary.wiley.com/doi/10.1111/eva.12567</a></p>
+<p>Choi, J-Y. et al. “Population Growth of the Cladoceran, Daphnia magna: A Quantitative Analysis of the Effects of Different Algal Food.” PLOS ONE. 2014. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0095591">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0095591</a></p>
+<p>Strauss, T. et al. “Modelling Toxic Effects on Daphnia magna Populations under Natural Field Conditions.” gaiac / SETAC Europe. 2009. <a href="https://gaiac-eco.de/wp-content/uploads/2021/05/Strauss_et_al_Modelling_Daphnids_more_natural_SETAC_Europe_2009.pdf">https://gaiac-eco.de/wp-content/uploads/2021/05/Strauss_et_al_Modelling_Daphnids_more_natural_SETAC_Europe_2009.pdf</a></p>
+<p>Paulsson, N. “Shape and dynamical consequences of the functional response of Daphnia magna.” Degree thesis, Umeå University / DiVA Portal. <a href="https://www.diva-portal.org/smash/get/diva2:646286/FULLTEXT01.pdf">https://www.diva-portal.org/smash/get/diva2:646286/FULLTEXT01.pdf</a></p>
+<p>Britannica Editors. “Shinden-zukuri.” Encyclopedia Britannica. Diakses 2026. <a href="https://www.britannica.com/art/shinden-zukuri">https://www.britannica.com/art/shinden-zukuri</a></p>
+<p>Bryant, Anthony J. “Shinden-zukuri Estates of the Heian Period.” Sengoku Daimyo. 2000. <a href="https://sengokudaimyo.com/essays/shinden-zukuri">https://sengokudaimyo.com/essays/shinden-zukuri</a></p>
+<p>Wikipedia contributors. “Shinden-zukuri.” Wikipedia. Terakhir disunting 25 Desember 2024. <a href="https://en.wikipedia.org/wiki/Shinden-zukuri">https://en.wikipedia.org/wiki/Shinden-zukuri</a></p>
+<p>Oder, Tom. “The Art of Shakkei or ‘Borrowed Scenery’.” Treehugger. 2017. <a href="https://www.treehugger.com/art-shakkei-or-borrowed-scenery-4863268">https://www.treehugger.com/art-shakkei-or-borrowed-scenery-4863268</a></p>
+<p>Wikipedia contributors. “Borrowed scenery.” Wikipedia. 2025. <a href="https://en.wikipedia.org/wiki/Borrowed_scenery">https://en.wikipedia.org/wiki/Borrowed_scenery</a></p>
+<p>Keighran, Mandi. “How the Ancient Concept of ‘Shakkei’ Can Enhance the Beauty of Your Home.” Dwell. 2021. <a href="https://www.dwell.com/article/shakkei-garden-design-borrowed-scenery-462a906f">https://www.dwell.com/article/shakkei-garden-design-borrowed-scenery-462a906f</a></p>
+<p>Barbee, David, et al. (University of Washington, School of Aquatic and Fishery Sciences; advisor: Dr. Frieda Taub). “Self-Sustained Closed Ecological Systems.” Lunar and Planetary Institute (LPI/USRA), CB-1152. <a href="https://www.lpi.usra.edu/publications/reports/CB-1152/washington.pdf">https://www.lpi.usra.edu/publications/reports/CB-1152/washington.pdf</a></p> </div> </article> <section class="giscus-section" data-astro-cid-an2nl7ar data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Giscus.astro" data-astro-source-loc="4:33"> <script src="https://giscus.app/client.js" data-repo="riskiipriyadi/sinibaca-v2" data-repo-id="R_kgDOS4GT7Q" data-category="Announcements" data-category-id="DIC_kwDOS4GT7c4C_QMI" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="id" crossorigin="anonymous" async></script> </section>  </main> <aside class="sidebar-right" data-astro-cid-sckkx6r4 data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/layouts/Layout.astro" data-astro-source-loc="139:36"> <div class="right-panel" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="54:26"> <div class="unified-card" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="55:29"> <!-- Section 1: Baru Diperbarui --> <section class="unified-section" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="57:38"> <h3 class="unified-heading" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="58:35">BARU DIPERBARUI</h3> <div class="updated-list" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="59:33"> <a href="/sinibaca/blog/2026-06-22-ember-tanpa-mesin-filter" class="updated-item" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="65:66"> <div class="category-tab" style="background: var(--tab-bg-sains, #fecaca)" data-category="Sains" data-text-color="#991b1b" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="71:16"> <span class="category-name" style="color: #991b1b" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="72:82">Sains</span> </div> <div class="item-content" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="74:41"> <span class="item-title" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="75:42">Ember Tanpa Mesin Filter: Anatomi Ekosistem Mikro dari Warisan Tsuboniwa ke Siklus Nitrogen untuk Kehidupan Ikan dan Tanaman Hias</span> <span class="item-date" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="76:41"> 22 Jun </span> </div> </a><a href="/sinibaca/blog/2026-06-19-pragmatic-idealism" class="updated-item" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="65:66"> <div class="category-tab" style="background: var(--tab-bg-filsafat, #6B8FD4)" data-category="Filsafat" data-text-color="#FFFFFF" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="71:16"> <span class="category-name" style="color: #FFFFFF" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="72:82">Filsafat</span> </div> <div class="item-content" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="74:41"> <span class="item-title" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="75:42">Pragmatis-Idealis Tanpa Hipokrit: Bukan Utopia, Tapi Ada Satu Syarat yang Tidak Bisa Ditawar</span> <span class="item-date" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="76:41"> 19 Jun </span> </div> </a><a href="/sinibaca/blog/2026-06-14-tikus-arsitektur-rumah" class="updated-item" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="65:66"> <div class="category-tab" style="background: var(--tab-bg-arsitektur, #52B788)" data-category="Arsitektur" data-text-color="#FFFFFF" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="71:16"> <span class="category-name" style="color: #FFFFFF" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="72:82">Arsitektur</span> </div> <div class="item-content" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="74:41"> <span class="item-title" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="75:42">Tikus Tidak Masuk Rumah Karena Kotor, Ia Masuk Karena Arsitektur Rumahmu Mengundangnya</span> <span class="item-date" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="76:41"> 14 Jun </span> </div> </a> </div> </section> <!-- Divider --> <div class="section-divider" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="89:6"></div> <!-- Section 2: Kategori --> <section class="unified-section" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="92:38"> <h3 class="unified-heading" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="93:35">KATEGORI</h3> <div class="category-grid" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="94:34"> <a href="/sinibaca/categories/Filsafat" class="category-card" style="background: var(--cat-bg-filsafat, #6B8FD4); color: #FFFFFF;" data-category="Filsafat" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="103:14"> <span class="category-label" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="104:44">Filsafat</span> <span class="category-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="105:44">2</span> </a><a href="/sinibaca/categories/Arsitektur" class="category-card" style="background: var(--cat-bg-arsitektur, #52B788); color: #FFFFFF;" data-category="Arsitektur" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="103:14"> <span class="category-label" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="104:44">Arsitektur</span> <span class="category-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="105:44">1</span> </a><a href="/sinibaca/categories/Sains" class="category-card" style="background: var(--cat-bg-sains, #fecaca); color: #991b1b;" data-category="Sains" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="103:14"> <span class="category-label" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="104:44">Sains</span> <span class="category-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="105:44">1</span> </a> </div> </section> <!-- Divider --> <div class="section-divider" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="113:6"></div> <!-- Section 3: Tag Populer (unchanged) --> <section class="unified-section" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="116:38"> <h3 class="unified-heading" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="117:35">TAG POPULER</h3> <div class="tag-cloud" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="118:30"> <a href="/sinibaca/tags/arsitektur" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> arsitektur <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">2</span> </a><a href="/sinibaca/tags/sokrates" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> sokrates <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/diogenes" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> diogenes <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/stoisisma" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> stoisisma <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/infestasi" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> infestasi <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/kesehatan" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> kesehatan <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/tikus" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> tikus <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/pragmatisme" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> pragmatisme <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/idealisme" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> idealisme <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a><a href="/sinibaca/tags/transparansi" class="tag-link" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="120:59"> transparansi <span class="tag-count" data-astro-cid-buurnn3n data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/RightPanel.astro" data-astro-source-loc="122:37">1</span> </a> </div> </section> </div> </div> </aside> </div> <footer class="site-footer" data-astro-cid-sz7xmlte data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Footer.astro" data-astro-source-loc="5:29"> <div class="footer-content" data-astro-cid-sz7xmlte data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Footer.astro" data-astro-source-loc="6:31"> <p class="copyright" data-astro-cid-sz7xmlte data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Footer.astro" data-astro-source-loc="7:26">© <span id="current-year" data-astro-cid-sz7xmlte data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Footer.astro" data-astro-source-loc="7:29"></span> sinibaca</p> <p class="tagline" data-astro-cid-sz7xmlte data-astro-source-file="C:/Users/sicario/sinibaca-v2/src/components/Footer.astro" data-astro-source-loc="8:24">Setiap tulisan disertai referensi</p> </div> </footer> <script type="module" src="/src/components/Footer.astro?astro&type=script&index=0&lang.ts"></script>  <!-- GoatCounter Analytics --> <script data-goatcounter="https://jester.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> </body> </html>  <script type="module" src="/src/pages/blog/[slug].astro?astro&type=script&index=0&lang.ts"></script>
