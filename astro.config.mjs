@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx()],
+  redirects: {
+    '/sinibaca/blog/2026-06-02-sokrates-diogenes-artikel': '/sinibaca/blog/2026-06-02-belajar-berkata-tidak'
+  },
   vite: {
     plugins: [
       tailwindcss(),
