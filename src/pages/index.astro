@@ -2,11 +2,10 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import { countReferences } from "../utils/countReferences";
+import { sortByLatestDate } from "../utils/date-helpers";
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);
-const sortedPosts = posts.sort(
-  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+const sortedPosts = sortByLatestDate(posts);
 
 const postsPerPage = 3;
 const recentPosts = sortedPosts.slice(0, postsPerPage);

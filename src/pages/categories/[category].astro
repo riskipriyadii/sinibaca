@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import PostCard from "../../components/PostCard.astro";
+import { sortByLatestDate } from "../../utils/date-helpers";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -23,9 +24,7 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 const { posts } = Astro.props;
 
-const sortedPosts = posts.sort(
-  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+const sortedPosts = sortByLatestDate(posts);
 ---
 
 <Layout title={`Kategori: ${category} — sinibaca`} description={`Artikel dengan kategori ${category}`}>

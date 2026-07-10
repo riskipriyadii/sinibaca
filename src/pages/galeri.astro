@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import { getLatestDate } from "../utils/date-helpers";
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);
 const postsWithImages = posts.filter(post => post.data.thumbnail).map(post => ({
@@ -8,8 +9,13 @@ const postsWithImages = posts.filter(post => post.data.thumbnail).map(post => ({
   thumbnail: post.data.thumbnail,
   slug: post.id,
   category: post.data.category || "Uncategorized",
-  pubDate: post.data.pubDate
-})).sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+  pubDate: post.data.pubDate,
+  updatedDate: post.data.updatedDate
+})).sort((a, b) => {
+  const dateA = a.updatedDate || a.pubDate;
+  const dateB = b.updatedDate || b.pubDate;
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
+});
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
