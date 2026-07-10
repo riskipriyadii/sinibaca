@@ -2,6 +2,7 @@
 title: "Belajar Berkata Tidak: Perspektif Psikologi tentang Kendali Diri dan Batasan Personal"
 description: "Kendali diri bukan soal menekan atau melarang diri sendiri, melainkan soal membangun pola pikir dan kebiasaan yang membuat tindakan mengarah ke konsekuensi positif. Kemampuan berkata tidak adalah bagian dari regulasi emosi dan kemampuan mengatur diri secara menyeluruh."
 pubDate: 2026-06-02
+updatedDate: 2026-07-10
 category: "Psikologi"
 tags: ["kendali diri", "batasan personal", "psikologi", "self-awareness", "regulasi emosi"]
 thumbnail: "/ChatGPT Image 10 Jul 2026, 06.26.31.png"
