@@ -3,8 +3,8 @@ title: "Drama Tikus di Plafon: Cara Menangkap, Membersihkan, sampai Membereskan"
 description: "Tikus cenderung menghindari rumah yang tidak menyediakan tiga hal yang mereka cari: makanan, tempat bersembunyi, dan jalan masuk. Panduan lengkap menangkap tikus di plafon, membersihkan area terkontaminasi dengan aman, dan mencegah infestasi ulang tanpa menggunakan racun."
 pubDate: 2026-06-10
 updatedDate: 2026-07-12
-category: "Kesehatan"
-tags: ["tikus", "kesehatan", "hama", "sanitasi", "keamanan"]
+category: "Domestik"
+tags: ["tikus", "hama", "sanitasi", "perawatan rumah", "plafon"]
 thumbnail: "/ChatGPT Image 11 Jul 2026, 06.27.39.png"
 ---
 
